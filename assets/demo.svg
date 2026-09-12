@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 520" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&amp;display=swap');
+      
+      .bg { fill: #0d1117; rx: 12px; }
+      .header { fill: #161b22; }
+      .title { fill: #8b949e; font-family: 'Fira Code', monospace; font-size: 13px; font-weight: 600; }
+      .dot-red { fill: #ff5f56; }
+      .dot-yellow { fill: #ffbd2e; }
+      .dot-green { fill: #27c93f; }
+      
+      .text { font-family: 'Fira Code', monospace; font-size: 12px; line-height: 1.5; white-space: pre; }
+      .prompt { fill: #38bdf8; font-weight: 600; }
+      .cmd { fill: #f1f5f9; font-weight: 600; }
+      .success { fill: #4ade80; }
+      .accent { fill: #c084fc; }
+      .muted { fill: #94a3b8; }
+      .json-key { fill: #38bdf8; }
+      .json-val { fill: #f59e0b; }
+      .json-str { fill: #4ade80; }
+
+      /* Keyframe animations */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(2px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+
+      .step1 { opacity: 0; animation: fadeIn 0.4s ease forwards 0.5s; }
+      .step2 { opacity: 0; animation: fadeIn 0.4s ease forwards 1.8s; }
+      .step3 { opacity: 0; animation: fadeIn 0.4s ease forwards 3.2s; }
+      .step4 { opacity: 0; animation: fadeIn 0.4s ease forwards 4.5s; }
+      .step5 { opacity: 0; animation: fadeIn 0.4s ease forwards 6.0s; }
+      .step6 { opacity: 0; animation: fadeIn 0.4s ease forwards 7.5s; }
+      
+      .cursor { animation: blink 0.8s infinite; fill: #38bdf8; }
+    </style>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Container Box with Shadow -->
+  <rect width="850" height="520" class="bg" filter="url(#shadow)"/>
+  
+  <!-- Terminal Header Bar -->
+  <path d="M 0,12 A 12,12 0 0,1 12,0 L 838,0 A 12,12 0 0,1 850,12 L 850,38 L 0,38 Z" class="header"/>
+  
+  <!-- Window Control Buttons -->
+  <circle cx="24" cy="19" r="6" class="dot-red"/>
+  <circle cx="44" cy="19" r="6" class="dot-yellow"/>
+  <circle cx="64" cy="19" r="6" class="dot-green"/>
+  
+  <!-- Window Title -->
+  <text x="425" y="24" text-anchor="middle" class="title">bash — Text-to-SQL SLM Distillation Benchmark &amp; Serving Demo</text>
+
+  <!-- Terminal Content Area -->
+  <g transform="translate(24, 62)" class="text">
+    
+    <!-- STEP 1: Benchmark Command -->
+    <g class="step1">
+      <text x="0" y="0"><tspan class="prompt">user@slm-distill:~$</tspan> <tspan class="cmd">python -m evals.benchmark --test_file data/test.jsonl --output_dir evals/results --num_samples 2</tspan></text>
+    </g>
+
+    <!-- STEP 2: Benchmark Output -->
+    <g class="step2">
+      <text x="0" y="24" class="accent">=== Running Evaluation Benchmark Suite (2 queries) ===</text>
+      <text x="0" y="44" class="success">Generated benchmark JSON report at: <tspan class="cmd">evals/results/report.json</tspan></text>
+      <text x="0" y="64" class="success">Generated benchmark Markdown report at: <tspan class="cmd">evals/results/report.md</tspan></text>
+    </g>
+
+    <!-- STEP 3: Serving Health Endpoint Command & Output -->
+    <g class="step3">
+      <text x="0" y="104"><tspan class="prompt">user@slm-distill:~$</tspan> <tspan class="cmd">python -c "import urllib.request; print(urllib.request.urlopen('http://127.0.0.1:8000/health').read().decode())"</tspan></text>
+    </g>
+
+    <g class="step4">
+      <text x="0" y="128" class="muted">{</text>
+      <text x="16" y="146"><tspan class="json-key">"status"</tspan>: <tspan class="json-str">"healthy"</tspan>, <tspan class="json-key">"uptime_seconds"</tspan>: <tspan class="json-val">14649.14</tspan>, <tspan class="json-key">"active_backend"</tspan>: <tspan class="json-str">"vLLM / PyTorch Engine"</tspan>,</text>
+      <text x="16" y="164"><tspan class="json-key">"ram_usage_percent"</tspan>: <tspan class="json-val">81.7</tspan>, <tspan class="json-key">"gpu_available"</tspan>: <tspan class="json-val">true</tspan>, <tspan class="json-key">"gpu_vram_allocated_gb"</tspan>: <tspan class="json-val">4.21</tspan></text>
+      <text x="0" y="182" class="muted">}</text>
+    </g>
+
+    <!-- STEP 5: SQL Inference Prediction Endpoint Command & Output -->
+    <g class="step5">
+      <text x="0" y="222"><tspan class="prompt">user@slm-distill:~$</tspan> <tspan class="cmd">python -c "import urllib.request, json; req = urllib.request.Request('http://127.0.0.1:8000/predict/sql', ..."</tspan></text>
+    </g>
+
+    <g class="step6">
+      <text x="0" y="246" class="muted">{</text>
+      <text x="16" y="264"><tspan class="json-key">"question"</tspan>: <tspan class="json-str">"Find all users from organizations where tier is enterprise"</tspan>,</text>
+      <text x="16" y="284"><tspan class="json-key">"sql"</tspan>: <tspan class="json-str">"SELECT u.full_name, u.email, o.name FROM users u JOIN organizations o ON u.org_id = o.org_id WHERE o.tier = 'enterprise';"</tspan>,</text>
+      <text x="16" y="304"><tspan class="json-key">"reasoning_trace"</tspan>: <tspan class="json-str">"1. Join users and organizations on org_id.\n2. Filter by enterprise tier."</tspan>,</text>
+      <text x="16" y="324"><tspan class="json-key">"is_valid"</tspan>: <tspan class="json-str" fill="#4ade80">true</tspan>, <tspan class="json-key">"validation_error"</tspan>: <tspan class="muted">null</tspan>,</text>
+      <text x="16" y="344"><tspan class="json-key">"ttft_ms"</tspan>: <tspan class="json-val">0.04</tspan>, <tspan class="json-key">"total_time_ms"</tspan>: <tspan class="json-val">8.60</tspan>, <tspan class="json-key">"tps"</tspan>: <tspan class="json-val">6194.87</tspan>, <tspan class="json-key">"total_tokens"</tspan>: <tspan class="json-val">53</tspan></text>
+      <text x="0" y="364" class="muted">}</text>
+      
+      <text x="0" y="404"><tspan class="prompt">user@slm-distill:~$</tspan> <rect x="175" y="393" width="8" height="15" class="cursor"/></text>
+    </g>
+
+  </g>
+</svg>

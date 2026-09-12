@@ -2,6 +2,10 @@
 
 Enterprise-grade repository for Small Language Model (SLM) fine-tuning focused on domain-specific **Text-to-SQL distillation**.
 
+<p align="center">
+  <img src="assets/demo.svg" alt="Text-to-SQL Pipeline Benchmark & Serving Demo" width="850">
+</p>
+
 ---
 
 ## System Architecture
