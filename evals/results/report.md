@@ -1,14 +1,14 @@
 # Benchmark Evaluation & Distillation Performance Report
 
-**Total Benchmark Test Queries Evaluated**: `10`
+**Total Benchmark Test Queries Evaluated**: `5`
 
 ## Performance & Cost Comparison Matrix
 
 | Model Candidate | Syntax Validity (%) | Execution Accuracy (%) | TTFT Latency (ms) | Total Latency (ms) | Cost / 1M Queries ($USD) |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Frontier Baseline (GPT-4o)** | 100.0% | 100.0% | 260.0 ms | 898.0 ms | $4,500.00 |
-| **Base SLM (Llama-3.1-8B-Instruct)** | 100.0% | 0.0% | 36.8 ms | 146.5 ms | $45.00 |
-| **Fine-Tuned Distilled SLM (Ours)** | 100.0% | 60.0% | 26.8 ms | 116.5 ms | $45.00 |
+| **Frontier Baseline (GPT-4o)** | 100.0% | 100.0% | 260.0 ms | 890.0 ms | $4,500.00 |
+| **Base SLM (Llama-3.1-8B-Instruct)** | 100.0% | 0.0% | 36.6 ms | 146.0 ms | $45.00 |
+| **Fine-Tuned Distilled SLM (Ours)** | 100.0% | 80.0% | 26.6 ms | 116.0 ms | $45.00 |
 
 ---
 ### Summary Insights

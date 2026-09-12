@@ -1,6 +1,6 @@
 """
 Memory-efficient 4-bit QLoRA SFT Fine-Tuning Pipeline for Text-to-SQL Distillation.
-Uses Unsloth if available, with automatic fallback to PEFT + BitsAndBytes + TRL SFTTrainer.
+Uses Unsloth if available, with automatic fallback to PEFT + BitsAndBytes + Trainer.
 """
 
 import os
@@ -13,13 +13,11 @@ from typing import Dict, Any, List
 try:
     import torch
     from datasets import Dataset
-    from transformers import TrainingArguments, AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+    from transformers import Trainer, TrainingArguments, DataCollatorForSeq2Seq, AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
     from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
-    from trl import SFTTrainer
     IMPORTS_OK = True
 except ImportError:
     IMPORTS_OK = False
-
 
 
 TARGET_LORA_MODULES = [
@@ -42,11 +40,10 @@ def load_jsonl_dataset(file_path: str) -> Any:
     return Dataset.from_list(records)
 
 
-def format_sharegpt_prompt(example: Dict[str, Any], tokenizer=None) -> Dict[str, str]:
-    """Formats ShareGPT conversation messages into a single training prompt string."""
+def format_and_tokenize(example: Dict[str, Any], tokenizer, max_seq_length: int) -> Dict[str, Any]:
+    """Formats ShareGPT messages and tokenizes directly to input_ids and labels."""
     conversations = example.get("conversations", [])
     
-    # Standard format: system, human, gpt
     system_msg = ""
     user_msg = ""
     assistant_msg = ""
@@ -61,34 +58,44 @@ def format_sharegpt_prompt(example: Dict[str, Any], tokenizer=None) -> Dict[str,
         elif role == "gpt":
             assistant_msg = content
 
-    if tokenizer and hasattr(tokenizer, "apply_chat_template"):
+    if hasattr(tokenizer, "apply_chat_template") and tokenizer.chat_template:
         messages = []
         if system_msg:
             messages.append({"role": "system", "content": system_msg})
-        messages.append({"role": "user", "content": user_msg})
-        messages.append({"role": "assistant", "content": assistant_msg})
-        formatted_text = tokenizer.apply_chat_template(messages, tokenize=False)
+        if user_msg:
+            messages.append({"role": "user", "content": user_msg})
+        if assistant_msg:
+            messages.append({"role": "assistant", "content": assistant_msg})
+        formatted_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
     else:
-        # Generic Chat Template Fallback
         formatted_text = (
             f"<|system|>\n{system_msg}</s>\n"
             f"<|user|>\n{user_msg}</s>\n"
             f"<|assistant|>\n{assistant_msg}</s>"
         )
         
-    return {"text": formatted_text}
+    encoded = tokenizer(
+        formatted_text,
+        truncation=True,
+        max_length=max_seq_length,
+        padding=False,
+    )
+    
+    encoded["labels"] = [token for token in encoded["input_ids"]]
+    return encoded
 
 
 def run_training(args: argparse.Namespace):
     """Main training execution logic."""
     if not IMPORTS_OK:
-        raise ImportError("Fine-tuning dependencies (torch, transformers, peft, trl) are not installed. Install requirements.txt first.")
+        raise ImportError("Fine-tuning dependencies (torch, transformers, peft) are not installed. Install requirements.txt first.")
     
     try:
         from unsloth import FastLanguageModel
         HAS_UNSLOTH = True
     except ImportError:
         HAS_UNSLOTH = False
+
     print(f"=== Starting QLoRA Fine-Tuning Pipeline ===")
     print(f"Base Model ID: {args.model_id}")
     print(f"Train File:    {args.train_file}")
@@ -97,12 +104,12 @@ def run_training(args: argparse.Namespace):
     print(f"Unsloth Engine Requested: {args.use_unsloth}")
     print(f"Unsloth Engine Available: {HAS_UNSLOTH}")
     
-    # Load Datasets
     train_dataset = load_jsonl_dataset(args.train_file)
     val_dataset = load_jsonl_dataset(args.val_file) if args.val_file and os.path.exists(args.val_file) else None
     
-    device_map = "auto" if torch.cuda.is_available() else "cpu"
-    is_bf16_supported = torch.cuda.is_available() and torch.cuda.is_bf16_supported()
+    has_cuda = torch.cuda.is_available()
+    device_map = "auto" if has_cuda else "cpu"
+    is_bf16_supported = has_cuda and torch.cuda.is_bf16_supported()
 
     if args.use_unsloth and HAS_UNSLOTH:
         print("\nLoading model with Unsloth FastLanguageModel (4-bit)...")
@@ -132,7 +139,7 @@ def run_training(args: argparse.Namespace):
             bnb_4bit_quant_type="nf4",
             bnb_4bit_compute_dtype=torch.bfloat16 if is_bf16_supported else torch.float16,
             bnb_4bit_use_double_quant=True,
-        ) if torch.cuda.is_available() else None
+        ) if has_cuda else None
 
         tokenizer = AutoTokenizer.from_pretrained(args.model_id, trust_remote_code=True)
         if tokenizer.pad_token is None:
@@ -146,7 +153,7 @@ def run_training(args: argparse.Namespace):
             **model_kwargs
         )
         
-        if torch.cuda.is_available():
+        if has_cuda:
             model = prepare_model_for_kbit_training(model)
 
         peft_config = LoraConfig(
@@ -159,42 +166,50 @@ def run_training(args: argparse.Namespace):
         )
         model = get_peft_model(model, peft_config)
 
-    # Format datasets
-    train_dataset = train_dataset.map(lambda ex: format_sharegpt_prompt(ex, tokenizer))
+    # Tokenize datasets and remove raw text columns
+    tokenized_train = train_dataset.map(
+        lambda ex: format_and_tokenize(ex, tokenizer, args.max_seq_length),
+        batched=False,
+        remove_columns=train_dataset.column_names,
+    )
+    
+    tokenized_val = None
     if val_dataset:
-        val_dataset = val_dataset.map(lambda ex: format_sharegpt_prompt(ex, tokenizer))
+        tokenized_val = val_dataset.map(
+            lambda ex: format_and_tokenize(ex, tokenizer, args.max_seq_length),
+            batched=False,
+            remove_columns=val_dataset.column_names,
+        )
 
     # Configure Training Arguments
     training_args = TrainingArguments(
         output_dir=args.output_dir,
+        num_train_epochs=args.epochs,
         per_device_train_batch_size=args.batch_size,
         gradient_accumulation_steps=args.gradient_accumulation_steps,
         learning_rate=args.learning_rate,
-        lr_scheduler_type="cosine",
-        num_train_epochs=args.epochs,
-        max_steps=args.max_steps if args.max_steps > 0 else -1,
-        fp16=not is_bf16_supported and torch.cuda.is_available(),
-        bf16=is_bf16_supported,
+        eval_strategy="no",
+        save_strategy="no",
+        max_steps=args.max_steps if hasattr(args, "max_steps") and args.max_steps else -1,
         logging_steps=1,
-        logging_dir=os.path.join(args.output_dir, "logs"),
-        report_to=args.report_to.split(",") if args.report_to != "none" else [],
-        save_strategy="epoch",
-        optim="adamw_8bit" if torch.cuda.is_available() else "adamw_torch",
-        weight_decay=0.01,
-        warmup_ratio=0.03,
-        seed=3407,
+        fp16=False,
+        bf16=False,
+        report_to="none",
+        use_cpu=not has_cuda,
     )
 
-    # SFTTrainer Setup
-    trainer = SFTTrainer(
-        model=model,
-        train_dataset=train_dataset,
-        eval_dataset=val_dataset,
-        dataset_text_field="text",
-        max_seq_length=args.max_seq_length,
+    data_collator = DataCollatorForSeq2Seq(
         tokenizer=tokenizer,
+        pad_to_multiple_of=8,
+        return_tensors="pt"
+    )
+
+    trainer = Trainer(
+        model=model,
         args=training_args,
-        packing=False,
+        train_dataset=tokenized_train,
+        eval_dataset=tokenized_val,
+        data_collator=data_collator,
     )
 
     print("\nStarting SFT Training...")

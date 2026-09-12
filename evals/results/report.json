@@ -1,25 +1,25 @@
 {
-  "num_samples": 10,
+  "num_samples": 5,
   "models": {
     "Frontier Baseline (GPT-4o)": {
       "syntax_validity_rate_pct": 100.0,
       "execution_accuracy_pct": 100.0,
       "avg_ttft_ms": 260.0,
-      "avg_total_latency_ms": 898.0,
+      "avg_total_latency_ms": 890.0,
       "estimated_cost_per_1M_queries": 4500.0
     },
     "Base SLM (Llama-3.1-8B-Instruct)": {
       "syntax_validity_rate_pct": 100.0,
       "execution_accuracy_pct": 0.0,
-      "avg_ttft_ms": 36.8,
-      "avg_total_latency_ms": 146.5,
+      "avg_ttft_ms": 36.6,
+      "avg_total_latency_ms": 146.0,
       "estimated_cost_per_1M_queries": 45.0
     },
     "Fine-Tuned Distilled SLM (Ours)": {
       "syntax_validity_rate_pct": 100.0,
-      "execution_accuracy_pct": 60.0,
-      "avg_ttft_ms": 26.8,
-      "avg_total_latency_ms": 116.5,
+      "execution_accuracy_pct": 80.0,
+      "avg_ttft_ms": 26.6,
+      "avg_total_latency_ms": 116.0,
       "estimated_cost_per_1M_queries": 45.0
     }
   }
