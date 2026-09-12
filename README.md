@@ -6,7 +6,7 @@ Enterprise repository for Small Language Model (SLM) fine-tuning focused on doma
 
 ## Overview
 
-This repository provides an end-to-end framework for synthesizing, validating, fine-tuning, and exporting complex enterprise relational query SLMs.
+This repository provides an end-to-end framework for synthesizing, validating, fine-tuning, exporting, and serving complex enterprise relational query SLMs.
 
 ### Phase 1: Synthetic Data Generation & Schema Validation
 - **Complex Enterprise Schemas**: Includes multi-table joins, JSONB payload fields, foreign key constraints, and partitioned billing tables (`organizations`, `users`, `subscriptions`, `transactions`, `audit_logs`, `product_catalog`).
@@ -23,6 +23,11 @@ This repository provides an end-to-end framework for synthesizing, validating, f
 - **GGUF Quantization (`Q4_K_M`, `Q8_0`)**: Quantizes models for edge deployment with `llama.cpp` and Ollama (`export/quantize.py --format gguf`).
 - **AWQ High-Throughput Serving**: Export 4-bit AWQ quantized models for vLLM serving (`export/quantize.py --format awq`).
 - **Ollama Modelfile Generation**: Auto-generates an enterprise-grade `Modelfile` pre-loaded with schema context prompts and parameters for instant deployment via `ollama create sql-slm -f ./export/Modelfile`.
+
+### Phase 4: Inference Serving Layer (`serving/`)
+- **OpenAI-Compatible Endpoint (`POST /v1/chat/completions`)**: Standard chat completion interface supporting Server-Sent Events (SSE) streaming.
+- **Specialized SQL Endpoint (`POST /predict/sql`)**: Accepts natural language questions and schema context, generates SQL + reasoning traces, performs deterministic `sqlglot` verification, and measures TTFT/TPS performance metrics.
+- **Operational Health Check (`GET /health`)**: Reports server uptime, RAM usage, active inference engine backend (`vLLM` / `llama-cpp-python` / `transformers`), and GPU VRAM memory utilization.
 
 ---
 
@@ -46,6 +51,9 @@ slm-finetuning-pipeline/
 │   ├── __init__.py
 │   ├── quantize.py             # Export & Quantization CLI (16bit, GGUF, AWQ)
 │   └── Modelfile               # Auto-generated template for local Ollama deployment
+├── serving/
+│   ├── __init__.py
+│   └── app.py                  # FastAPI inference server with SSE streaming & SQL validation
 ├── main.py                     # CLI entrypoint for data generation & validation
 ├── requirements.txt            # Project dependencies
 └── README.md                   # Documentation
@@ -90,9 +98,39 @@ python -m export.quantize --format all
 
 # Deploy fine-tuned model into local Ollama
 ollama create sql-slm -f ./export/Modelfile
+```
 
-# Run query in Ollama
-ollama run sql-slm "List all active enterprise users and their organization names."
+### 5. Launch Inference Serving Server
+
+```bash
+# Start FastAPI Server on http://localhost:8000
+python -m uvicorn serving.app:app --host 0.0.0.0 --port 8000
+```
+
+#### Test Health Endpoint
+
+```bash
+curl http://localhost:8000/health
+```
+
+#### Test Specialized `/predict/sql` Endpoint
+
+```bash
+curl -X POST http://localhost:8000/predict/sql \
+  -H "Content-Type: application/json" \
+  -d '{"query": "List all active enterprise users and their organization names."}'
+```
+
+#### Test OpenAI-Compatible Endpoint (`POST /v1/chat/completions`)
+
+```bash
+curl -X POST http://localhost:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "sql-slm",
+    "messages": [{"role": "user", "content": "Find total monthly revenue by currency for 2024."}],
+    "stream": true
+  }'
 ```
 
 ---
