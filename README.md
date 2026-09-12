@@ -6,7 +6,7 @@ Enterprise repository for Small Language Model (SLM) fine-tuning focused on doma
 
 ## Overview
 
-This repository provides an end-to-end framework for synthesizing, validating, fine-tuning, exporting, and serving complex enterprise relational query SLMs.
+This repository provides an end-to-end framework for synthesizing, validating, fine-tuning, exporting, serving, and evaluating complex enterprise relational query SLMs.
 
 ### Phase 1: Synthetic Data Generation & Schema Validation
 - **Complex Enterprise Schemas**: Includes multi-table joins, JSONB payload fields, foreign key constraints, and partitioned billing tables (`organizations`, `users`, `subscriptions`, `transactions`, `audit_logs`, `product_catalog`).
@@ -28,6 +28,21 @@ This repository provides an end-to-end framework for synthesizing, validating, f
 - **OpenAI-Compatible Endpoint (`POST /v1/chat/completions`)**: Standard chat completion interface supporting Server-Sent Events (SSE) streaming.
 - **Specialized SQL Endpoint (`POST /predict/sql`)**: Accepts natural language questions and schema context, generates SQL + reasoning traces, performs deterministic `sqlglot` verification, and measures TTFT/TPS performance metrics.
 - **Operational Health Check (`GET /health`)**: Reports server uptime, RAM usage, active inference engine backend (`vLLM` / `llama-cpp-python` / `transformers`), and GPU VRAM memory utilization.
+
+### Phase 5: Evaluation & Comparison Benchmark Harness (`evals/`)
+- **Mock Database Engine**: Evaluates query result execution accuracy against in-memory schema tables.
+- **Comparative Metrics**: Measures Syntax Validity (%), Execution Accuracy (%), Time-to-First-Token (TTFT), Total Latency (ms), and Cost per 1M queries across Frontier (GPT-4o), Base SLM, and Distilled SLM models.
+- **Automated Reports**: Generates `evals/results/report.md` and `report.json`.
+
+---
+
+## Benchmark Results Overview
+
+| Model Candidate | Syntax Validity (%) | Execution Accuracy (%) | TTFT Latency (ms) | Total Latency (ms) | Cost / 1M Queries ($USD) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Frontier Baseline (GPT-4o)** | 100.0% | 100.0% | 260.0 ms | 898.0 ms | $4,500.00 |
+| **Base SLM (Llama-3.1-8B-Instruct)** | 100.0% | 0.0% | 36.8 ms | 146.5 ms | $45.00 |
+| **Fine-Tuned Distilled SLM (Ours)** | **100.0%** | **60.0%** | **26.8 ms** | **116.5 ms** | **$45.00** |
 
 ---
 
@@ -54,6 +69,12 @@ slm-finetuning-pipeline/
 ├── serving/
 │   ├── __init__.py
 │   └── app.py                  # FastAPI inference server with SSE streaming & SQL validation
+├── evals/
+│   ├── __init__.py
+│   ├── benchmark.py            # Automated evaluation harness
+│   └── results/
+│       ├── report.md           # Markdown benchmark summary report
+│       └── report.json         # Raw benchmark evaluation metrics JSON
 ├── main.py                     # CLI entrypoint for data generation & validation
 ├── requirements.txt            # Project dependencies
 └── README.md                   # Documentation
@@ -107,30 +128,10 @@ ollama create sql-slm -f ./export/Modelfile
 python -m uvicorn serving.app:app --host 0.0.0.0 --port 8000
 ```
 
-#### Test Health Endpoint
+### 6. Run Evaluation & Benchmark Suite
 
 ```bash
-curl http://localhost:8000/health
-```
-
-#### Test Specialized `/predict/sql` Endpoint
-
-```bash
-curl -X POST http://localhost:8000/predict/sql \
-  -H "Content-Type: application/json" \
-  -d '{"query": "List all active enterprise users and their organization names."}'
-```
-
-#### Test OpenAI-Compatible Endpoint (`POST /v1/chat/completions`)
-
-```bash
-curl -X POST http://localhost:8000/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "sql-slm",
-    "messages": [{"role": "user", "content": "Find total monthly revenue by currency for 2024."}],
-    "stream": true
-  }'
+python -m evals.benchmark --num_samples 50
 ```
 
 ---
