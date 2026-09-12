@@ -10,3 +10,5 @@ datasets>=2.18.0
 bitsandbytes>=0.43.0
 accelerate>=0.28.0
 tensorboard>=2.15.0
+autoawq>=0.2.0
+gguf>=0.6.0

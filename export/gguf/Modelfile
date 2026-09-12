@@ -1,0 +1,101 @@
+# Ollama Modelfile for Domain-Specific Enterprise Text-to-SQL SLM
+FROM export\gguf\model_q4_k_m.gguf
+
+# Set inference parameters
+PARAMETER temperature 0.1
+PARAMETER top_p 0.95
+PARAMETER stop "<|eot_id|>"
+PARAMETER stop "<|end_of_text|>"
+PARAMETER stop "</s>"
+
+# Pre-load Enterprise PostgreSQL Database Schema Prompt Context
+SYSTEM """PostgreSQL Database Schema Context:
+
+Table: organizations
+  Description: Enterprise tenant organizations and subscription tiers
+  Columns:
+    - org_id (UUID PRIMARY KEY)
+    - name (VARCHAR(255) NOT NULL)
+    - tier (VARCHAR(50) CHECK (tier IN ('free', 'pro', 'enterprise')))
+    - created_at (TIMESTAMPTZ NOT NULL DEFAULT NOW())
+    - is_active (BOOLEAN DEFAULT TRUE)
+    - settings (JSONB)
+
+Table: users
+  Description: User profiles belonging to organizations
+  Columns:
+    - user_id (UUID PRIMARY KEY)
+    - org_id (UUID NOT NULL)
+    - email (VARCHAR(255) UNIQUE NOT NULL)
+    - full_name (VARCHAR(255))
+    - role (VARCHAR(50) CHECK (role IN ('admin', 'analyst', 'viewer')))
+    - created_at (TIMESTAMPTZ NOT NULL DEFAULT NOW())
+    - last_login_at (TIMESTAMPTZ)
+    - profile_meta (JSONB)
+  Foreign Keys:
+    - org_id -> organizations.org_id
+
+Table: subscriptions
+  Description: Billing subscriptions for enterprise accounts
+  Columns:
+    - subscription_id (UUID PRIMARY KEY)
+    - org_id (UUID NOT NULL)
+    - plan_name (VARCHAR(100) NOT NULL)
+    - monthly_amount (NUMERIC(10, 2) NOT NULL)
+    - status (VARCHAR(50) CHECK (status IN ('active', 'canceled', 'past_due')))
+    - start_date (DATE NOT NULL)
+    - end_date (DATE)
+  Foreign Keys:
+    - org_id -> organizations.org_id
+
+Table: transactions
+  Description: Financial billing transactions partitioned by transaction date
+  Partition Key: created_at
+  Columns:
+    - transaction_id (UUID NOT NULL)
+    - org_id (UUID NOT NULL)
+    - user_id (UUID)
+    - amount (NUMERIC(12, 2) NOT NULL)
+    - currency (VARCHAR(3) DEFAULT 'USD')
+    - payment_method (VARCHAR(50))
+    - status (VARCHAR(50) CHECK (status IN ('succeeded', 'failed', 'refunded')))
+    - created_at (TIMESTAMPTZ NOT NULL)
+    - metadata (JSONB)
+  Foreign Keys:
+    - org_id -> organizations.org_id
+    - user_id -> users.user_id
+
+Table: audit_logs
+  Description: Security and operation audit logs with JSONB payload details
+  Partition Key: created_at
+  Columns:
+    - log_id (BIGSERIAL PRIMARY KEY)
+    - org_id (UUID NOT NULL)
+    - user_id (UUID)
+    - action (VARCHAR(100) NOT NULL)
+    - resource_type (VARCHAR(100))
+    - ip_address (INET)
+    - created_at (TIMESTAMPTZ NOT NULL DEFAULT NOW())
+    - details (JSONB)
+  Foreign Keys:
+    - org_id -> organizations.org_id
+    - user_id -> users.user_id
+
+Table: product_catalog
+  Description: Products offered across enterprise tiers
+  Columns:
+    - product_id (UUID PRIMARY KEY)
+    - sku (VARCHAR(100) UNIQUE NOT NULL)
+    - name (VARCHAR(255) NOT NULL)
+    - category (VARCHAR(100))
+    - unit_price (NUMERIC(10, 2) NOT NULL)
+    - attributes (JSONB)
+"""
+
+# Define chat template structure
+TEMPLATE """{{ if .System }}<|system|>
+{{ .System }}</s>
+{{ end }}{{ if .Prompt }}<|user|>
+{{ .Prompt }}</s>
+{{ end }}<|assistant|>
+{{ .Response }}</s>"""
