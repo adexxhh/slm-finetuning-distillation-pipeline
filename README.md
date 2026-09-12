@@ -1,42 +1,50 @@
 # Enterprise SLM Fine-Tuning & Distillation Pipeline
 
-Enterprise repository for Small Language Model (SLM) fine-tuning focused on domain-specific **Text-to-SQL distillation**.
+Enterprise-grade repository for Small Language Model (SLM) fine-tuning focused on domain-specific **Text-to-SQL distillation**.
 
 ---
 
-## Overview
+## System Architecture
 
-This repository provides an end-to-end framework for synthesizing, validating, fine-tuning, exporting, serving, and evaluating complex enterprise relational query SLMs.
+```mermaid
+flowchart TD
+    subgraph P1["Phase 1: Data Engine"]
+        S[Enterprise Schemas] --> G[Generator & 50 Seed Records]
+        G --> V[sqlglot Read-Only AST Validator]
+        V --> D[train.jsonl & test.jsonl]
+    end
 
-### Phase 1: Synthetic Data Generation & Schema Validation
-- **Complex Enterprise Schemas**: Includes multi-table joins, JSONB payload fields, foreign key constraints, and partitioned billing tables (`organizations`, `users`, `subscriptions`, `transactions`, `audit_logs`, `product_catalog`).
-- **Deterministic SQL Parsing & Safety**: Parses generated PostgreSQL syntax using AST checks (`sqlglot` engine + pure-Python AST fallback), enforcing strict read-only query permissions (`SELECT` / CTE statements) and validating table/column schema references.
-- **Distillation Datasets**: Generates ShareGPT/Alpaca formatted JSONL splits (`data/train.jsonl` and `data/test.jsonl`).
+    subgraph P2["Phase 2: Fine-Tuning"]
+        D --> Q[4-Bit QLoRA SFT Trainer]
+        Q --> DR[training/dry_run.py Hardware Check]
+        DR --> A[LoRA Adapters]
+    end
 
-### Phase 2: QLoRA Fine-Tuning Pipeline (`training/`)
-- **4-Bit Memory Efficient QLoRA**: Fine-tune models like `unsloth/Meta-Llama-3.1-8B-Instruct` or `Qwen/Qwen2.5-7B-Instruct` using `Unsloth` (or fallback to HuggingFace `peft` + `bitsandbytes` + `trl` `SFTTrainer`).
-- **Target Modules**: Configured for `q_proj`, `k_proj`, `v_proj`, `o_proj`, `gate_proj`, `up_proj`, `down_proj` with `r=16`, `lora_alpha=16`, `lora_dropout=0`, and `bias="none"`.
-- **Hardware Verification**: Includes `training/dry_run.py` to inspect CUDA VRAM allocation and run verification training steps on mock data.
+    subgraph P3["Phase 3: Export & Quantization"]
+        A --> M[16-Bit Weight Merge]
+        M --> GGUF[GGUF Q4_K_M / Q8_0]
+        M --> AWQ[AWQ 4-Bit vLLM]
+        GGUF --> OLLAMA[Ollama Modelfile]
+    end
 
-### Phase 3: Model Export & Quantization Pipeline (`export/`)
-- **16-Bit LoRA Weight Merging**: Merges fine-tuned LoRA weights back into 16-bit FP16 base model weights (`export/quantize.py --format merged-16bit`).
-- **GGUF Quantization (`Q4_K_M`, `Q8_0`)**: Quantizes models for edge deployment with `llama.cpp` and Ollama (`export/quantize.py --format gguf`).
-- **AWQ High-Throughput Serving**: Export 4-bit AWQ quantized models for vLLM serving (`export/quantize.py --format awq`).
-- **Ollama Modelfile Generation**: Auto-generates an enterprise-grade `Modelfile` pre-loaded with schema context prompts and parameters for instant deployment via `ollama create sql-slm -f ./export/Modelfile`.
+    subgraph P4["Phase 4: Serving"]
+        OLLAMA --> API[FastAPI Serving Layer]
+        AWQ --> API
+        API --> C1[POST /v1/chat/completions]
+        API --> C2[POST /predict/sql]
+        API --> C3[GET /health]
+    end
 
-### Phase 4: Inference Serving Layer (`serving/`)
-- **OpenAI-Compatible Endpoint (`POST /v1/chat/completions`)**: Standard chat completion interface supporting Server-Sent Events (SSE) streaming.
-- **Specialized SQL Endpoint (`POST /predict/sql`)**: Accepts natural language questions and schema context, generates SQL + reasoning traces, performs deterministic `sqlglot` verification, and measures TTFT/TPS performance metrics.
-- **Operational Health Check (`GET /health`)**: Reports server uptime, RAM usage, active inference engine backend (`vLLM` / `llama-cpp-python` / `transformers`), and GPU VRAM memory utilization.
-
-### Phase 5: Evaluation & Comparison Benchmark Harness (`evals/`)
-- **Mock Database Engine**: Evaluates query result execution accuracy against in-memory schema tables.
-- **Comparative Metrics**: Measures Syntax Validity (%), Execution Accuracy (%), Time-to-First-Token (TTFT), Total Latency (ms), and Cost per 1M queries across Frontier (GPT-4o), Base SLM, and Distilled SLM models.
-- **Automated Reports**: Generates `evals/results/report.md` and `report.json`.
+    subgraph P5["Phase 5: Evaluation"]
+        D --> B[Benchmark Harness]
+        C2 --> B
+        B --> R[report.md & report.json]
+    end
+```
 
 ---
 
-## Benchmark Results Overview
+## Comparison Benchmark Results
 
 | Model Candidate | Syntax Validity (%) | Execution Accuracy (%) | TTFT Latency (ms) | Total Latency (ms) | Cost / 1M Queries ($USD) |
 | :--- | :---: | :---: | :---: | :---: | :---: |
@@ -54,35 +62,53 @@ slm-finetuning-pipeline/
 │   ├── train.jsonl             # 40 pre-validated records (ShareGPT format)
 │   └── test.jsonl              # 10 pre-validated records (ShareGPT format)
 ├── data_engine/
-│   ├── __init__.py
 │   ├── schemas.py              # PostgreSQL database schemas & context prompts
 │   ├── generator.py            # Synthetic dataset generator & 50 schema seed records
 │   └── validator.py            # AST & Schema SQL validator
 ├── training/
-│   ├── __init__.py
 │   ├── train.py                # 4-bit QLoRA SFT fine-tuning pipeline
 │   └── dry_run.py              # Hardware VRAM verification & mock 2-step dry run
 ├── export/
-│   ├── __init__.py
 │   ├── quantize.py             # Export & Quantization CLI (16bit, GGUF, AWQ)
 │   └── Modelfile               # Auto-generated template for local Ollama deployment
 ├── serving/
-│   ├── __init__.py
 │   └── app.py                  # FastAPI inference server with SSE streaming & SQL validation
 ├── evals/
-│   ├── __init__.py
 │   ├── benchmark.py            # Automated evaluation harness
 │   └── results/
 │       ├── report.md           # Markdown benchmark summary report
 │       └── report.json         # Raw benchmark evaluation metrics JSON
+├── Dockerfile                  # Multi-stage build for CUDA/vLLM & CPU/llama.cpp
+├── docker-compose.yml          # Container orchestration service configuration
+├── run_pipeline.sh             # Turnkey bash script for end-to-end execution
 ├── main.py                     # CLI entrypoint for data generation & validation
 ├── requirements.txt            # Project dependencies
-└── README.md                   # Documentation
+└── README.md                   # Project documentation
 ```
 
 ---
 
-## Quickstart
+## Turnkey Quickstart
+
+### 1. One-Line Pipeline Execution
+
+Run the complete pipeline (data generation, validation, dry-run, quantization export, and benchmark evaluations):
+
+```bash
+bash run_pipeline.sh
+```
+
+### 2. Docker Container Deployment
+
+Build and launch the containerized inference server:
+
+```bash
+docker-compose up --build
+```
+
+---
+
+## Detailed Step-by-Step Usage
 
 ### 1. Installation
 
@@ -100,10 +126,10 @@ python main.py --validate data/train.jsonl
 ### 3. Fine-Tuning & Hardware Verification
 
 ```bash
-# GPU Dry Run Verification
+# GPU Hardware Verification Dry Run
 python -m training.dry_run
 
-# QLoRA Training
+# QLoRA Training Launch
 python -m training.train \
   --model_id unsloth/Meta-Llama-3.1-8B-Instruct \
   --train_file data/train.jsonl \
@@ -111,7 +137,7 @@ python -m training.train \
   --output_dir checkpoints/llama3_sql_lora
 ```
 
-### 4. Export & Ollama Deployment
+### 4. Export & Local Ollama Deployment
 
 ```bash
 # Export all formats (Merged FP16, GGUF Q4_K_M/Q8_0, AWQ, Modelfile)
@@ -119,19 +145,27 @@ python -m export.quantize --format all
 
 # Deploy fine-tuned model into local Ollama
 ollama create sql-slm -f ./export/Modelfile
+
+# Query fine-tuned model in Ollama
+ollama run sql-slm "List all active enterprise users and their organization names."
 ```
 
-### 5. Launch Inference Serving Server
+### 5. Launch Serving Server & Test APIs
 
 ```bash
-# Start FastAPI Server on http://localhost:8000
 python -m uvicorn serving.app:app --host 0.0.0.0 --port 8000
 ```
 
-### 6. Run Evaluation & Benchmark Suite
-
+#### Health Check Endpoint
 ```bash
-python -m evals.benchmark --num_samples 50
+curl http://localhost:8000/health
+```
+
+#### Specialized SQL Endpoint (`POST /predict/sql`)
+```bash
+curl -X POST http://localhost:8000/predict/sql \
+  -H "Content-Type: application/json" \
+  -d '{"query": "List all active enterprise users and their organization names."}'
 ```
 
 ---

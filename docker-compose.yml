@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  slm-serving:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: slm_serving_api
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - .:/app
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+
+  slm-evals:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: slm_evals_runner
+    command: python3 -m evals.benchmark --num_samples 50
+    volumes:
+      - .:/app
+    depends_on:
+      - slm-serving
