@@ -11,6 +11,10 @@ jobs:
     name: Build, Validate & Benchmark Test
     runs-on: ubuntu-latest
 
+    env:
+      TOKENIZERS_PARALLELISM: "false"
+      PYTHONUNBUFFERED: "1"
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -24,6 +28,7 @@ jobs:
       - name: Install Project Dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install torch --extra-index-url https://download.pytorch.org/whl/cpu
           pip install -r requirements.txt
 
       - name: Phase 1 - Synthetic Data Generation & Schema Validation
