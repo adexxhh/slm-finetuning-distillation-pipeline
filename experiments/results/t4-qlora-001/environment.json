@@ -1,0 +1,12 @@
+{
+  "gpu": "Tesla T4",
+  "vram_gib": 14.56317138671875,
+  "python": "3.13.15",
+  "packages": {
+    "torch": "2.11.0+cu130",
+    "transformers": "5.20.1",
+    "peft": "0.21.2",
+    "datasets": "4.8.5",
+    "bitsandbytes": "0.50.2"
+  }
+}

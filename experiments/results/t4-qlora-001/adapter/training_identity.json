@@ -1,0 +1,12 @@
+{
+  "base": "f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30",
+  "train": "baa5c72892f39cf460f8e8550a71cf429b78e31308cd8f030c3b3492b3031068",
+  "validation": "4d7c8464194ffd57ee79b8b270cdc0d9294415285b9acf5009d435a747dffa90",
+  "seed": 3407,
+  "batch_size": 1,
+  "gradient_accumulation_steps": 8,
+  "max_seq_length": 2048,
+  "learning_rate": 0.0002,
+  "max_steps": 100,
+  "epochs": 1
+}

@@ -10,15 +10,15 @@ GitHub repositories are under github.com/adexxhh with the same names. Each repos
 Use HANDOFF.md plus the current git log as the entry point for continuation. Local Colab source archives are snapshots: pushing GitHub changes does not update a running notebook.
 
 ## Current SQL experiment
-An actual Qwen3-8B NF4 QLoRA run was started by the user on a free Colab Tesla T4. Reported environment: Python 3.13.15, torch 2.11.0+cu130, transformers 5.20.1, peft 0.21.2, datasets 4.8.5, bitsandbytes 0.50.2.
-The earlier run lost connectivity after a long period without visible logs. Its survival/completion was not established.
-The revised notebook streams subprocess stdout/stderr, logs TRAIN_PROGRESS, uses loss-only batch-one validation, saves full Trainer checkpoints every 10 optimizer steps, and supports guarded resume.
-The user resolved or passed the Drive authorization stage and provided these actual progress lines from the revised run:
-- step 1/100: elapsed 94.5 s, loss 2.9982166, grad_norm 3.1512.
-- step 2/100: elapsed 157.8 s, loss 2.8064666, grad_norm 3.3797.
-- step 3/100: elapsed 201.1 s, loss 1.4910808, grad_norm 2.8351.
-No final training completion, saved-checkpoint confirmation, tuned predictions, or final accuracy report has been received. A few batch losses do not establish model quality.
-Do not interrupt or restart the user's current run merely to install repository updates.
+The Qwen3-8B NF4 QLoRA run completed 100 optimizer steps (0.8 epoch) on a Tesla T4. Training took about 85.3 minutes; final recorded validation loss is 0.26359. Full step-90/100 checkpoint evidence and approximately 43.65 million adapter parameters are present in the original archive at E:/Downloads/sql-8b-results.zip.
+
+The frozen 100-question evaluation has 70 base and 71 adapter execution matches. Paired outcomes are 61 both, 20 neither, 10 adapter-only and 9 base-only. This does not establish a reliable quality improvement. A database-cluster bootstrap gives an exploratory difference interval of approximately -10.74 to +12.09 points.
+
+A completed experiment report, frozen predictions and provenance live in the SQL repo at docs/EXPERIMENT.md and experiments/results/t4-qlora-001. No model weights are committed. CPU replay verifies evidence/database hashes and reproduces original scores with only SQLGlot installed. A fresh isolated environment replayed the archive and an independent fixture directory; repeated diagnostics matched byte for byte.
+
+Column-order diagnostics flag three base and two adapter cases without changing the original scores. Seeded in-memory numeric variants expose one accidental original match per model. These are sensitivity diagnostics, not official Spider test-suite accuracy or proof of general semantic correctness. Dataset-derived excerpts include attribution.
+
+The current bounded experiment is complete. Next optional research iterations should use validation and a fresh final holdout; do not tune repeatedly on this inspected cohort. Repeating GPU training across seeds or environments has not been performed.
 
 ## Persistent state and recovery
 The revised SQL training cell asks the user to mount Google Drive and uses:
@@ -33,7 +33,7 @@ Download sql-8b-results.zip before session expiry. The notebook also copies the 
 ## Latest local verification
 - Auditor: 58 tests passed; one opt-in PostgreSQL test skipped without a disposable server. Actual MCP stdio client and SQLite timing benchmark passed.
 - Editor: 12 tests passed; new Redis integration test skipped on Windows/no disposable service. Notebook code cells compile.
-- SQL: 17 tests passed. Actual tiny CPU training/save/reload/generation, adapter merge and interrupted-run recovery were exercised.
+- SQL: 28 tests passed, including result comparison, numeric variants and frozen-evidence checks. Tiny CPU training/export/recovery and fresh-environment experiment replay also passed.
 - Linux PostgreSQL and Redis service jobs passed on GitHub Actions; see the verified runs below.
 The Windows TCP fake was inadequate for ARQ INFO commands and POSIX lifecycle behavior; that failed attempt is not real Redis evidence.
 
@@ -50,11 +50,11 @@ Git worktrees isolate source changes, not the operating system. Keep generated-c
 - Editor CPU and real Redis/ARQ jobs: https://github.com/adexxhh/autonomous-code-editor/actions/runs/39961303101 (source 672c77f).
 - SQL CPU contracts: https://github.com/adexxhh/slm-finetuning-distillation-pipeline/actions/runs/39961314334 (source 00286c7).
 All listed jobs completed successfully. Each repo preserves its API job/step results in docs/evidence/github-actions.json. These results apply to those immutable source commits; later documentation commits do not establish a new runtime experiment.
-Real PostgreSQL pooled read-only and real Redis queued completion/cancellation/scoped-event checks are now verified on Linux. Colab service notebooks remain optional reproduction tools. Docker Compose as a complete deployment, actual editor LLM repair results, and final 8B SQL quality remain pending.
+Real PostgreSQL pooled read-only and real Redis queued completion/cancellation/scoped-event checks are now verified on Linux. Colab service notebooks remain optional reproduction tools. Docker Compose as a complete deployment, actual editor LLM repair results, and broader independent SQL model-quality experiments remain future work.
 
 ## Next actions
-1. Ask for the latest existing SQL run output and retain results/checkpoints. Do not infer completion from elapsed time.
-2. Inspect base versus tuned predictions, failure categories, confidence intervals, nonempty-reference results, split manifests and model revision before making quality claims.
+1. Read the completed SQL experiment report and frozen evidence. Preserve the original results ZIP and Drive checkpoints.
+2. Use the published CPU replay to verify scores and diagnostics. Keep any later training experiment separate from the inspected final cohort.
 3. Preserve the passing real PostgreSQL/Redis CI checks and inspect future failures; the CPU Colab notebook is now optional reproduction.
 4. Run the editor's actual-model probes in a separate Drive-free GPU session; retain every proposal, test failure and diff.
 5. Continue integrating the editor's code-repair loop with its asynchronous service; the original service still has a separate search workflow.
@@ -70,4 +70,4 @@ The CPU service notebook lives in mcp-database-auditor/scripts/colab_service_che
 The editor GPU notebook lives in autonomous-code-editor/benchmarks/colab_model_repairs.ipynb.
 
 ## This repository
-Implemented strict SQL validation, seeded separate splits, completion-only LoRA loss, real HF/PEFT inference, independent SQL execution evaluation, guarded Trainer resume and real adapter export. The active notebook uses Qwen3-8B, 100 optimizer steps, batch 1, accumulation 8 and max sequence 2048. Buffered SSE is not live token streaming; external GGUF conversion and representative quality claims remain unverified.
+Implemented strict SQL validation, seeded separate splits, completion-only LoRA loss, real HF/PEFT inference, independent SQL execution evaluation, guarded Trainer resume and real adapter export. The completed notebook used Qwen3-8B, 100 optimizer steps, batch 1, accumulation 8 and max sequence 2048. Buffered SSE is not live token streaming; external GGUF conversion and representative quality claims remain unverified.

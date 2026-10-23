@@ -1,0 +1,12 @@
+{
+  "base_model": "/root/.cache/huggingface/hub/models--Qwen--Qwen3-8B/snapshots/b968826d9c46dd6066d109eabc6255188de91218",
+  "adapter_dir": "/content/drive/MyDrive/ai-project-experiments/sql-8b-run-001/adapter",
+  "quantized_4bit": true,
+  "mode": "QLoRA",
+  "train_examples": 1000,
+  "validation_examples": 64,
+  "seed": 3407,
+  "epochs": 1,
+  "max_steps": 100,
+  "torch": "2.11.0+cu130"
+}

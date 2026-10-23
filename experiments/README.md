@@ -28,3 +28,7 @@ Evaluation uses a database-disjoint public Spider development subset and single-
 ## Separate code-repair experiment
 
 The source bundle also contains the editor's repair probes. Run those in a separate disposable session without Google Drive mounted.
+
+## Completed run and replay
+
+[Experiment 001](../docs/EXPERIMENT.md) records the completed T4 run, saved predictions and analysis. Run python -m experiments.reproduce --download-fixtures --output-dir artifacts/replay after installing requirements-reproduce.txt to replay evaluation without a GPU. Offline replay accepts --archive with the original results ZIP.

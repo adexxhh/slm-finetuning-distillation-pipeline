@@ -1,0 +1,34 @@
+{
+  "source_archive_sha256": "3f6634b99a05f8ce7b2c530c22cc9c89da94c4967af6c5ea1fdff9026e8f6c9c",
+  "source_archive_bytes": 1188097329,
+  "evaluator_version": "frozen-execution-v1-plus-diagnostics-v1",
+  "sqlglot": "30.24.0",
+  "frozen_files_sha256": {
+    "base-score.json": "8938b08d85d7e23d3cc2d8c4565536e149403376cd1576b92e3c95033fecee65",
+    "adapter-score.json": "ee67bd33007f9ec6ca54a95e8a3618a9fb7ab61081d5180e3b67ee3d563b2825",
+    "base-predictions.jsonl": "1a827a77850af820e4dbb00a92c47b966235be40c01b0f9d29606038c93a7311",
+    "adapter-predictions.jsonl": "3a25817aa45af5aaf358538a1a66626bc9459ddbe62c4ca0a63e0bf34c2c1ebb",
+    "environment.json": "30c9df37b7864c885cc9c558750b8da248f737fcd4c741750b01509b7f7a7b41",
+    "model_revision.json": "a566fd0507c625c967fc5a3f3d270bd3dd5ca98d44de223f110eb190d353559b",
+    "spider/train.jsonl": "0d28eab86d957e77d30b340a3c24bb8888145501233e2cc9ee0189ab769491c9",
+    "spider/validation.jsonl": "adf7506bf11b2df705dc8c4976bbb426415407f46847f86794ada9b9c876e56d",
+    "spider/test.jsonl": "3ba011b6bafd6d7a61aeb488aca948fe2bec60c761dd94cdac4c965356eb097a",
+    "spider/manifest.json": "1330e790e3ec39ceea27b92d6bebaa896ace10a8852682c4d957bf3747653769",
+    "adapter/adapter_config.json": "fb7f2623c3ac7ec05dcfa0f72f1896f78647cdb84b209c7a6f5fac7230de6594",
+    "adapter/training_identity.json": "8c2545922e6bcf8ea4db0a875b9cebac4f9f99afb081451668cdb66fba990a9c",
+    "adapter/run_manifest.json": "73b855cf865cbdf2622182a9edf21fd7394b41b2a87109caea41b6cee273d7fc",
+    "adapter/trainer_state.json": "a238f699da71605b8d887ce488e999d0b3abccf3602fe6eb93a8a18768b108ff",
+    "adapter/train_results.json": "5c22ee01530a42db68f64b404865d847f01acbe6c7ba59e14d0f66ff0a040bc4",
+    "adapter/eval_results.json": "aa195736db79b354c9aba10076db80cf135cd12a8b58a15f04f21a434c96a12b",
+    "adapter/progress.jsonl": "305513a7ac6594a016c5f5fdd910102af7d8e180d7ca4c0bdc966a3948e96938",
+    "analysis-summary.json": "89fa19895e32eddec30e49b7067bf8c9d9b3b6ba52cacb934d6760a53d243ced",
+    "case-analysis.json": "5c2251edc830ba294b492931adcc566ec677878c52f2c623c8e678e49628a010",
+    "numeric-variants.json": "c6b8c613a649366dfcce956385c3f754bc487debabe08a2202bc2e862c2a5627"
+  },
+  "attribution": {
+    "dataset": "Spider (Yu et al., EMNLP 2018), CC BY-SA 4.0",
+    "questions": "https://huggingface.co/datasets/xlangai/spider",
+    "database_mirror": "https://huggingface.co/datasets/prem-research/spider",
+    "canonical": "https://yale-lily.github.io/spider"
+  }
+}

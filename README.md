@@ -27,6 +27,28 @@ flowchart LR
 - **Evaluation:** independent predictions, execution matching, error reports and confidence intervals.
 - **Export:** adapter merging and a configurable llama.cpp GGUF conversion path.
 
+## Completed experiment
+
+A 100-step Qwen3-8B NF4 QLoRA run on a Tesla T4 used 1,000 training questions and evaluated 100 questions across 18 held-out databases.
+
+| Model | Execution matches |
+|---|---:|
+| Base | 70 / 100 |
+| Adapter | 71 / 100 |
+
+The report includes paired outcomes, uncertainty estimates, column-order sensitivity and generated-database checks. It describes a bounded adaptation experiment on a filtered public Spider development subset.
+
+[Experiment report and reproduction](docs/EXPERIMENT.md) ? [Frozen predictions and metadata](experiments/results/t4-qlora-001/README.md)
+
+Replay the saved experiment on CPU:
+
+~~~sh
+pip install -r requirements-reproduce.txt
+python -m experiments.reproduce --download-fixtures --output-dir artifacts/replay
+~~~
+
+This downloads the pinned SQLite fixtures and requires no model weights or GPU. An offline replay can use --archive /path/to/sql-8b-results.zip instead.
+
 ## Start with the GPU notebook
 
 [Open the training notebook](experiments/colab_8b_qlora.ipynb)
@@ -116,7 +138,7 @@ GGUF conversion additionally requires --format gguf and --llama_cpp_dir pointing
 
 ## Validation
 
-The CPU suite passes 17 tests. Local checks also cover training/save/reload, adapter merging and interrupted training recovery.
+The CPU suite passes 28 tests. Local checks cover training/save/reload, adapter merging, interrupted training recovery and evaluation edge cases. A fresh CPU environment with only SQLGlot installed reproduced the saved experiment and repeated diagnostics.
 
 [CI results](https://github.com/adexxhh/slm-finetuning-distillation-pipeline/actions/runs/39961314334) ? [CPU training evidence](docs/evidence/cpu-smoke.json) ? [Resume evidence](docs/evidence/resume-verification.json)
 

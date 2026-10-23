@@ -1,0 +1,1946 @@
+{
+  "attribution": {
+    "dataset": "Spider (Yu et al., EMNLP 2018), CC BY-SA 4.0",
+    "questions": "https://huggingface.co/datasets/xlangai/spider",
+    "database_mirror": "https://huggingface.co/datasets/prem-research/spider",
+    "canonical": "https://yale-lily.github.io/spider"
+  },
+  "question_revision": "0c350918f3f29ec754f1181c65cdce76cd6c133c",
+  "database_revision": "8698f764f0547eb7136b3be9569093c7f4217be4",
+  "seed": 3407,
+  "max_sequence_length": 2048,
+  "splits": {
+    "train": {
+      "count": 1000,
+      "database_ids": [
+        "activity_1",
+        "aircraft",
+        "apartment_rentals",
+        "architecture",
+        "assets_maintenance",
+        "baseball_1",
+        "behavior_monitoring",
+        "body_builder",
+        "book_2",
+        "browser_web",
+        "candidate_poll",
+        "chinook_1",
+        "cinema",
+        "city_record",
+        "club_1",
+        "coffee_shop",
+        "college_2",
+        "college_3",
+        "company_1",
+        "company_employee",
+        "company_office",
+        "county_public_safety",
+        "cre_Doc_Control_Systems",
+        "cre_Doc_Tracking_DB",
+        "cre_Docs_and_Epenses",
+        "cre_Drama_Workshop_Groups",
+        "cre_Theme_park",
+        "csu_1",
+        "culture_company",
+        "customer_complaints",
+        "customer_deliveries",
+        "customers_and_addresses",
+        "customers_and_invoices",
+        "customers_and_products_contacts",
+        "customers_campaigns_ecommerce",
+        "debate",
+        "decoration_competition",
+        "department_management",
+        "department_store",
+        "device",
+        "dorm_1",
+        "driving_school",
+        "e_government",
+        "e_learning",
+        "election",
+        "election_representative",
+        "entertainment_awards",
+        "entrepreneur",
+        "epinions_1",
+        "farm",
+        "film_rank",
+        "flight_1",
+        "flight_4",
+        "flight_company",
+        "formula_1",
+        "game_injury",
+        "gas_company",
+        "gymnast",
+        "hospital_1",
+        "hr_1",
+        "icfp_1",
+        "inn_1",
+        "insurance_and_eClaims",
+        "insurance_fnol",
+        "insurance_policies",
+        "journal_committee",
+        "loan_1",
+        "local_govt_and_lot",
+        "local_govt_in_alabama",
+        "local_govt_mdm",
+        "machine_repair",
+        "manufactory_1",
+        "manufacturer",
+        "medicine_enzyme_interaction",
+        "mountain_photos",
+        "movie_1",
+        "music_1",
+        "music_2",
+        "music_4",
+        "musical",
+        "network_2",
+        "news_report",
+        "party_people",
+        "performance_attendance",
+        "perpetrator",
+        "phone_1",
+        "phone_market",
+        "pilot_record",
+        "product_catalog",
+        "products_for_hire",
+        "products_gen_characteristics",
+        "program_share",
+        "protein_institute",
+        "race_track",
+        "railway",
+        "restaurant_1",
+        "riding_club",
+        "roller_coaster",
+        "sakila_1",
+        "school_bus",
+        "school_finance",
+        "scientist_1",
+        "ship_1",
+        "ship_mission",
+        "small_bank_1",
+        "soccer_1",
+        "soccer_2",
+        "solvency_ii",
+        "sports_competition",
+        "station_weather",
+        "store_1",
+        "store_product",
+        "storm_record",
+        "student_1",
+        "swimming",
+        "theme_gallery",
+        "tracking_grants_for_research",
+        "tracking_orders",
+        "tracking_share_transactions",
+        "tracking_software_problems",
+        "twitter_1",
+        "university_basketball",
+        "voter_2",
+        "wedding",
+        "wine_1",
+        "wrestler"
+      ],
+      "skipped": [
+        {
+          "db_id": "chinook_1",
+          "question": "How many tracks are in the AAC audio file media type?",
+          "reason": "Column 'AAC audio file' could not be resolved. Line: 1, Col: 125"
+        },
+        {
+          "db_id": "customers_and_addresses",
+          "question": "Find the detail of products whose detail contains the word \"Latte\" or the word \"Americano\"",
+          "reason": "Column '%Latte%' could not be resolved. Line: 1, Col: 73"
+        },
+        {
+          "db_id": "phone_1",
+          "question": "List the hardware model name for the phones that were produced by \"Nokia Corporation\" or whose screen mode type is \"Graphics.\"",
+          "reason": "Column 'Graphics' could not be resolved. Line: 1, Col: 144"
+        },
+        {
+          "db_id": "icfp_1",
+          "question": "List the titles of the papers whose authors are from the institution \"Indiana University\".",
+          "reason": "Column 'Indiana University' could not be resolved. Line: 1, Col: 175"
+        },
+        {
+          "db_id": "cre_Theme_park",
+          "question": "Which tourist attractions can we get to by bus? Tell me the names of the attractions.",
+          "reason": "Column 'bus' could not be resolved. Line: 1, Col: 69"
+        },
+        {
+          "db_id": "voter_2",
+          "question": "Return all the distinct secretary votes made in the fall election cycle.",
+          "reason": "Column 'Fall' could not be resolved. Line: 1, Col: 81"
+        },
+        {
+          "db_id": "company_office",
+          "question": "How many companies are in either \"Banking\" industry or \"Conglomerate\" industry?",
+          "reason": "Column 'Banking' could not be resolved. Line: 1, Col: 59"
+        },
+        {
+          "db_id": "club_1",
+          "question": "Find the number of clubs where \"Tracy Kim\" is a member.",
+          "reason": "Column 'Tracy' could not be resolved. Line: 1, Col: 155"
+        },
+        {
+          "db_id": "college_3",
+          "question": "What are the last names of faculty in building Barton, sorted by last name?",
+          "reason": "Column 'Barton' could not be resolved. Line: 1, Col: 53"
+        },
+        {
+          "db_id": "flight_1",
+          "question": "What is the average distance and average price for flights from Los Angeles.",
+          "reason": "Column 'Los Angeles' could not be resolved. Line: 1, Col: 77"
+        },
+        {
+          "db_id": "formula_1",
+          "question": "What is the maximum fastest lap speed in race named 'Monaco Grand Prix' in 2008 ?",
+          "reason": "Column 'Monaco Grand Prix' could not be resolved. Line: 1, Col: 146"
+        },
+        {
+          "db_id": "tracking_orders",
+          "question": "Find the names of the customers who have order status both \"On Road\" and \"Shipped\".",
+          "reason": "Column 'On Road' could not be resolved. Line: 1, Col: 131"
+        },
+        {
+          "db_id": "college_3",
+          "question": "What are the full names of faculties with sex M and who live in building NEB?",
+          "reason": "Column 'M' could not be resolved. Line: 1, Col: 52"
+        },
+        {
+          "db_id": "chinook_1",
+          "question": "Find the average unit price of jazz tracks.",
+          "reason": "Column 'Jazz' could not be resolved. Line: 1, Col: 109"
+        },
+        {
+          "db_id": "customer_complaints",
+          "question": "What are lines 1 and 2 of the addressed of the customer with the email \"vbogisich@example.org\"?",
+          "reason": "Column 'vbogisich@example.org' could not be resolved. Line: 1, Col: 102"
+        },
+        {
+          "db_id": "icfp_1",
+          "question": "How many papers are published by the institution \"Tokohu University\"?",
+          "reason": "Column 'Tokohu University' could not be resolved. Line: 1, Col: 181"
+        },
+        {
+          "db_id": "csu_1",
+          "question": "For each Orange county campus, report the number of degrees granted after 2000.",
+          "reason": "Column 'Orange' could not be resolved. Line: 1, Col: 126"
+        },
+        {
+          "db_id": "music_1",
+          "question": "Find the id of songs that are available in mp4 format and have resolution lower than 1000.",
+          "reason": "Column 'mp4' could not be resolved. Line: 1, Col: 46"
+        },
+        {
+          "db_id": "machine_repair",
+          "question": "List the name of technicians whose team is not \"NYY\".",
+          "reason": "Column 'NYY' could not be resolved. Line: 1, Col: 47"
+        },
+        {
+          "db_id": "flight_1",
+          "question": "Show names for all employees who do not have certificate of Boeing 737-800.",
+          "reason": "Column 'Boeing 737-800' could not be resolved. Line: 1, Col: 187"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "What are the different product names for products that have the 'warm' characteristic:?",
+          "reason": "Column 'warm' could not be resolved. Line: 1, Col: 237"
+        },
+        {
+          "db_id": "department_store",
+          "question": "List the order id, customer id for orders in Cancelled status, ordered by their order dates.",
+          "reason": "Column 'Cancelled' could not be resolved. Line: 1, Col: 92"
+        },
+        {
+          "db_id": "cre_Docs_and_Epenses",
+          "question": "Find names and ids of all documents with document type code BK.",
+          "reason": "Column 'BK' could not be resolved. Line: 1, Col: 84"
+        },
+        {
+          "db_id": "tracking_orders",
+          "question": "List the names of the customers who have once bought product \"food\".",
+          "reason": "Column 'food' could not be resolved. Line: 1, Col: 235"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "Which category does the product named \"flax\" belong to?",
+          "reason": "Column 'flax' could not be resolved. Line: 1, Col: 72"
+        },
+        {
+          "db_id": "csu_1",
+          "question": "Find the name of the campuses that is in Northridge, Los Angeles or in San Francisco, San Francisco.",
+          "reason": "Column 'Northridge' could not be resolved. Line: 1, Col: 59"
+        },
+        {
+          "db_id": "flight_1",
+          "question": "What are the names of all employees who are not certified to fly Boeing 737-800s?",
+          "reason": "Column 'Boeing 737-800' could not be resolved. Line: 1, Col: 187"
+        },
+        {
+          "db_id": "cre_Doc_Tracking_DB",
+          "question": "Find the name and description of the role with code \"MG\".",
+          "reason": "Column 'MG' could not be resolved. Line: 1, Col: 72"
+        },
+        {
+          "db_id": "driving_school",
+          "question": "What is the first and last name of all employees who live in the city Damianfort?",
+          "reason": "Column 'Damianfort' could not be resolved. Line: 1, Col: 142"
+        },
+        {
+          "db_id": "music_2",
+          "question": "What are the types of vocals used in the song \"Demon Kitty Rag\"?",
+          "reason": "Column 'Demon Kitty Rag' could not be resolved. Line: 1, Col: 111"
+        },
+        {
+          "db_id": "hospital_1",
+          "question": "What are the procedures that cost more than 1000 or are specialized in by physician John Wen?",
+          "reason": "Column 'John Wen' could not be resolved. Line: 1, Col: 224"
+        },
+        {
+          "db_id": "cre_Theme_park",
+          "question": "What is the average price range of five star hotels that allow pets?",
+          "reason": "Column '5' could not be resolved. Line: 1, Col: 66"
+        },
+        {
+          "db_id": "restaurant_1",
+          "question": "What is the address of the restaurant Subway?",
+          "reason": "Column 'Subway' could not be resolved. Line: 1, Col: 55"
+        },
+        {
+          "db_id": "cre_Theme_park",
+          "question": "What are the details of the markets that can be accessed by walk or bus?",
+          "reason": "Column 'walk' could not be resolved. Line: 1, Col: 163"
+        },
+        {
+          "db_id": "voter_2",
+          "question": "Find the first and last names of all the female (sex is F) students who have president votes.",
+          "reason": "Column 'F' could not be resolved. Line: 1, Col: 135"
+        },
+        {
+          "db_id": "icfp_1",
+          "question": "What is the name of the institution the author \"Katsuhiro Ueno\" belongs to?",
+          "reason": "Column 'Katsuhiro' could not be resolved. Line: 1, Col: 165"
+        },
+        {
+          "db_id": "club_1",
+          "question": "Find the average age of the members in the club \"Bootup Baltimore\".",
+          "reason": "Column 'Bootup Baltimore' could not be resolved. Line: 1, Col: 172"
+        },
+        {
+          "db_id": "college_3",
+          "question": "Find the first name and last name of the instructor of course that has course name",
+          "reason": "Column 'COMPUTER LITERACY' could not be resolved. Line: 1, Col: 133"
+        },
+        {
+          "db_id": "icfp_1",
+          "question": "What is the first name of the author with last name \"Ueno\"?",
+          "reason": "Column 'Ueno' could not be resolved. Line: 1, Col: 48"
+        },
+        {
+          "db_id": "customers_and_addresses",
+          "question": "Return the address content for the customer whose name is \"Maudie Kertzmann\".",
+          "reason": "Column 'Maudie Kertzmann' could not be resolved. Line: 1, Col: 215"
+        },
+        {
+          "db_id": "driving_school",
+          "question": "When did the staff member with first name as Janessa and last name as Sawayn leave the company?",
+          "reason": "Column 'Janessa' could not be resolved. Line: 1, Col: 62"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "What are all the characteristic names of product \"sesame\"?",
+          "reason": "Column 'sesame' could not be resolved. Line: 1, Col: 230"
+        },
+        {
+          "db_id": "customers_and_invoices",
+          "question": "What are the full names of customers with the account name 900?",
+          "reason": "Column '900' could not be resolved. Line: 1, Col: 164"
+        },
+        {
+          "db_id": "company_employee",
+          "question": "Show the names of companies in the banking or retailing industry?",
+          "reason": "Column 'Banking' could not be resolved. Line: 1, Col: 53"
+        },
+        {
+          "db_id": "county_public_safety",
+          "question": "Which police forces operate in both counties that are located in the East and in the West?",
+          "reason": "Column 'East' could not be resolved. Line: 1, Col: 71"
+        },
+        {
+          "db_id": "cre_Theme_park",
+          "question": "Find the visit date and details of the tourist whose detail is 'Vincent'",
+          "reason": "Column 'Vincent' could not be resolved. Line: 1, Col: 152"
+        },
+        {
+          "db_id": "csu_1",
+          "question": "How many faculty lines are there in \"San Francisco State University\" in year 2004?",
+          "reason": "Column 'San Francisco State University' could not be resolved. Line: 1, Col: 150"
+        },
+        {
+          "db_id": "cre_Doc_Tracking_DB",
+          "question": "Find the document type name of the document named \"How to read a book\".",
+          "reason": "Column 'How to read a book' could not be resolved. Line: 1, Col: 182"
+        },
+        {
+          "db_id": "formula_1",
+          "question": "What are the names of the races held after 2017 in Spain?",
+          "reason": "Column 'Spain' could not be resolved. Line: 1, Col: 109"
+        },
+        {
+          "db_id": "inn_1",
+          "question": "How many kids stay in the rooms reserved by ROY SWEAZY?",
+          "reason": "Column 'ROY' could not be resolved. Line: 1, Col: 53"
+        },
+        {
+          "db_id": "hospital_1",
+          "question": "How many patients' prescriptions are made by physician John Dorian?",
+          "reason": "Column 'John Dorian' could not be resolved. Line: 1, Col: 171"
+        },
+        {
+          "db_id": "music_2",
+          "question": "How many musicians play in the song \"Flash\"?",
+          "reason": "Column 'Flash' could not be resolved. Line: 1, Col: 150"
+        },
+        {
+          "db_id": "music_2",
+          "question": "Which vocal type did the musician with last name \"Heilo\" played in the song with title \"Der Kapitan\"?",
+          "reason": "Column 'Heilo' could not be resolved. Line: 1, Col: 144"
+        },
+        {
+          "db_id": "entrepreneur",
+          "question": "What are the names of entrepreneurs whose investor is not \"Rachel Elnaugh\"?",
+          "reason": "Column 'Rachel Elnaugh' could not be resolved. Line: 1, Col: 127"
+        },
+        {
+          "db_id": "voter_2",
+          "question": "Who are the advisors for students that live in a city with city code \"BAL\"?",
+          "reason": "Column 'BAL' could not be resolved. Line: 1, Col: 53"
+        },
+        {
+          "db_id": "e_government",
+          "question": "What are the names of organizations that contain the word \"Party\"?",
+          "reason": "Column '%Party%' could not be resolved. Line: 1, Col: 82"
+        },
+        {
+          "db_id": "tracking_software_problems",
+          "question": "Find the first and last name of the staff members who reported problems from the product \"rem\" but not \"aut\"?",
+          "reason": "Column 'rem' could not be resolved. Line: 1, Col: 209"
+        },
+        {
+          "db_id": "csu_1",
+          "question": "What is the campus fee for San Jose State University in 1996?",
+          "reason": "Column 'San Jose State University' could not be resolved. Line: 1, Col: 127"
+        },
+        {
+          "db_id": "wine_1",
+          "question": "Find the maximum price of wins from the appelations in Central Coast area and produced before the year of 2005.",
+          "reason": "Column 'Central Coast' could not be resolved. Line: 1, Col: 129"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "How many characteristics does the product named \"laurel\" have?",
+          "reason": "Column 'laurel' could not be resolved. Line: 1, Col: 216"
+        },
+        {
+          "db_id": "cre_Doc_Tracking_DB",
+          "question": "Show the names of employees with role name Editor.",
+          "reason": "Column 'Editor' could not be resolved. Line: 1, Col: 126"
+        },
+        {
+          "db_id": "store_product",
+          "question": "What are all of the products whose name includes the substring \"Scanner\"?",
+          "reason": "Column '%Scanner%' could not be resolved. Line: 1, Col: 58"
+        },
+        {
+          "db_id": "machine_repair",
+          "question": "What is the name of the technician whose team is not 'NYY'?",
+          "reason": "Column 'NYY' could not be resolved. Line: 1, Col: 47"
+        },
+        {
+          "db_id": "wine_1",
+          "question": "What are the names of wines whose production year are before the year of all wines by Brander winery?",
+          "reason": "Column 'Brander' could not be resolved. Line: 1, Col: 91"
+        },
+        {
+          "db_id": "customers_and_addresses",
+          "question": "Which customers use \"Cash\" for payment method? Return the customer names.",
+          "reason": "Column 'Cash' could not be resolved. Line: 1, Col: 67"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "What are the names of products that are not 'white' in color and are not measured by the unit 'Handful'?",
+          "reason": "Column 'white' could not be resolved. Line: 1, Col: 229"
+        },
+        {
+          "db_id": "store_1",
+          "question": "How many orders does Lucas Mancini has?",
+          "reason": "Column 'Lucas' could not be resolved. Line: 1, Col: 112"
+        },
+        {
+          "db_id": "ship_mission",
+          "question": "What are the names of the ships that are not from the United States?",
+          "reason": "Column 'United States' could not be resolved. Line: 1, Col: 58"
+        },
+        {
+          "db_id": "inn_1",
+          "question": "Find the number of times ROY SWEAZY has reserved a room.",
+          "reason": "Column 'ROY' could not be resolved. Line: 1, Col: 57"
+        },
+        {
+          "db_id": "music_2",
+          "question": "Find all the songs produced by artists with first name \"Marianne\".",
+          "reason": "Column 'Marianne' could not be resolved. Line: 1, Col: 157"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "How many products have the characteristic named \"hot\"?",
+          "reason": "Column 'hot' could not be resolved. Line: 1, Col: 220"
+        },
+        {
+          "db_id": "chinook_1",
+          "question": "How many customers have email that contains \"gmail.com\"?",
+          "reason": "Column '%gmail.com%' could not be resolved. Line: 1, Col: 60"
+        },
+        {
+          "db_id": "store_1",
+          "question": "List the name of all tracks in the playlists of Movies.",
+          "reason": "Column 'Movies' could not be resolved. Line: 1, Col: 154"
+        },
+        {
+          "db_id": "csu_1",
+          "question": "What is the number of faculty at Long Beach State University in 2002?",
+          "reason": "Column 'Long Beach State University' could not be resolved. Line: 1, Col: 147"
+        },
+        {
+          "db_id": "customers_and_invoices",
+          "question": "Count the number of financial transactions that the account with the name 337 has.",
+          "reason": "Column '337' could not be resolved. Line: 1, Col: 136"
+        },
+        {
+          "db_id": "tracking_software_problems",
+          "question": "What are the ids of the problems reported before the date of any problem reported by Lysanne Turcotte?",
+          "reason": "Column 'Lysanne' could not be resolved. Line: 1, Col: 282"
+        },
+        {
+          "db_id": "activity_1",
+          "question": "What are the first name and last name of all the instructors?",
+          "reason": "Column 'Instructor' could not be resolved. Line: 1, Col: 62"
+        },
+        {
+          "db_id": "phone_1",
+          "question": "How many phone hardware models are produced by the company named \"Nokia Corporation\"?",
+          "reason": "Column 'Nokia Corporation' could not be resolved. Line: 1, Col: 67"
+        },
+        {
+          "db_id": "club_1",
+          "question": "Who is the president of the club \"Bootup Baltimore\"? Give me the first and last name.",
+          "reason": "Column 'Bootup Baltimore' could not be resolved. Line: 1, Col: 181"
+        },
+        {
+          "db_id": "formula_1",
+          "question": "What are the names of all races held after 2000 in Spain?",
+          "reason": "Column 'Spain' could not be resolved. Line: 1, Col: 118"
+        },
+        {
+          "db_id": "store_1",
+          "question": "What is the the phone number of Nancy Edwards?",
+          "reason": "Column 'Nancy' could not be resolved. Line: 1, Col: 54"
+        },
+        {
+          "db_id": "department_store",
+          "question": "Find the id and name of customers whose address contains WY state and do not use credit card for payment.",
+          "reason": "Column '%WY%' could not be resolved. Line: 1, Col: 85"
+        },
+        {
+          "db_id": "phone_1",
+          "question": "List the hardware model name for the phones that have screen mode type \"Text\" or RAM size greater than 32.",
+          "reason": "Column 'Text' could not be resolved. Line: 1, Col: 186"
+        },
+        {
+          "db_id": "driving_school",
+          "question": "What is the nickname of staff with first name as Janessa and last name as Sawayn?",
+          "reason": "Column 'Janessa' could not be resolved. Line: 1, Col: 55"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "What are the names of the characteristics of the product 'sesame' that have the characteristic type code 'Grade'?",
+          "reason": "Column 'sesame' could not be resolved. Line: 1, Col: 230"
+        },
+        {
+          "db_id": "entrepreneur",
+          "question": "Return the names of entrepreneurs do no not have the investor Rachel Elnaugh.",
+          "reason": "Column 'Rachel Elnaugh' could not be resolved. Line: 1, Col: 127"
+        },
+        {
+          "db_id": "icfp_1",
+          "question": "How many papers are written by authors from the institution \"University of Pennsylvania\"?",
+          "reason": "Column 'University of Pennsylvania' could not be resolved. Line: 1, Col: 190"
+        },
+        {
+          "db_id": "tracking_software_problems",
+          "question": "What are the ids of the problems reported after the date of any problems reported by Rylan Homenick?",
+          "reason": "Column 'Rylan' could not be resolved. Line: 1, Col: 280"
+        },
+        {
+          "db_id": "music_2",
+          "question": "What instruments did the musician with the last name \"Heilo\" play in the song \"Le Pop\"?",
+          "reason": "Column 'Heilo' could not be resolved. Line: 1, Col: 236"
+        },
+        {
+          "db_id": "cre_Doc_Tracking_DB",
+          "question": "Show the id of the employee named Ebba.",
+          "reason": "Column 'Ebba' could not be resolved. Line: 1, Col: 64"
+        },
+        {
+          "db_id": "election",
+          "question": "Which parties have delegates in both the \"Appropriations\" committee and the \"Economic Matters\" committee?",
+          "reason": "Column 'Appropriations' could not be resolved. Line: 1, Col: 120"
+        },
+        {
+          "db_id": "insurance_and_eClaims",
+          "question": "Find the names of the customers who have an deputy policy.",
+          "reason": "Column 'Deputy' could not be resolved. Line: 1, Col: 152"
+        },
+        {
+          "db_id": "election_representative",
+          "question": "What are the life spans of representatives from New York state or Indiana state?",
+          "reason": "Column 'New York' could not be resolved. Line: 1, Col: 62"
+        },
+        {
+          "db_id": "driving_school",
+          "question": "When did the staff member Janessa Sawayn leave the company?",
+          "reason": "Column 'Janessa' could not be resolved. Line: 1, Col: 62"
+        },
+        {
+          "db_id": "cre_Doc_Control_Systems",
+          "question": "What is the description of document type 'Paper'?",
+          "reason": "Column 'Paper' could not be resolved. Line: 1, Col: 91"
+        },
+        {
+          "db_id": "customers_and_addresses",
+          "question": "What are the customer name and date of the orders whose status is \"Delivered\".",
+          "reason": "Column 'Delivered' could not be resolved. Line: 1, Col: 160"
+        },
+        {
+          "db_id": "club_1",
+          "question": "What are the first name and last name of each male member in club \"Hopkins Student Enterprises\"?",
+          "reason": "Column 'Hopkins Student Enterprises' could not be resolved. Line: 1, Col: 192"
+        },
+        {
+          "db_id": "customers_and_addresses",
+          "question": "What are the state and country of all the cities that have post codes starting with 4.\\",
+          "reason": "Column '4%' could not be resolved. Line: 1, Col: 83"
+        },
+        {
+          "db_id": "insurance_fnol",
+          "question": "What are the open and close dates of all the policies used by the customer who have \"Diana\" in part of their names?",
+          "reason": "Column '%Diana%' could not be resolved. Line: 1, Col: 165"
+        },
+        {
+          "db_id": "activity_1",
+          "question": "Show the number of male and female assistant professors.",
+          "reason": "Column 'AsstProf' could not be resolved. Line: 1, Col: 61"
+        },
+        {
+          "db_id": "e_learning",
+          "question": "What are the descriptions of the courses with name \"database\"?",
+          "reason": "Column 'database' could not be resolved. Line: 1, Col: 71"
+        },
+        {
+          "db_id": "music_1",
+          "question": "What are the names of all songs that are in mp3 format and have a resolution lower than 1000?",
+          "reason": "Column 'mp3' could not be resolved. Line: 1, Col: 102"
+        },
+        {
+          "db_id": "cre_Docs_and_Epenses",
+          "question": "Return the account details with the greatest value, as well as those that include the character 5.",
+          "reason": "Column '%5%' could not be resolved. Line: 1, Col: 117"
+        },
+        {
+          "db_id": "program_share",
+          "question": "Find the names of programs that are never broadcasted in the morning.",
+          "reason": "Column 'Morning' could not be resolved. Line: 1, Col: 156"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "What are the names of products with 'white' as their color description?",
+          "reason": "Column 'white' could not be resolved. Line: 1, Col: 138"
+        },
+        {
+          "db_id": "club_1",
+          "question": "Find the names of all the clubs that have at least a member from the city with city code \"BAL\".",
+          "reason": "Column 'BAL' could not be resolved. Line: 1, Col: 169"
+        },
+        {
+          "db_id": "music_1",
+          "question": "What are the names of the songs that have a lower rating than at least one blues song?",
+          "reason": "Column 'blues' could not be resolved. Line: 1, Col: 100"
+        },
+        {
+          "db_id": "department_store",
+          "question": "What are the distinct names of customers who have purchased a keyboard?",
+          "reason": "Column 'keyboard' could not be resolved. Line: 1, Col: 263"
+        },
+        {
+          "db_id": "cre_Theme_park",
+          "question": "Show the price ranges of hotels with 5 star ratings.",
+          "reason": "Column '5' could not be resolved. Line: 1, Col: 61"
+        },
+        {
+          "db_id": "election",
+          "question": "In which distinct years was the governor \"Eliot Spitzer\"?",
+          "reason": "Column 'Eliot Spitzer' could not be resolved. Line: 1, Col: 66"
+        },
+        {
+          "db_id": "store_1",
+          "question": "What are the tracks that Dean Peeters bought?",
+          "reason": "Column 'Daan' could not be resolved. Line: 1, Col: 201"
+        },
+        {
+          "db_id": "tracking_share_transactions",
+          "question": "Show all dates of transactions whose type code is \"SALE\".",
+          "reason": "Column 'SALE' could not be resolved. Line: 1, Col: 83"
+        },
+        {
+          "db_id": "music_1",
+          "question": "Find the names of the artists who are from UK and have produced English songs.",
+          "reason": "Column 'UK' could not be resolved. Line: 1, Col: 53"
+        },
+        {
+          "db_id": "driving_school",
+          "question": "How many lessons taken by customer with first name as Rylan and last name as Goodwin were completed?",
+          "reason": "Column 'Rylan' could not be resolved. Line: 1, Col: 121"
+        },
+        {
+          "db_id": "icfp_1",
+          "question": "Which authors have written a paper with title containing the word \"Monadic\"? Return their last names.",
+          "reason": "Column '%Monadic%' could not be resolved. Line: 1, Col: 162"
+        },
+        {
+          "db_id": "machine_repair",
+          "question": "What are the starting years shared by the technicians from the team \"CLE\" or \"CWS\"?",
+          "reason": "Column 'CLE' could not be resolved. Line: 1, Col: 57"
+        },
+        {
+          "db_id": "student_1",
+          "question": "Report the total number of students for each fourth-grade classroom.",
+          "reason": "Column '4' could not be resolved. Line: 1, Col: 58"
+        },
+        {
+          "db_id": "store_1",
+          "question": "How many albums has Billy Cobam released?",
+          "reason": "Column 'Billy Cobham' could not be resolved. Line: 1, Col: 108"
+        },
+        {
+          "db_id": "cre_Theme_park",
+          "question": "What are the names of the tourist attractions and the dates when the tourists named Vincent or Vivian visited there?",
+          "reason": "Column 'Vincent' could not be resolved. Line: 1, Col: 232"
+        },
+        {
+          "db_id": "cre_Doc_Tracking_DB",
+          "question": "What is the date when the document \"Marry CV\" was stored?",
+          "reason": "Column 'Marry CV' could not be resolved. Line: 1, Col: 72"
+        },
+        {
+          "db_id": "club_1",
+          "question": "How many clubs does the student named \"Eric Tai\" belong to?",
+          "reason": "Column 'Eric' could not be resolved. Line: 1, Col: 173"
+        },
+        {
+          "db_id": "store_1",
+          "question": "Eduardo Martins is a customer at which company?",
+          "reason": "Column 'Eduardo' could not be resolved. Line: 1, Col: 58"
+        },
+        {
+          "db_id": "customers_and_addresses",
+          "question": "Return the the \"active to date\" of the latest contact channel used by the customer named \"Tillman Ernser\".",
+          "reason": "Column 'Tillman Ernser' could not be resolved. Line: 1, Col: 168"
+        },
+        {
+          "db_id": "wrestler",
+          "question": "What are the times of elimination for any instances in which the elimination was done by Punk or Orton?",
+          "reason": "Column 'Punk' could not be resolved. Line: 1, Col: 59"
+        },
+        {
+          "db_id": "activity_1",
+          "question": "Find the number of activities Mark Giuliano is involved in.",
+          "reason": "Column 'Mark' could not be resolved. Line: 1, Col: 120"
+        },
+        {
+          "db_id": "behavior_monitoring",
+          "question": "What is the email of the student with first name \"Emma\" and last name \"Rohan\"?",
+          "reason": "Column 'Emma' could not be resolved. Line: 1, Col: 62"
+        },
+        {
+          "db_id": "store_1",
+          "question": "List the name of tracks belongs to genre Rock or genre Jazz.",
+          "reason": "Column 'Rock' could not be resolved. Line: 1, Col: 96"
+        },
+        {
+          "db_id": "apartment_rentals",
+          "question": "Show the distinct apartment numbers of the apartments that have bookings with status code \"Confirmed\".",
+          "reason": "Column 'Confirmed' could not be resolved. Line: 1, Col: 153"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "Give the color description for the product 'catnip'.",
+          "reason": "Column 'catnip' could not be resolved. Line: 1, Col: 139"
+        },
+        {
+          "db_id": "insurance_fnol",
+          "question": "What are the customer phone numbers under the policy \"Life Insurance\"?",
+          "reason": "Column 'Life Insurance' could not be resolved. Line: 1, Col: 89"
+        },
+        {
+          "db_id": "customers_and_addresses",
+          "question": "Tell me the number of orders with \"Second time\" as order detail.",
+          "reason": "Column 'Second time' could not be resolved. Line: 1, Col: 74"
+        },
+        {
+          "db_id": "musical",
+          "question": "Who are the nominees who were nominated for either of the Bob Fosse or Cleavant Derricks awards?",
+          "reason": "Column 'Tony Award' could not be resolved. Line: 1, Col: 56"
+        },
+        {
+          "db_id": "club_1",
+          "question": "Where us the club named \"Tennis Club\" located?",
+          "reason": "Column 'Tennis Club' could not be resolved. Line: 1, Col: 62"
+        },
+        {
+          "db_id": "cre_Drama_Workshop_Groups",
+          "question": "What is the description of the marketing region China?",
+          "reason": "Column 'China' could not be resolved. Line: 1, Col: 99"
+        },
+        {
+          "db_id": "hr_1",
+          "question": "display the emails of the employees who have no commission percentage and salary within the range 7000 to 12000 and works in that department which number is 50.",
+          "reason": "Column 'null' could not be resolved. Line: 1, Col: 59"
+        },
+        {
+          "db_id": "music_2",
+          "question": "How many different instruments are used in the song \"Le Pop\"?",
+          "reason": "Column 'Le Pop' could not be resolved. Line: 1, Col: 125"
+        },
+        {
+          "db_id": "store_1",
+          "question": "How many employees live in Canada?",
+          "reason": "Column 'Canada' could not be resolved. Line: 1, Col: 55"
+        },
+        {
+          "db_id": "hospital_1",
+          "question": "What procedures cost less than 5000 and have John Wen as a trained physician?",
+          "reason": "Column 'John Wen' could not be resolved. Line: 1, Col: 228"
+        },
+        {
+          "db_id": "department_store",
+          "question": "What are the names and ids of customers whose address contains TN?",
+          "reason": "Column '%TN%' could not be resolved. Line: 1, Col: 85"
+        },
+        {
+          "db_id": "flight_1",
+          "question": "What is the average price for flights from Los Angeles to Honolulu.",
+          "reason": "Column 'Los Angeles' could not be resolved. Line: 1, Col: 60"
+        },
+        {
+          "db_id": "cre_Doc_Control_Systems",
+          "question": "What is the description of role code ED?",
+          "reason": "Column 'ED' could not be resolved. Line: 1, Col: 57"
+        },
+        {
+          "db_id": "music_2",
+          "question": "Who is performing in the back stage position for the song \"Der Kapitan\"? Show the first name and last name.",
+          "reason": "Column 'Der Kapitan' could not be resolved. Line: 1, Col: 175"
+        },
+        {
+          "db_id": "club_1",
+          "question": "How many clubs does \"Linda Smith\" have membership for?",
+          "reason": "Column 'Linda' could not be resolved. Line: 1, Col: 155"
+        },
+        {
+          "db_id": "e_learning",
+          "question": "Find the names of courses taught by the tutor who has personal name \"Julio\".",
+          "reason": "Column 'Julio' could not be resolved. Line: 1, Col: 145"
+        },
+        {
+          "db_id": "cre_Doc_Tracking_DB",
+          "question": "What are the name and description for location code x?",
+          "reason": "Column 'x' could not be resolved. Line: 1, Col: 91"
+        },
+        {
+          "db_id": "store_1",
+          "question": "How long does track Fast As a Shark has?",
+          "reason": "Column 'Fast As a Shark' could not be resolved. Line: 1, Col: 62"
+        },
+        {
+          "db_id": "voter_2",
+          "question": "What are the distinct last names of the students who have president votes and have 8741 as the advisor?",
+          "reason": "Column '8741' could not be resolved. Line: 1, Col: 169"
+        },
+        {
+          "db_id": "wine_1",
+          "question": "What are the appelations for wines produced after 2008 but not in the Central Coast area?",
+          "reason": "Column 'Central Coast' could not be resolved. Line: 1, Col: 121"
+        },
+        {
+          "db_id": "icfp_1",
+          "question": "What are the papers published under the institution \"Indiana University\"?",
+          "reason": "Column 'Indiana University' could not be resolved. Line: 1, Col: 175"
+        },
+        {
+          "db_id": "cre_Drama_Workshop_Groups",
+          "question": "What are the names of the workshop groups that have bookings with status code \"stop\"?",
+          "reason": "Column 'stop' could not be resolved. Line: 1, Col: 154"
+        },
+        {
+          "db_id": "voter_2",
+          "question": "What is the most common major among female (sex is F) students?",
+          "reason": "Column 'F' could not be resolved. Line: 1, Col: 43"
+        },
+        {
+          "db_id": "program_share",
+          "question": "Which programs are never broadcasted in the morning? Give me the names of the programs.",
+          "reason": "Column 'Morning' could not be resolved. Line: 1, Col: 156"
+        },
+        {
+          "db_id": "voter_2",
+          "question": "List the major of each male student.",
+          "reason": "Column 'M' could not be resolved. Line: 1, Col: 43"
+        },
+        {
+          "db_id": "flight_1",
+          "question": "What is the average price for flights from LA to Honolulu?",
+          "reason": "Column 'Los Angeles' could not be resolved. Line: 1, Col: 60"
+        },
+        {
+          "db_id": "club_1",
+          "question": "Count the number of members in club \"Bootup Baltimore\" whose age is above 18.",
+          "reason": "Column 'Bootup Baltimore' could not be resolved. Line: 1, Col: 169"
+        },
+        {
+          "db_id": "formula_1",
+          "question": "What is the maximum fastest lap speed in the Monaco Grand Prix in 2008?",
+          "reason": "Column 'Monaco Grand Prix' could not be resolved. Line: 1, Col: 146"
+        },
+        {
+          "db_id": "driving_school",
+          "question": "Find out the first name and last name of staff lived in city Damianfort.",
+          "reason": "Column 'Damianfort' could not be resolved. Line: 1, Col: 142"
+        },
+        {
+          "db_id": "cinema",
+          "question": "Count the number of films whose title contains the word 'Dummy'.",
+          "reason": "Column '%Dummy%' could not be resolved. Line: 1, Col: 52"
+        },
+        {
+          "db_id": "soccer_1",
+          "question": "List the names of all players who have a crossing score higher than 90 and prefer their right foot.",
+          "reason": "Column 'right' could not be resolved. Line: 1, Col: 175"
+        },
+        {
+          "db_id": "music_2",
+          "question": "What are the instruments are used in the song \"Le Pop\"?",
+          "reason": "Column 'Le Pop' could not be resolved. Line: 1, Col: 109"
+        },
+        {
+          "db_id": "icfp_1",
+          "question": "Who has written a paper that has the word \"Functional\" in its title? Return the first names of the authors.",
+          "reason": "Column '%Functional%' could not be resolved. Line: 1, Col: 165"
+        },
+        {
+          "db_id": "ship_mission",
+          "question": "List the name of ships whose nationality is not \"United States\".",
+          "reason": "Column 'United States' could not be resolved. Line: 1, Col: 58"
+        },
+        {
+          "db_id": "store_1",
+          "question": "How much money did Lucas Mancini spend?",
+          "reason": "Column 'Lucas' could not be resolved. Line: 1, Col: 117"
+        },
+        {
+          "db_id": "csu_1",
+          "question": "What is the campus fee of \"San Jose State University\" in year 1996?",
+          "reason": "Column 'San Jose State University' could not be resolved. Line: 1, Col: 127"
+        },
+        {
+          "db_id": "book_2",
+          "question": "Show the prices of publications whose publisher is either \"Person\" or \"Wiley\"",
+          "reason": "Column 'Person' could not be resolved. Line: 1, Col: 58"
+        },
+        {
+          "db_id": "formula_1",
+          "question": "What are the names of all the circuits that are in the UK or Malaysia?",
+          "reason": "Column 'UK' could not be resolved. Line: 1, Col: 46"
+        },
+        {
+          "db_id": "perpetrator",
+          "question": "What are the names of perpetrators whose country is not \"China\"?",
+          "reason": "Column 'China' could not be resolved. Line: 1, Col: 116"
+        },
+        {
+          "db_id": "music_4",
+          "question": "What are the date of ceremony of music festivals with category \"Best Song\" and result \"Awarded\"?",
+          "reason": "Column 'Best Song' could not be resolved. Line: 1, Col: 74"
+        },
+        {
+          "db_id": "hospital_1",
+          "question": "Find all procedures which cost more than 1000 or which physician John Wen was trained in.",
+          "reason": "Column 'John Wen' could not be resolved. Line: 1, Col: 224"
+        },
+        {
+          "db_id": "restaurant_1",
+          "question": "What is the gender of the student Linda Smith?",
+          "reason": "Column 'Linda' could not be resolved. Line: 1, Col: 45"
+        },
+        {
+          "db_id": "customers_and_addresses",
+          "question": "What is the total number of products that are in orders with status \"Cancelled\"?",
+          "reason": "Column 'Cancelled' could not be resolved. Line: 1, Col: 148"
+        },
+        {
+          "db_id": "product_catalog",
+          "question": "Which catalog publishers have substring \"Murray\" in their names?",
+          "reason": "Column '%Murray%' could not be resolved. Line: 1, Col: 88"
+        },
+        {
+          "db_id": "music_1",
+          "question": "What is the id, genre, and name of the artist for every English song ordered by ascending rating?",
+          "reason": "Column 'english' could not be resolved. Line: 1, Col: 79"
+        },
+        {
+          "db_id": "ship_mission",
+          "question": "What are the names of the ships  that are from either the US or the UK?",
+          "reason": "Column 'United States' could not be resolved. Line: 1, Col: 59"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "List all characteristics of product named \"sesame\" with type code \"Grade\".",
+          "reason": "Column 'sesame' could not be resolved. Line: 1, Col: 230"
+        },
+        {
+          "db_id": "store_1",
+          "question": "In which country does Roberto Almeida?",
+          "reason": "Column 'Roberto' could not be resolved. Line: 1, Col: 58"
+        },
+        {
+          "db_id": "csu_1",
+          "question": "What degrees were conferred in San Francisco State University in the year 2001?",
+          "reason": "Column 'San Francisco State University' could not be resolved. Line: 1, Col: 129"
+        },
+        {
+          "db_id": "music_1",
+          "question": "What are the names of artists who are Male and are from UK?",
+          "reason": "Column 'UK' could not be resolved. Line: 1, Col: 53"
+        },
+        {
+          "db_id": "icfp_1",
+          "question": "Find the titles of all the papers written by \"Aaron Turon\".",
+          "reason": "Column 'Aaron' could not be resolved. Line: 1, Col: 158"
+        },
+        {
+          "db_id": "chinook_1",
+          "question": "Find the average millisecond length of Latin and Pop tracks.",
+          "reason": "Column 'Latin' could not be resolved. Line: 1, Col: 113"
+        },
+        {
+          "db_id": "music_1",
+          "question": "Find the top 3 artists who have the largest number of songs works whose language is Bangla.",
+          "reason": "Column 'bangla' could not be resolved. Line: 1, Col: 124"
+        },
+        {
+          "db_id": "decoration_competition",
+          "question": "Show the distinct leader names of colleges associated with members from country \"Canada\".",
+          "reason": "Column 'Canada' could not be resolved. Line: 1, Col: 132"
+        },
+        {
+          "db_id": "music_1",
+          "question": "What are the id of songs whose format is mp3.",
+          "reason": "Column 'mp3' could not be resolved. Line: 1, Col: 46"
+        },
+        {
+          "db_id": "music_1",
+          "question": "What is the average rating of songs produced by female artists?",
+          "reason": "Column 'Female' could not be resolved. Line: 1, Col: 121"
+        },
+        {
+          "db_id": "company_office",
+          "question": "Find the names of the buildings in \"on-hold\" status, and sort them in ascending order of building stories.",
+          "reason": "Column 'on-hold' could not be resolved. Line: 1, Col: 53"
+        },
+        {
+          "db_id": "tracking_orders",
+          "question": "Which customers have both \"On Road\" and \"Shipped\" as order status? List the customer ids.",
+          "reason": "Column 'On Road' could not be resolved. Line: 1, Col: 129"
+        },
+        {
+          "db_id": "cre_Docs_and_Epenses",
+          "question": "Show ids for all documents with budget types described as 'Government'.",
+          "reason": "Column 'Government' could not be resolved. Line: 1, Col: 181"
+        },
+        {
+          "db_id": "icfp_1",
+          "question": "What is the name of the institution that \"Matthias Blume\" belongs to?",
+          "reason": "Column 'Matthias' could not be resolved. Line: 1, Col: 164"
+        },
+        {
+          "db_id": "music_2",
+          "question": "Which vocal type did the musician with first name \"Solveig\" played in the song with title \"A Bar in Amsterdam\"?",
+          "reason": "Column 'Solveig' could not be resolved. Line: 1, Col: 147"
+        },
+        {
+          "db_id": "music_2",
+          "question": "Who is performing in the back stage position for the song \"Badlands\"? Show the first name and the last name.",
+          "reason": "Column 'Badlands' could not be resolved. Line: 1, Col: 172"
+        },
+        {
+          "db_id": "inn_1",
+          "question": "Find the number of adults for the room reserved and checked in by CONRAD SELBIG on Oct 23, 2010.",
+          "reason": "Column '2010-10-23' could not be resolved. Line: 1, Col: 62"
+        },
+        {
+          "db_id": "movie_1",
+          "question": "Find the average rating star for each movie that are not reviewed by Brittany Harris.",
+          "reason": "Column 'Brittany Harris' could not be resolved. Line: 1, Col: 163"
+        },
+        {
+          "db_id": "insurance_and_eClaims",
+          "question": "What are the type codes of the policies used by the customer \"Dayana Robel\"?",
+          "reason": "Column 'Dayana Robel' could not be resolved. Line: 1, Col: 146"
+        },
+        {
+          "db_id": "department_store",
+          "question": "What are the names and genders of staff who have held the title Sales Person, but never Clerical Staff?",
+          "reason": "Column 'Sales Person' could not be resolved. Line: 1, Col: 170"
+        },
+        {
+          "db_id": "city_record",
+          "question": "What is the temperature of \"Shanghai\" city in January?",
+          "reason": "Column 'Shanghai' could not be resolved. Line: 1, Col: 106"
+        },
+        {
+          "db_id": "chinook_1",
+          "question": "What are the birth dates of employees living in Edmonton?",
+          "reason": "Column 'Edmonton' could not be resolved. Line: 1, Col: 56"
+        },
+        {
+          "db_id": "insurance_and_eClaims",
+          "question": "Find the names of customers whose name contains \"Diana\".",
+          "reason": "Column '%Diana%' could not be resolved. Line: 1, Col: 76"
+        },
+        {
+          "db_id": "tracking_software_problems",
+          "question": "What are the product ids for the problems reported by Christop Berge with closure authorised by Ashley Medhurst?",
+          "reason": "Column 'Christop' could not be resolved. Line: 1, Col: 134"
+        },
+        {
+          "db_id": "driving_school",
+          "question": "List email address and birthday of customer whose first name as Carole.",
+          "reason": "Column 'Carole' could not be resolved. Line: 1, Col: 80"
+        },
+        {
+          "db_id": "flight_1",
+          "question": "Show all flight number from Los Angeles.",
+          "reason": "Column 'Los Angeles' could not be resolved. Line: 1, Col: 54"
+        },
+        {
+          "db_id": "music_4",
+          "question": "What are the famous titles of the artist \"Triumfall\"?",
+          "reason": "Column 'Triumfall' could not be resolved. Line: 1, Col: 60"
+        },
+        {
+          "db_id": "cre_Doc_Tracking_DB",
+          "question": "Give me the name and description of the location with code x.",
+          "reason": "Column 'x' could not be resolved. Line: 1, Col: 91"
+        },
+        {
+          "db_id": "election",
+          "question": "Show the zip code of the county with name \"Howard\".",
+          "reason": "Column 'Howard' could not be resolved. Line: 1, Col: 58"
+        },
+        {
+          "db_id": "driving_school",
+          "question": "What is zip code of customer with first name as Carole and last name as Bernhard?",
+          "reason": "Column 'Carole' could not be resolved. Line: 1, Col: 137"
+        },
+        {
+          "db_id": "activity_1",
+          "question": "Count the number of Professors who have office in building NEB.",
+          "reason": "Column 'Professor' could not be resolved. Line: 1, Col: 55"
+        },
+        {
+          "db_id": "election",
+          "question": "Show the lieutenant governor and comptroller from the democratic party.",
+          "reason": "Column 'Democratic' could not be resolved. Line: 1, Col: 81"
+        },
+        {
+          "db_id": "store_1",
+          "question": "How much is the track Fast As a Shark?",
+          "reason": "Column 'Fast As a Shark' could not be resolved. Line: 1, Col: 60"
+        },
+        {
+          "db_id": "student_1",
+          "question": "How many students does KAWA GORDON teaches?",
+          "reason": "Column 'KAWA' could not be resolved. Line: 1, Col: 114"
+        },
+        {
+          "db_id": "cre_Theme_park",
+          "question": "For each tourist attraction, return its name and the date when the tourists named Vincent or Vivian visited there.",
+          "reason": "Column 'Vincent' could not be resolved. Line: 1, Col: 232"
+        },
+        {
+          "db_id": "music_1",
+          "question": "How many songs, on average, are sung by a female artist?",
+          "reason": "Column 'Female' could not be resolved. Line: 1, Col: 121"
+        },
+        {
+          "db_id": "club_1",
+          "question": "How many members of \"Bootup Baltimore\" are older than 18?",
+          "reason": "Column 'Bootup Baltimore' could not be resolved. Line: 1, Col: 169"
+        },
+        {
+          "db_id": "music_2",
+          "question": "What instrument did the musician with last name \"Heilo\" use in the song \"Badlands\"?",
+          "reason": "Column 'Heilo' could not be resolved. Line: 1, Col: 236"
+        },
+        {
+          "db_id": "music_4",
+          "question": "What are the category of music festivals with result \"Awarded\"?",
+          "reason": "Column 'Awarded' could not be resolved. Line: 1, Col: 62"
+        },
+        {
+          "db_id": "music_2",
+          "question": "What are the types of vocals that the musician with the first name \"Solveig\" played in the song \"A Bar in Amsterdam\"?",
+          "reason": "Column 'Solveig' could not be resolved. Line: 1, Col: 147"
+        },
+        {
+          "db_id": "movie_1",
+          "question": "For each director, what are the titles and ratings for all the movies they reviewed?",
+          "reason": "Column 'null' could not be resolved. Line: 1, Col: 140"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "Find the number of products with category \"Spices\" and typically sold above 1000.",
+          "reason": "Column 'Spices' could not be resolved. Line: 1, Col: 70"
+        },
+        {
+          "db_id": "baseball_1",
+          "question": "List players' first name and last name who have weight greater than 220 or height shorter than 75.",
+          "reason": "Result exceeds 10,000-row evaluation budget"
+        },
+        {
+          "db_id": "club_1",
+          "question": "What are the names of the clubs that have \"Davis Steven\" as a member?",
+          "reason": "Column 'Davis' could not be resolved. Line: 1, Col: 167"
+        },
+        {
+          "db_id": "music_4",
+          "question": "Return the categories of music festivals that have the result \"Awarded\".",
+          "reason": "Column 'Awarded' could not be resolved. Line: 1, Col: 62"
+        },
+        {
+          "db_id": "tracking_orders",
+          "question": "What are the dates of the orders made by the customer named \"Jeramie\"?",
+          "reason": "Column 'Jeramie' could not be resolved. Line: 1, Col: 136"
+        },
+        {
+          "db_id": "mountain_photos",
+          "question": "List the camera lens names containing substring \"Digital\".",
+          "reason": "Column '%Digital%' could not be resolved. Line: 1, Col: 56"
+        },
+        {
+          "db_id": "college_3",
+          "question": "Find the number of students that have at least one grade \"B\".",
+          "reason": "Column 'B' could not be resolved. Line: 1, Col: 65"
+        },
+        {
+          "db_id": "chinook_1",
+          "question": "Count the number of tracks that are part of the rock genre.",
+          "reason": "Column 'Rock' could not be resolved. Line: 1, Col: 103"
+        },
+        {
+          "db_id": "store_1",
+          "question": "How many customers live in Prague city?",
+          "reason": "Column 'Prague' could not be resolved. Line: 1, Col: 52"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "What are the names and data types of the characteristics of the 'cumin' product?",
+          "reason": "Column 'cumin' could not be resolved. Line: 1, Col: 260"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "What are the name and typical buying and selling prices of the products that have color described as \"yellow\"?",
+          "reason": "Column 'yellow' could not be resolved. Line: 1, Col: 194"
+        },
+        {
+          "db_id": "cre_Doc_Tracking_DB",
+          "question": "Which employees have the role with code \"HR\"? Find their names.",
+          "reason": "Column 'HR' could not be resolved. Line: 1, Col: 60"
+        },
+        {
+          "db_id": "csu_1",
+          "question": "What is the campus fee of \"San Francisco State University\" in year 1996?",
+          "reason": "Column 'San Francisco State University' could not be resolved. Line: 1, Col: 132"
+        },
+        {
+          "db_id": "wine_1",
+          "question": "Count the number of wines produced at Robert Biale winery.",
+          "reason": "Column 'Robert Biale' could not be resolved. Line: 1, Col: 57"
+        },
+        {
+          "db_id": "soccer_1",
+          "question": "List all of the ids for left-footed players with a height between 180cm and 190cm.",
+          "reason": "Column 'left' could not be resolved. Line: 1, Col: 160"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "Count the number of products in the category 'Seeds'.",
+          "reason": "Column 'Seeds' could not be resolved. Line: 1, Col: 69"
+        },
+        {
+          "db_id": "e_learning",
+          "question": "Find the addresses of the course authors who teach the course with name \"operating system\" or \"data structure\".",
+          "reason": "Column 'operating system' could not be resolved. Line: 1, Col: 157"
+        },
+        {
+          "db_id": "hospital_1",
+          "question": "What are the names of procedures physician John Wen was trained in?",
+          "reason": "Column 'John Wen' could not be resolved. Line: 1, Col: 170"
+        },
+        {
+          "db_id": "e_government",
+          "question": "What is the payment method code and party phone of the party with the email 'enrico09@example.com'?",
+          "reason": "Column 'enrico09@example.com' could not be resolved. Line: 1, Col: 99"
+        },
+        {
+          "db_id": "station_weather",
+          "question": "How many trains have 'Express' in their names?",
+          "reason": "Column '%Express%' could not be resolved. Line: 1, Col: 54"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "What is the code of the category that the product with the name 'flax' belongs to?",
+          "reason": "Column 'flax' could not be resolved. Line: 1, Col: 72"
+        },
+        {
+          "db_id": "wine_1",
+          "question": "Find the top 3 wineries with the greatest number of wines made of white color grapes.",
+          "reason": "Column 'White' could not be resolved. Line: 1, Col: 102"
+        },
+        {
+          "db_id": "csu_1",
+          "question": "How many degrees were conferred at San Jose State University in 2000?",
+          "reason": "Column 'San Jose State University' could not be resolved. Line: 1, Col: 124"
+        },
+        {
+          "db_id": "activity_1",
+          "question": "How many activities does Mark Giuliano participate in?",
+          "reason": "Column 'Mark' could not be resolved. Line: 1, Col: 120"
+        },
+        {
+          "db_id": "icfp_1",
+          "question": "What are the titles of papers published by \"Jeremy Gibbons\"?",
+          "reason": "Column 'Jeremy' could not be resolved. Line: 1, Col: 159"
+        },
+        {
+          "db_id": "university_basketball",
+          "question": "Find how many school locations have the word 'NY'.",
+          "reason": "Column '%NY%' could not be resolved. Line: 1, Col: 58"
+        },
+        {
+          "db_id": "icfp_1",
+          "question": "Find the first and last name of the author(s) who wrote the paper \"Nameless, Painless\".",
+          "reason": "Column 'Nameless ,  Painless' could not be resolved. Line: 1, Col: 184"
+        },
+        {
+          "db_id": "voter_2",
+          "question": "Find the major that is studied by the most female students.",
+          "reason": "Column 'F' could not be resolved. Line: 1, Col: 43"
+        },
+        {
+          "db_id": "tracking_orders",
+          "question": "What are the distinct customers who have orders with status \"On Road\"? Give me the customer details?",
+          "reason": "Column 'On Road' could not be resolved. Line: 1, Col: 143"
+        },
+        {
+          "db_id": "apartment_rentals",
+          "question": "Which buildings does \"Emma\" manage? Give me the short names of the buildings.",
+          "reason": "Column 'Emma' could not be resolved. Line: 1, Col: 85"
+        },
+        {
+          "db_id": "cre_Doc_Tracking_DB",
+          "question": "Give me the name and description of the document type code RV.",
+          "reason": "Column 'RV' could not be resolved. Line: 1, Col: 112"
+        },
+        {
+          "db_id": "flight_1",
+          "question": "Show all flight numbers with aircraft Airbus A340-300.",
+          "reason": "Column 'Airbus A340-300' could not be resolved. Line: 1, Col: 109"
+        },
+        {
+          "db_id": "e_government",
+          "question": "How many cities are there in state \"Colorado\"?",
+          "reason": "Column 'Colorado' could not be resolved. Line: 1, Col: 73"
+        },
+        {
+          "db_id": "chinook_1",
+          "question": "How many tracks belong to rock genre?",
+          "reason": "Column 'Rock' could not be resolved. Line: 1, Col: 103"
+        },
+        {
+          "db_id": "tracking_orders",
+          "question": "Find the dates of orders which belong to the customer named \"Jeramie\".",
+          "reason": "Column 'Jeramie' could not be resolved. Line: 1, Col: 136"
+        },
+        {
+          "db_id": "movie_1",
+          "question": "What are the names of all directors who have made one movie except for the director named NULL?",
+          "reason": "Column 'null' could not be resolved. Line: 1, Col: 51"
+        },
+        {
+          "db_id": "cre_Theme_park",
+          "question": "Which location names contain the word \"film\"?",
+          "reason": "Column '%film%' could not be resolved. Line: 1, Col: 69"
+        },
+        {
+          "db_id": "store_1",
+          "question": "What are the names of all tracks that belong to the Rock genre and whose media type is MPEG?",
+          "reason": "Column 'Rock' could not be resolved. Line: 1, Col: 147"
+        },
+        {
+          "db_id": "voter_2",
+          "question": "What are the distinct first names of the students who have vice president votes and reside in a city whose city code is not PIT?",
+          "reason": "Column 'PIT' could not be resolved. Line: 1, Col: 175"
+        },
+        {
+          "db_id": "department_store",
+          "question": "What is the id and name of the department store that has both marketing and managing department?",
+          "reason": "Column 'marketing' could not be resolved. Line: 1, Col: 174"
+        },
+        {
+          "db_id": "music_1",
+          "question": "List the names of all songs that have 4 minute duration or are in English.",
+          "reason": "Column '4:%' could not be resolved. Line: 1, Col: 104"
+        },
+        {
+          "db_id": "music_1",
+          "question": "What is the average rating and resolution of all bangla songs?",
+          "reason": "Column 'bangla' could not be resolved. Line: 1, Col: 76"
+        },
+        {
+          "db_id": "e_learning",
+          "question": "Return the description for the courses named \"database\".",
+          "reason": "Column 'database' could not be resolved. Line: 1, Col: 71"
+        },
+        {
+          "db_id": "chinook_1",
+          "question": "What are the first names and last names of the employees who live in Calgary city.",
+          "reason": "Column 'Calgary' could not be resolved. Line: 1, Col: 67"
+        },
+        {
+          "db_id": "school_finance",
+          "question": "How many donors have endowment for school named \"Glenn\"?",
+          "reason": "Column 'Glenn' could not be resolved. Line: 1, Col: 143"
+        },
+        {
+          "db_id": "store_1",
+          "question": "List Aerosmith's albums.",
+          "reason": "Column 'Aerosmith' could not be resolved. Line: 1, Col: 105"
+        },
+        {
+          "db_id": "customers_and_invoices",
+          "question": "How many transaction does account with name 337 have?",
+          "reason": "Column '337' could not be resolved. Line: 1, Col: 136"
+        },
+        {
+          "db_id": "customer_complaints",
+          "question": "Of complaints with the type code \"Product Failure\", how many had each different status code?",
+          "reason": "Column 'Product Failure' could not be resolved. Line: 1, Col: 104"
+        },
+        {
+          "db_id": "customers_and_addresses",
+          "question": "What are the names of customers who use payment method \"Cash\"?",
+          "reason": "Column 'Cash' could not be resolved. Line: 1, Col: 67"
+        },
+        {
+          "db_id": "inn_1",
+          "question": "Find the number of kids staying in the rooms reserved by a person called ROY SWEAZ.",
+          "reason": "Column 'ROY' could not be resolved. Line: 1, Col: 53"
+        },
+        {
+          "db_id": "chinook_1",
+          "question": "What is all the customer information for customers in NY state?",
+          "reason": "Column 'NY' could not be resolved. Line: 1, Col: 43"
+        },
+        {
+          "db_id": "customer_complaints",
+          "question": "Return the city with the customer type code \"Good Credit Rating\" that had the fewest customers.",
+          "reason": "Column 'Good Credit Rating' could not be resolved. Line: 1, Col: 81"
+        },
+        {
+          "db_id": "tracking_orders",
+          "question": "Which customers have ever canceled the purchase of the product \"food\" (the item status is \"Cancel\")?",
+          "reason": "Column 'Cancel' could not be resolved. Line: 1, Col: 242"
+        },
+        {
+          "db_id": "driving_school",
+          "question": "What is the date of birth for the staff member named Janessa Sawayn?",
+          "reason": "Column 'Janessa' could not be resolved. Line: 1, Col: 60"
+        },
+        {
+          "db_id": "products_gen_characteristics",
+          "question": "What is the color description of the product with name \"catnip\"?",
+          "reason": "Column 'catnip' could not be resolved. Line: 1, Col: 139"
+        },
+        {
+          "db_id": "csu_1",
+          "question": "How many undergraduates are there in \"San Jose State University\" in year 2004?",
+          "reason": "Column 'San Jose State University' could not be resolved. Line: 1, Col: 174"
+        },
+        {
+          "db_id": "wine_1",
+          "question": "Find the distinct names of all wines that have prices higher than some wines from John Anthony winery.",
+          "reason": "Column 'John Anthony' could not be resolved. Line: 1, Col: 107"
+        },
+        {
+          "db_id": "product_catalog",
+          "question": "Which catalog contents have a product stock number that starts from \"2\"? Show the catalog entry names.",
+          "reason": "Column '2%' could not be resolved. Line: 1, Col: 84"
+        },
+        {
+          "db_id": "store_1",
+          "question": "How many orders does Luca Mancini have in his invoices?",
+          "reason": "Column 'Lucas' could not be resolved. Line: 1, Col: 112"
+        },
+        {
+          "db_id": "phone_market",
+          "question": "Show the names of phones with carrier either \"Sprint\" or \"TMobile\".",
+          "reason": "Column 'Sprint' could not be resolved. Line: 1, Col: 49"
+        },
+        {
+          "db_id": "inn_1",
+          "question": "How many adults stay in the room CONRAD SELBIG checked in on Oct 23, 2010?",
+          "reason": "Column '2010-10-23' could not be resolved. Line: 1, Col: 62"
+        },
+        {
+          "db_id": "club_1",
+          "question": "Find all the female members of club \"Bootup Baltimore\". Show the first name and last name.",
+          "reason": "Column 'Bootup Baltimore' could not be resolved. Line: 1, Col: 181"
+        },
+        {
+          "db_id": "csu_1",
+          "question": "List the campuses in Los Angeles county.",
+          "reason": "Column 'Los Angeles' could not be resolved. Line: 1, Col: 58"
+        },
+        {
+          "db_id": "music_4",
+          "question": "Return the dates of ceremony corresponding to music festivals that had the category \"Best Song\" and result \"Awarded\".",
+          "reason": "Column 'Best Song' could not be resolved. Line: 1, Col: 74"
+        }
+      ]
+    },
+    "validation": {
+      "count": 64,
+      "database_ids": [
+        "allergy_1",
+        "bike_1",
+        "climbing",
+        "college_1",
+        "customers_card_transactions",
+        "document_management",
+        "game_1",
+        "match_season",
+        "party_host",
+        "school_player",
+        "shop_membership",
+        "student_assessment",
+        "workshop_paper"
+      ],
+      "skipped": [
+        {
+          "db_id": "document_management",
+          "question": "What are the names of documents that have both one of the three most common types and one of three most common structures?",
+          "reason": "ORDER BY clause should come after INTERSECT not before"
+        },
+        {
+          "db_id": "match_season",
+          "question": "Show the draft pick numbers and draft classes of players whose positions are defenders.",
+          "reason": "Column 'Defender' could not be resolved. Line: 1, Col: 87"
+        },
+        {
+          "db_id": "college_1",
+          "question": "What are the first names and birthdates of the professors in charge of ACCT-211?",
+          "reason": "Column 'ACCT-211' could not be resolved. Line: 1, Col: 139"
+        },
+        {
+          "db_id": "allergy_1",
+          "question": "What is allergy type of a cat allergy?",
+          "reason": "Column 'Cat' could not be resolved. Line: 1, Col: 60"
+        },
+        {
+          "db_id": "bike_1",
+          "question": "How many trips did not end in San Francisco?",
+          "reason": "Column 'San Francisco' could not be resolved. Line: 1, Col: 114"
+        },
+        {
+          "db_id": "customers_card_transactions",
+          "question": "What is the first name, last name, and phone of the customer with account name 162?",
+          "reason": "Column '162' could not be resolved. Line: 1, Col: 185"
+        },
+        {
+          "db_id": "allergy_1",
+          "question": "What is the type of allergy Cat?",
+          "reason": "Column 'Cat' could not be resolved. Line: 1, Col: 60"
+        },
+        {
+          "db_id": "allergy_1",
+          "question": "What is the full name of each student who is not allergic to any type of food.",
+          "reason": "Column 'food' could not be resolved. Line: 1, Col: 178"
+        },
+        {
+          "db_id": "bike_1",
+          "question": "How many stations are in Mountain View?",
+          "reason": "Column 'Mountain View' could not be resolved. Line: 1, Col: 59"
+        },
+        {
+          "db_id": "game_1",
+          "question": "What are the names of all video games that are collectible cards?",
+          "reason": "Column 'Collectible card game' could not be resolved. Line: 1, Col: 69"
+        },
+        {
+          "db_id": "bike_1",
+          "question": "How many stations does Mountain View city has?",
+          "reason": "Column 'Mountain View' could not be resolved. Line: 1, Col: 59"
+        }
+      ]
+    },
+    "test": {
+      "count": 100,
+      "database_ids": [
+        "car_1",
+        "concert_singer",
+        "course_teach",
+        "cre_Doc_Template_Mgt",
+        "dog_kennels",
+        "employee_hire_evaluation",
+        "museum_visit",
+        "network_1",
+        "orchestra",
+        "pets_1",
+        "poker_player",
+        "real_estate_properties",
+        "singer",
+        "student_transcripts_tracking",
+        "tvshow",
+        "voter_1",
+        "world_1",
+        "wta_1"
+      ],
+      "skipped": [
+        {
+          "db_id": "world_1",
+          "question": "Give me Brazil\u2019s population and life expectancies.",
+          "reason": "Column 'Brazil' could not be resolved. Line: 1, Col: 72"
+        },
+        {
+          "db_id": "world_1",
+          "question": "What languages are only used by a single country with a republic government?",
+          "reason": "Column 'Republic' could not be resolved. Line: 1, Col: 133"
+        },
+        {
+          "db_id": "flight_2",
+          "question": "How many flights arriving in Aberdeen city?",
+          "reason": "Column 'Aberdeen' could not be resolved. Line: 1, Col: 120"
+        },
+        {
+          "db_id": "world_1",
+          "question": "What are the country codes of countries where people use languages other than English?",
+          "reason": "Column 'English' could not be resolved. Line: 1, Col: 76"
+        },
+        {
+          "db_id": "world_1",
+          "question": "What are the name, population, and life expectancy of the largest Asian country by land?",
+          "reason": "Column 'Asia' could not be resolved. Line: 1, Col: 83"
+        },
+        {
+          "db_id": "world_1",
+          "question": "What are the names of nations speak both English and French?",
+          "reason": "Column 'English' could not be resolved. Line: 1, Col: 122"
+        },
+        {
+          "db_id": "world_1",
+          "question": "How many people live in Gelderland district?",
+          "reason": "Column 'Gelderland' could not be resolved. Line: 1, Col: 64"
+        },
+        {
+          "db_id": "tvshow",
+          "question": "What are the names of all cartoons directed by Ben Jones?",
+          "reason": "Column 'Ben Jones' could not be resolved. Line: 1, Col: 57"
+        },
+        {
+          "db_id": "world_1",
+          "question": "How many people live in Asia, and what is the largest GNP among them?",
+          "reason": "Column 'Asia' could not be resolved. Line: 1, Col: 74"
+        },
+        {
+          "db_id": "world_1",
+          "question": "Which region is the city Kabul located in?",
+          "reason": "Column 'Kabul' could not be resolved. Line: 1, Col: 104"
+        },
+        {
+          "db_id": "flight_2",
+          "question": "What are airlines that have some flight departing from airport 'AHD'?",
+          "reason": "Column 'AHD' could not be resolved. Line: 1, Col: 114"
+        },
+        {
+          "db_id": "flight_2",
+          "question": "What are the airline names and abbreviations for airlines in the USA?",
+          "reason": "Column 'USA' could not be resolved. Line: 1, Col: 68"
+        },
+        {
+          "db_id": "network_1",
+          "question": "Return the grade for the high schooler named Kyle.",
+          "reason": "Column 'Kyle' could not be resolved. Line: 1, Col: 52"
+        },
+        {
+          "db_id": "world_1",
+          "question": "What is the total surface area of the continents Asia and Europe?",
+          "reason": "Column 'Asia' could not be resolved. Line: 1, Col: 63"
+        },
+        {
+          "db_id": "flight_2",
+          "question": "What are airport names at City 'Aberdeen'?",
+          "reason": "Column 'Aberdeen' could not be resolved. Line: 1, Col: 56"
+        },
+        {
+          "db_id": "network_1",
+          "question": "What grade is Kyle in?",
+          "reason": "Column 'Kyle' could not be resolved. Line: 1, Col: 52"
+        },
+        {
+          "db_id": "world_1",
+          "question": "Find the city with the largest population that uses English.",
+          "reason": "Column 'English' could not be resolved. Line: 1, Col: 143"
+        },
+        {
+          "db_id": "world_1",
+          "question": "Give the total population and average surface area corresponding to countries in North America that have a surface area greater than 3000 .",
+          "reason": "Column 'north america' could not be resolved. Line: 1, Col: 91"
+        },
+        {
+          "db_id": "course_teach",
+          "question": "Show the name of the teacher for the math course.",
+          "reason": "Column 'Math' could not be resolved. Line: 1, Col: 172"
+        },
+        {
+          "db_id": "world_1",
+          "question": "What is the average expected life expectancy for countries in the region of Central Africa?",
+          "reason": "Column 'Central Africa' could not be resolved. Line: 1, Col: 73"
+        },
+        {
+          "db_id": "flight_2",
+          "question": "Give the number of Jetblue Airways flights.",
+          "reason": "Column 'JetBlue Airways' could not be resolved. Line: 1, Col: 116"
+        },
+        {
+          "db_id": "cre_Doc_Template_Mgt",
+          "question": "Return the document id, template id, and description for the document with the name Robbin CV.",
+          "reason": "Column 'Robbin CV' could not be resolved. Line: 1, Col: 108"
+        },
+        {
+          "db_id": "world_1",
+          "question": "Which continent is Anguilla in?",
+          "reason": "Column 'Anguilla' could not be resolved. Line: 1, Col: 55"
+        },
+        {
+          "db_id": "flight_2",
+          "question": "Which abbreviation corresponds to Jetblue Airways?",
+          "reason": "Column 'JetBlue Airways' could not be resolved. Line: 1, Col: 69"
+        },
+        {
+          "db_id": "network_1",
+          "question": "What is Kyle's id?",
+          "reason": "Column 'Kyle' could not be resolved. Line: 1, Col: 49"
+        },
+        {
+          "db_id": "tvshow",
+          "question": "What is Weekly Rank of TV series with Episode \"A Love of a Lifetime\"?",
+          "reason": "Column 'A Love of a Lifetime' could not be resolved. Line: 1, Col: 72"
+        },
+        {
+          "db_id": "cre_Doc_Template_Mgt",
+          "question": "Return the template type code of the template that is used by a document named Data base.",
+          "reason": "Column 'Data base' could not be resolved. Line: 1, Col: 146"
+        }
+      ]
+    }
+  },
+  "files_sha256": {
+    "train": "0d28eab86d957e77d30b340a3c24bb8888145501233e2cc9ee0189ab769491c9",
+    "validation": "adf7506bf11b2df705dc8c4976bbb426415407f46847f86794ada9b9c876e56d",
+    "test": "3ba011b6bafd6d7a61aeb488aca948fe2bec60c761dd94cdac4c965356eb097a"
+  },
+  "original_files_sha256": {
+    "train": "baa5c72892f39cf460f8e8550a71cf429b78e31308cd8f030c3b3492b3031068",
+    "validation": "4d7c8464194ffd57ee79b8b270cdc0d9294415285b9acf5009d435a747dffa90",
+    "test": "3cfe00f1e0639d2a8592c64d6b00b2dbe617492942ec3410f0f5e056cad3d8a8"
+  },
+  "database_files_sha256": {
+    "solvency_ii.sqlite": "5947be75bb80a8f5701f78d39b5b19d339c58d83586f4309754a9c26dfbe7577",
+    "game_injury.sqlite": "5c4ab959ae9249dbdd075b639b740e5fa3397f25645904d80479b886d34238be",
+    "local_govt_in_alabama.sqlite": "f019a15a37c83e9bf3d6fb3831f242714a5629b5e83886201dbf65fb1a6d35fa",
+    "music_1.sqlite": "e6f56185952431c5cf6c036e463a8e8755ea9ff3e2cbe14f5ac3ebe2e850b603",
+    "icfp_1.sqlite": "e616296ac28a94dc686047a34ee57b8e058c959a8fb0170a8d8e59db3853368a",
+    "sports_competition.sqlite": "ae8f322b30d1634e2cf0e3e9f033082096d469152a567e0e3014c000386f7c2f",
+    "museum_visit.sqlite": "3217aee38d8e3661d374bf025591b7164a1179c568ef5d20f3c338035fc6e1dd",
+    "chinook_1.sqlite": "70b3eb8c3ffb5351eb7943e3bf05b693a5397c22d200ff022ef99e2ca18ab7b9",
+    "student_transcripts_tracking.sqlite": "5a1f4928a1fd36f6edb31c4f054203b2e2fab6b18e5951c4f5633628f82a8e56",
+    "decoration_competition.sqlite": "31cd2ac964594fd188e91bc9fe4d9b3bed3d05983d45d58c9c4c7ad911733ed2",
+    "voter_1.sqlite": "815bf1611b8a32f649d292a6138562f1761a0c10cb256e20f6561199cff31531",
+    "soccer_1.sqlite": "402ea587e7cc71051f4479b5c2b70dcda1ac75176af15b3a1932febee4a528e5",
+    "customer_complaints.sqlite": "495dbacbcd3ea5afb6c659a99cc10ef524213b66f692a8803942924d93bdb4a9",
+    "swimming.sqlite": "1670e8ffa96ee64266eba1b012dd3d24d4a81edbac1b11ea51e1898293a82c1a",
+    "ship_mission.sqlite": "68d9783c02a0b8b1d2890457d2e2733f1d691cd45757c5423691d76544bd04ea",
+    "match_season.sqlite": "51f029a0762ce7cf2957ba38666da08f1a185f8db7f66f9d4c056d0fb6b527e5",
+    "driving_school.sqlite": "e2f2c540806874532f4a8c0144d9db0961680f87b130882766f881d4e50c4af5",
+    "ship_1.sqlite": "41d181f77e213f55a8ad8d17ab904870b24706dd6f145ce3972cda5601ef4afe",
+    "wta_1.sqlite": "8f20747456d7748674b4f05432f3de96446ced95b8bd5a6fd01284f6c28f727c",
+    "mountain_photos.sqlite": "3f61a547dcc356913fb34095f9533d20c3710ad4eb3740f507115c4fd44ce32f",
+    "college_2.sqlite": "cb729920ad0b7f06d38a12f6f678307964acc7d3417af83d98c519c65c90d386",
+    "city_record.sqlite": "112ff582c4552d8b35a0a70205fb7d8562f18c6a231b86fe8ac19beebebc4d4b",
+    "dorm_1.sqlite": "2f836de861ed2b67679990d12b57814feda426f88e62509201277a7200a2c20b",
+    "musical.sqlite": "3ac3c942bf8af489d217a1877980fdbfde2202ede336e3e5f216b35b2b47ca92",
+    "customers_and_products_contacts.sqlite": "0d7e27cbc07e177126eda4914c9fee9eba6afdcfef03ffdc3eeee094c68aa399",
+    "device.sqlite": "870dbe835b44d96a5b961fb81885a1660088410c8fe712008f8a40691ce81d00",
+    "phone_1.sqlite": "d4c874e411976e7b8a971cdb3f0685dc5d2f40f4ab225260aa8cd143b4ab76f7",
+    "products_for_hire.sqlite": "f8ee0888cf7788ae89576350484a5045fe8416c727ba5f623096540c82c89c3f",
+    "club_1.sqlite": "8c2fc993225d6ed604f7cb95146e025e5d71777f9a997db6ab0d9ff77eb26748",
+    "coffee_shop.sqlite": "a182a8a7f9b5df6da8b2976b42aca0a7db6c2b13300b13b398e568a5bf4a6b2e",
+    "twitter_1.sqlite": "e6733f66370f826f98aafd378926d4781283d62daf4494c6a1f2875b928e7ee1",
+    "allergy_1.sqlite": "d3ce73d649463526f6f6b04f457f40a778c8c192b8451cc2837437dc7a18a207",
+    "product_catalog.sqlite": "818f8d5d6eca960ad28bc088d87085a1cf4fed4aa0c59fdb016784b5d23bd70a",
+    "hr_1.sqlite": "5e3358561f210b2f75d9ced5eafc13744c773f3f27eb8e0967afddd21fb25350",
+    "architecture.sqlite": "ea405f3511d01a3f7d688fbec2b214b7fb82ed9f5795f424a0e1a655f704d406",
+    "theme_gallery.sqlite": "0acbd0525f6ccfae9eba0bcd03e64c9ab50921cfe8ea3ad5509ad1b287f5f785",
+    "party_host.sqlite": "15fe4143a5e920b5635024750a8720cb13a0dfce4e3c3e15d805187dc436f435",
+    "flight_4.sqlite": "4885150ab97173411aee5b73009ac2a28ce1748ce1218331608b939d9d54330e",
+    "election.sqlite": "9446dd051f33eb9e009c287564f900d61e18893f4307623326edd5170dd2034b",
+    "gymnast.sqlite": "99e04d7903f4adc48e195c74c83c9247d068381781768a061015d8d0c6fbcdfa",
+    "tracking_orders.sqlite": "218482989e7b3ff71c89c9a46bab802e17a5628433d9f3a9b2948aadc05813f4",
+    "products_gen_characteristics.sqlite": "5b964952f7d61b20885b5a90e0cde1e5d2bceb19ee57bdb21fc8f2fdd2ade331",
+    "perpetrator.sqlite": "752ddb2c9d1024d92caa25afe441afa337028f8dd947373aec15b82ed53a35b6",
+    "tracking_grants_for_research.sqlite": "7ac4cc3ceb52e354504fa32600ba7df11ee7d537e1c82202e9121b71382b6618",
+    "wine_1.sqlite": "1d43afbeb3001d09dc86aeff6baa44bc5cd88df0509377a5b93c0af5b436e967",
+    "candidate_poll.sqlite": "7df58984f9d9796538716294ba0dda9f48a4a54907f03a3859285aa4b5cf8dc5",
+    "movie_1.sqlite": "71b33287968e5238593ea7154e4e38a03be3680ff84bf338d9cbb3206cf6ea3e",
+    "culture_company.sqlite": "d73d31db2c91dadeb67b8ed0c9366fbbe7658774dfa110161c168ee13e781820",
+    "hospital_1.sqlite": "9814885b9c315749a4b57d4532e489260640eb79daf3f06b8de465aa27416dd1",
+    "browser_web.sqlite": "ced1ee75f531e02adf66f387ced5997f416653adbcf519c037813aa69599f17a",
+    "network_1.sqlite": "bec92cd9a68d6f23469a0df246429299f44caaf75eab12275784e0bb7d0aa9ca",
+    "local_govt_mdm.sqlite": "d0ebfc3700908467260642cd68906225899d55f4932a2fa65f84001f871f396c",
+    "pilot_record.sqlite": "dd48d8266693a1ea33b2af4fba49787a0d36bb35686d8497da5ea72bc82edd4e",
+    "cre_Drama_Workshop_Groups.sqlite": "a9a9e215fae2314be429307b47ee7fc3ffdc749fba933faba980b97a5f6b9a0a",
+    "party_people.sqlite": "655368bccbfbe732c0fc0f4525ed1587a3a571e7ae661ee040db92014e72d6f4",
+    "cre_Doc_Tracking_DB.sqlite": "9c9df67d3c16e585d159328b627c334383bea333d250c515052f65613a48fc86",
+    "orchestra.sqlite": "13b64af1cf6fcbd34953a44f951b2bf79bedc000b344549212dac1a9345e2f86",
+    "shop_membership.sqlite": "50b9361db2f9bedff4bc0546fe00b3d68d36afb94d8e7fbe0f974e4b7170b27f",
+    "apartment_rentals.sqlite": "42121c39f5132a9df8eea63ff01d4cdb446144e020079c073a58a949f9d40e34",
+    "sakila_1.sqlite": "5fe25744a6e2acf29295eba0fb73a98065008c0a365b92a86de6237310a72444",
+    "e_government.sqlite": "3fd703754d0334da78878f0f2544c7b44c75a7e86dee938d4f0ebd033c265636",
+    "dog_kennels.sqlite": "ea5fbc6cf6aaf500371c5c121c339d9802ba6f5fbecd948a5274c0b487a9f486",
+    "protein_institute.sqlite": "b13b84cabf62d1e2a3dfd9f54687acd7df73b8f51e5f7111e9b335c7f0189096",
+    "tvshow.sqlite": "1212c2e75cf1dcf3aeb4055331a85298b073d8a613ead77975b13bd3346b9fc4",
+    "company_office.sqlite": "4514dd10d9257ccaa08acff4d272595b6d92819575c736393f89e72f956c9915",
+    "world_1.sqlite": "17b986695f16786d58d66f85e49dba87bdfe72953207ab9b1b49da9d2301ef65",
+    "program_share.sqlite": "76b2a7ef2e13b04c3085998e08c7c9224a1c195b76073b29e96b2bdb007c98c6",
+    "department_store.sqlite": "48cd35afc5b1b2eb9c10817ef20e5ce77f607d5cf27d8aeff6171446f2b904a2",
+    "entertainment_awards.sqlite": "35c7b2b1532c63139784543c2465b9a149f9c46c925c1316f9e78b45e054c32b",
+    "behavior_monitoring.sqlite": "689af3fbf11164f50d02f4a75ff6c9a7fb419938de861a1c26477ae577c1443a",
+    "singer.sqlite": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+    "activity_1.sqlite": "9e32fff45bbcf0d0f4304bf646d52c651063f3c128d974d72cb751d5cf105c83",
+    "music_4.sqlite": "9218150008f10c4dbb97395116dab00f68e646c90f839e00698a876ff5b7d17d",
+    "inn_1.sqlite": "96c5f2c08f90a0c378960e320c53d74ddcf8b40e4d75c831a689547b7ecc2569",
+    "e_learning.sqlite": "dc06b485f9e041c8af060593fb31746ad1f97b07543ca69a94560dd6c89f3d1b",
+    "book_2.sqlite": "8b0bffbf8805809461b29573dc55782d810cc688af526e28088b299326d72407",
+    "network_2.sqlite": "f49b1043d6491f0af5e084340bc3f9dcaac35ed5893a5ff021644c2cb3428936",
+    "epinions_1.sqlite": "12ce3aba8022f11940c605336fb3ce6e659d1d38c6aa0faf6b36b84e9df2dee1",
+    "climbing.sqlite": "f2d3893fc5e79943ffad120b59522358b90ef077a989fb40c7c5fbbe16bfccd9",
+    "flight_1.sqlite": "1b2414f44c04f84bbe30b4dee2eac4c0f24eb39829d694a40e779e8eb069cd01",
+    "voter_2.sqlite": "d951d4466b32ea31c7948ab52c35f0079aa53a2acd08ab54b6fb38117d499dbf",
+    "race_track.sqlite": "812a03deb99828f6a2ed62674f0678984cc759a6253b177e4da78e470f48e2db",
+    "customer_deliveries.sqlite": "e4d269a357190432d3f0b154070dccf1cc5f7f7715571c1597e2fdd9ee47d485",
+    "school_finance.sqlite": "356307e93454a7a68823b3d064caaabaa1c9825b73427e326de72d6242c2990f",
+    "cinema.sqlite": "9fbcc850e33d813a792417291ddfb1cebc4a31716621284ed28ef53df360a14e",
+    "music_2.sqlite": "1d2ab9310c84c5acb0c2b30f0ba52898d73a86a89c721131032260c827bdf8b9",
+    "riding_club.sqlite": "7c7870709414fdfc72a2e8725da16d293555267f87e1a006c9e83b375ec892bd",
+    "farm.sqlite": "4e2be63e448a8cee55564ee22e3a7596102338caabfbb20c61db1882389cf576",
+    "machine_repair.sqlite": "7f0c84fe10eada47019897bc6301ac5d6944b6b1a7e3f9929e0e7de68195c6ac",
+    "customers_campaigns_ecommerce.sqlite": "7f7ae5bbe53359854f5c18656d5878713e88b1a364dfba05670149bcc00f3544",
+    "cre_Docs_and_Epenses.sqlite": "87b83375d433672b428afaffa8f586fd73456b5e49f2609c1feae42d90cd4c79",
+    "bike_1.sqlite": "f5ae0e24e3a9d860a38ec6256828e3b9e37691c80931ef554adc202f8eb2950c",
+    "concert_singer.sqlite": "4fa1ba5ab4577e895271088b1dc44aa94be88e25a54293317a67584112ef059d",
+    "county_public_safety.sqlite": "d608ce42a7b28ecb7500c4ded8096ade65a57dae6c5eefd56709ba96c3015d4a",
+    "journal_committee.sqlite": "669e6bc2ca07838e7a3d225b190387fc003e267d3a9fc4ae03056f5699dfae39",
+    "college_3.sqlite": "9f47b8f927f27a63ba4aa35fcf6cc8360fd68bfd267e6cf05c04430f19cd773e",
+    "customers_and_invoices.sqlite": "19621a734777eefff77544c93f5da387f086e53b9dc0aa6266bc2da55dbd7103",
+    "student_1.sqlite": "671cc99b3e2cbc52547377eecdcbb365347aa4a3ff706243d48520bcd24658df",
+    "manufactory_1.sqlite": "37043ca40871d69b718825ebd3c25748f3c74a71e9b457dc2bb4d01bd7b2ebe1",
+    "railway.sqlite": "8df66ea51b3845868e5fd7b218eeb691cd6792de16ec8536c145d42e16b355fd",
+    "course_teach.sqlite": "da45fcdde64ac2b9330146506b7653ad4417489d8e496e509045e1b02245d793",
+    "film_rank.sqlite": "05689a15fc7baa119ae9b1ce3a977affb9d86ba20f06aa6384e429071c09ef1d",
+    "department_management.sqlite": "14474b9543dcdf6f8bdd1ce129819af8237b54143ccaef1fd0d8b2d5ea55911f",
+    "wedding.sqlite": "d73acad10719e5616f4ded960b5341a0e34e7c5780f5182bb996b5887c5a6f6e",
+    "cre_Theme_park.sqlite": "ea37aa49d5cd7905f04eb76c2638f706fab1ef3cd8ce41234507b457a660d261",
+    "school_bus.sqlite": "90c6e1580bb10f8daf10f88240265eca20589d7c863112ab0b4dfa2ac3def875",
+    "school_player.sqlite": "5c5a4b07a93f92ba1467202c31270a25330e578bb498eb7bfc43d393d69d2aaf",
+    "pets_1.sqlite": "8ffe0ea9b3b034ca8860a2f18300a98c7583ce2522ea195726a04803f675e5bb",
+    "cre_Doc_Template_Mgt.sqlite": "9c3fdd03d8795ecde60aae782ce50c4fb1d6c03de1401fcdd6dc177342a53df5",
+    "manufacturer.sqlite": "f3b5d248bef1774eadc4f5a68c187ac5485ac1017c8937c1df282abd4515ae06",
+    "insurance_and_eClaims.sqlite": "62d20c5b8e7c6af8ba844ae523cefe91779d3a1f0a096a784524390d96863595",
+    "restaurant_1.sqlite": "f5295466d92e97bd241caa942228793c09b2c1e42382337fbb5d90a6d797de0b",
+    "car_1.sqlite": "9d851e396e02997a1de073ae982fe1e4b1769fdffce2fac6e325857a3a938709",
+    "poker_player.sqlite": "63fffd7b68524f07a742a74b74b95a4ba178e6419f3574b9ee78b8dda1df46ba",
+    "student_assessment.sqlite": "23977676ac6170ea91819d6e1a9389942335bb224fbd0a953e4cba0e25dec748",
+    "phone_market.sqlite": "eb035586e49616661b170ed754960f64306b38839dc20a758a5aaedfc8022050",
+    "medicine_enzyme_interaction.sqlite": "810035b240955e7d0a6171c81553bd5b6b569e75d2ee896cafc363a53af2ce02",
+    "aircraft.sqlite": "2b92973e99d8348a324e318fd4d62645ebe428e7346b51277e78385d1ad3b1ef",
+    "baseball_1.sqlite": "cbeb49298ffc84465f7a27f3477fe73e05a2ced8d4c3c972d20d75c25820f29b",
+    "store_1.sqlite": "8d9212f03e0fcfd875750d37067c4c9ac06efaf7334e91776f687976723da26e",
+    "election_representative.sqlite": "d2460ee5c413caf1d37accf3357256dc9eefd91a6373860eb93ae4df6293cec0",
+    "csu_1.sqlite": "c66e85b742a4941118aab88183c4be7f3e238f9d2558a5e68f8818c504e2710d",
+    "small_bank_1.sqlite": "981992bc10f2a98b186be259ff031d195db7393e355e475de1e3da6e0c685f16",
+    "university_basketball.sqlite": "1e80df40a33f074844fb89fc7ebc7586467643e24c8b87b0839818dca1c1da4c",
+    "tracking_software_problems.sqlite": "a394607a1a212b5e6e6a356171fdb7969300b3f08a5b5b563c69fcafedc9b0de",
+    "cre_Doc_Control_Systems.sqlite": "8451c4a097dcbf8fabf7993e70e91df3d825c3c941ba96eb41faa8d236897d30",
+    "local_govt_and_lot.sqlite": "6b3f0b4d537e6a784df4c0b17445ae891075a099fcdc172024524ed6e4dc8005",
+    "workshop_paper.sqlite": "e7f99a71637ace76f3e61a636bccd9fabe268ad3139c0f4bbad1946ac5054412",
+    "gas_company.sqlite": "8800c43067ed4de67c7ca9bea0f8188a65b1cb9f41400b1f3c0d1cfdff85c32b",
+    "station_weather.sqlite": "2cf7d26e0036e3059a3a03e347e3aa0d63b38952e899d08fd92c5a90a6e69bb7",
+    "scientist_1.sqlite": "073d55c8f3c44afde950e389860e7a64c81ade0ff407ee44e092f9658eb8d461",
+    "insurance_policies.sqlite": "78d46ef4ac473552b94ae9b380aec85c33bf98a8512e24612cdc05c60405d2e4",
+    "loan_1.sqlite": "b5142ff67a31901ebea4003f89ab8e9d8182217721072cf3aa0f86916feee663",
+    "entrepreneur.sqlite": "a6ac491af6814c1e5f675687b72f01367c96aac042d0a56f12e90d796fa37ab4",
+    "performance_attendance.sqlite": "6b8e83a87f12847653244e6c68d28d2d464c9e62d0abf424422f67b015855da1",
+    "body_builder.sqlite": "76221ea59be7c46e0712e308dd9f0527c63b71669186b2e97c23df78ab974108",
+    "formula_1.sqlite": "fb6dad97c0a4da22f01bdf817a77fe8f6b6559554661ff0120b40cb81b8c3b68",
+    "real_estate_properties.sqlite": "5d0bd83afa93a843e68f892d8430fe625d7ed2508aae00a341926b0b5b478a29",
+    "storm_record.sqlite": "049c32b9dbe9973e4a054e53359ef3b3ff48d28c846ca9a59b9fa1a79f1d3c17",
+    "soccer_2.sqlite": "3726fe9687d5019d22332ce917c87bb586e9a9f0c410e96ab6a09b699cb86811",
+    "tracking_share_transactions.sqlite": "cce24123ba7cdb3b4c440370a1c31568f924a229c116dd54c5d202d320a6337e",
+    "company_1.sqlite": "a58f492277a8b1bfa575746ac8b06dcbaed059c2a24ba6eb6090debc8b6c892f",
+    "debate.sqlite": "6e9d72cbaf8e3e695a2e8865e6a35ee8c73042ddd651c30b1816d72fadfccaa7",
+    "news_report.sqlite": "15522dd21fe7c0f13bbc67fe468d48a70d10561dcf8659e0b821e7e18ce4f048",
+    "flight_company.sqlite": "5a200a8093486ebafe6d8020585d3dbb4dd136625ea7e7fd3b8c76d363bb69dd",
+    "employee_hire_evaluation.sqlite": "760fec5cc872ef0cdf99242614f05c93dbd00d422ac9da87ea64fcf555be7373",
+    "roller_coaster.sqlite": "d0b3dcaf97a601063cf65b05fd251b223d22e75e7f05d4bad9539f0fb368b6c6",
+    "customers_card_transactions.sqlite": "c2cde3ed8c5a33dd1f708a657ef9fab552c1a74ce19010bcc0dbff37ce708d62",
+    "store_product.sqlite": "f36004a47e0a221b56b5eab99198f0f234161399f745545b9a39338ca77a64ba",
+    "college_1.sqlite": "5bf3ee598b9f10b4d9bef9a2d390f1391bccbcb64986c88241fad24452695d18",
+    "insurance_fnol.sqlite": "e52f4ba1301a45ea367ac56138ada91c5cabecf7b18454bfea80c59743547f6f",
+    "customers_and_addresses.sqlite": "7d8ceb2520e7b2db55eca8c2a1e9a52a5f1d9e27d7f0dd11bcd367274e6fee96",
+    "game_1.sqlite": "b988661bebc7b34de11e3c1a5cd70b8f9d431bbc5c6ee191e688a7889944be0b",
+    "assets_maintenance.sqlite": "847af85ebcc94f6be06e06f5bd8a22500bd4e208a29a3e732eed13c72eda43c1",
+    "document_management.sqlite": "6f1909fa7b9c40160a1c0bcf147fdd73310e3518c739622c507e439f43f7cc31",
+    "wrestler.sqlite": "ef538c66862d997561619be1ac1b0c488bc54e7171ad33f7fe6195e903619ae4",
+    "company_employee.sqlite": "86574c9edbecd80ded437d9439d6f81def0973816b1c8af8d007335e62565378"
+  }
+}

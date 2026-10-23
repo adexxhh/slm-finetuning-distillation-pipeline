@@ -1,11 +1,5 @@
-"""
-Comprehensive Evaluation & Comparison Harness for Text-to-SQL Distilled SLMs.
-Measures:
-1. Syntax Validity Rate (%) via sqlglot AST parsing.
-2. Execution Accuracy (%) against an in-memory SQLite/Postgres test database.
-3. Inference Latency (TTFT ms & Total Latency ms).
-4. Estimated Token Cost per 1M queries ($USD).
-Generates report markdown table and JSON output in evals/results/report.md.
+"""Evaluate independently generated SQL against a populated read-only local fixture.
+Reports execution matching and supplied per-query timings; model generation is separate.
 """
 
 import os

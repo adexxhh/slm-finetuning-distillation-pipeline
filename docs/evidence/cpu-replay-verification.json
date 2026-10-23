@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "environment": {
+    "python": "3.13.5",
+    "sqlite": "3.49.1",
+    "torch_installed": false
+  },
+  "dependencies": [
+    "sqlglot==30.24.0"
+  ],
+  "isolated_source_snapshot": true,
+  "fresh_virtual_environment": true,
+  "gpu_or_model_weights_required": false,
+  "original_archive_replay": true,
+  "independent_fixture_directory_replay": true,
+  "standard_scorer_replay": true,
+  "base_matches": 70,
+  "adapter_matches": 71,
+  "verified_fixture_count": 18,
+  "frozen_file_hashes_verified": 20,
+  "diagnostic_outputs_identical_across_repeats": true,
+  "output_sha256": {
+    "summary.json": "66e49c9ff80cd351f5c39878a7e398ee51e2a994714e4c1a3397449d264c6def",
+    "case-analysis.json": "225b5efe8f709e101eb95be6500c6c1729261092a6097cce72ffd421877ddda5",
+    "numeric-variants.json": "d89e435e67901cf4f24f0f8cdd441e42ec63d6fbfdd35c4e61ddc117a1c671c3"
+  }
+}

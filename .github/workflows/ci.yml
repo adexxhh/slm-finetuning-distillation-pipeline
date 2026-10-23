@@ -10,3 +10,20 @@ jobs:
           python-version: "3.13"
       - run: pip install -r requirements.txt
       - run: python -m pytest -q
+  experiment-replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -r requirements-reproduce.txt
+      - run: python -m experiments.reproduce --download-fixtures --output-dir artifacts/ci-replay
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frozen-experiment-replay
+          path: |
+            artifacts/ci-replay/summary.json
+            artifacts/ci-replay/case-analysis.json
+            artifacts/ci-replay/numeric-variants.json

@@ -1,4 +1,4 @@
-sqlglot>=30,<31
+sqlglot==30.24.0
 pydantic>=2,<3
 fastapi>=0.110,<1
 uvicorn>=0.31

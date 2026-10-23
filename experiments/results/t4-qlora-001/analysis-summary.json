@@ -1,0 +1,80 @@
+{
+  "scope": "Frozen 100-question filtered Spider public-development cohort; original single-database execution metric retained",
+  "official_spider_test_suite_accuracy": false,
+  "samples": 100,
+  "database_clusters": 18,
+  "sqlglot": "30.24.0",
+  "sqlite": "3.49.1",
+  "source_archive_sha256": "3f6634b99a05f8ce7b2c530c22cc9c89da94c4967af6c5ea1fdff9026e8f6c9c",
+  "verified_frozen_files": 17,
+  "verified_databases": 18,
+  "split_counts": {
+    "train": 1000,
+    "validation": 64,
+    "test": 100
+  },
+  "split_database_counts": {
+    "train": 126,
+    "validation": 13,
+    "test": 18
+  },
+  "paired": {
+    "both_match": 61,
+    "neither_match": 20,
+    "base_only": 9,
+    "adapter_only": 10,
+    "delta_percentage_points": 1.0,
+    "database_clusters": 18,
+    "cluster_bootstrap_seed": 3407,
+    "cluster_bootstrap_draws": 5000,
+    "exploratory_cluster_bootstrap_95_delta_pct": [
+      -10.743801652892563,
+      12.087912087912088
+    ],
+    "uncertainty_scope": "Exploratory percentile bootstrap over database clusters; small filtered sample, not population-wide significance."
+  },
+  "models": {
+    "base": {
+      "strict_matches": 70,
+      "strict_execution_match_pct": 70.0,
+      "schema_policy_valid": 94,
+      "column_order_only_mismatches": 3,
+      "numeric_variants_checked_for_original_matches": 63,
+      "original_matches_sensitive_to_numeric_variants": 1,
+      "failure_categories": {
+        "matched": 70,
+        "result_mismatch": 19,
+        "schema_or_policy_rejection": 6,
+        "column_order_only": 3,
+        "output_shape": 2
+      },
+      "recorded_mean_generation_seconds": 3.927321605269991,
+      "recorded_median_generation_seconds": 3.4706016834999787
+    },
+    "adapter": {
+      "strict_matches": 71,
+      "strict_execution_match_pct": 71.0,
+      "schema_policy_valid": 89,
+      "column_order_only_mismatches": 2,
+      "numeric_variants_checked_for_original_matches": 61,
+      "original_matches_sensitive_to_numeric_variants": 1,
+      "failure_categories": {
+        "matched": 71,
+        "schema_or_policy_rejection": 11,
+        "result_mismatch": 15,
+        "execution_error": 1,
+        "column_order_only": 2
+      },
+      "recorded_mean_generation_seconds": 5.154918622190062,
+      "recorded_median_generation_seconds": 4.000652665999951
+    }
+  },
+  "diagnostics": {
+    "numeric_variants_per_database": 3,
+    "seed": 3407,
+    "row_cap": 500,
+    "column_policy": "Strict positions remain primary; one global permutation up to four columns is a diagnostic only.",
+    "numeric_policy": "Seeded bounded shuffles of non-key numeric columns on in-memory copies; preserves declared key values, row counts and NULL positions. Reports sensitivity, not semantic correctness.",
+    "limitations": "Variants are post-hoc diagnostics, not a new held-out score. Ties, floating-point behavior and reference ambiguity can cause mismatches. No finite test set proves equivalence."
+  }
+}

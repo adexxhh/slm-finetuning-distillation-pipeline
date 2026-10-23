@@ -1,0 +1,1691 @@
+[
+  {
+    "db_id": "car_1",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "cars_data",
+        "column": "Cylinders",
+        "changed_rows": 257
+      },
+      {
+        "table": "cars_data",
+        "column": "Edispl",
+        "changed_rows": 396
+      },
+      {
+        "table": "cars_data",
+        "column": "Weight",
+        "changed_rows": 403
+      },
+      {
+        "table": "cars_data",
+        "column": "Accelerate",
+        "changed_rows": 399
+      },
+      {
+        "table": "cars_data",
+        "column": "Year",
+        "changed_rows": 376
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "a0f6c47c23a6befd769c10cd8a231392c2b0a104ac01e794cd63ee655eed7eea"
+  },
+  {
+    "db_id": "car_1",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "cars_data",
+        "column": "Cylinders",
+        "changed_rows": 255
+      },
+      {
+        "table": "cars_data",
+        "column": "Edispl",
+        "changed_rows": 391
+      },
+      {
+        "table": "cars_data",
+        "column": "Weight",
+        "changed_rows": 403
+      },
+      {
+        "table": "cars_data",
+        "column": "Accelerate",
+        "changed_rows": 393
+      },
+      {
+        "table": "cars_data",
+        "column": "Year",
+        "changed_rows": 385
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "c342672a5d9538f8671a54f93d65b8db5d71fdaf52c62ae188633840f6418f5c"
+  },
+  {
+    "db_id": "car_1",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "cars_data",
+        "column": "Cylinders",
+        "changed_rows": 279
+      },
+      {
+        "table": "cars_data",
+        "column": "Edispl",
+        "changed_rows": 401
+      },
+      {
+        "table": "cars_data",
+        "column": "Weight",
+        "changed_rows": 403
+      },
+      {
+        "table": "cars_data",
+        "column": "Accelerate",
+        "changed_rows": 400
+      },
+      {
+        "table": "cars_data",
+        "column": "Year",
+        "changed_rows": 367
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "c460ccef2fd12a699e6cbea985efa701c3bd88e007f5601ffa792ed7fa8bc8af"
+  },
+  {
+    "db_id": "concert_singer",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "singer",
+        "column": "Age",
+        "changed_rows": 6
+      },
+      {
+        "table": "stadium",
+        "column": "Capacity",
+        "changed_rows": 8
+      },
+      {
+        "table": "stadium",
+        "column": "Highest",
+        "changed_rows": 8
+      },
+      {
+        "table": "stadium",
+        "column": "Lowest",
+        "changed_rows": 8
+      },
+      {
+        "table": "stadium",
+        "column": "Average",
+        "changed_rows": 7
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "570e21166c1d1dce6f27c3eac7bd3f200e2bb3a25eff6f3000dff9ff8f4467ad"
+  },
+  {
+    "db_id": "concert_singer",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "singer",
+        "column": "Age",
+        "changed_rows": 3
+      },
+      {
+        "table": "stadium",
+        "column": "Capacity",
+        "changed_rows": 9
+      },
+      {
+        "table": "stadium",
+        "column": "Highest",
+        "changed_rows": 8
+      },
+      {
+        "table": "stadium",
+        "column": "Lowest",
+        "changed_rows": 9
+      },
+      {
+        "table": "stadium",
+        "column": "Average",
+        "changed_rows": 9
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "452fd670cbbdf1677037f8350a4dd3a3cf7e85f41638b6cc87a531f5f68ba04c"
+  },
+  {
+    "db_id": "concert_singer",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "singer",
+        "column": "Age",
+        "changed_rows": 4
+      },
+      {
+        "table": "stadium",
+        "column": "Capacity",
+        "changed_rows": 9
+      },
+      {
+        "table": "stadium",
+        "column": "Highest",
+        "changed_rows": 7
+      },
+      {
+        "table": "stadium",
+        "column": "Lowest",
+        "changed_rows": 8
+      },
+      {
+        "table": "stadium",
+        "column": "Average",
+        "changed_rows": 8
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "e73856f8450345e8693f5effada1a32007f385599134b80e9744a1f256dd0e8a"
+  },
+  {
+    "db_id": "course_teach",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [],
+    "skipped": [],
+    "logical_changes_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "db_id": "course_teach",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [],
+    "skipped": [],
+    "logical_changes_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "db_id": "course_teach",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [],
+    "skipped": [],
+    "logical_changes_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "db_id": "cre_Doc_Template_Mgt",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Templates",
+        "column": "Version_Number",
+        "changed_rows": 18
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "ee5272aa1c79b3bce518dac07624239c60bb549f37f4be888254b827527bd9e7"
+  },
+  {
+    "db_id": "cre_Doc_Template_Mgt",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Templates",
+        "column": "Version_Number",
+        "changed_rows": 18
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "ee5272aa1c79b3bce518dac07624239c60bb549f37f4be888254b827527bd9e7"
+  },
+  {
+    "db_id": "cre_Doc_Template_Mgt",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Templates",
+        "column": "Version_Number",
+        "changed_rows": 18
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "ee5272aa1c79b3bce518dac07624239c60bb549f37f4be888254b827527bd9e7"
+  },
+  {
+    "db_id": "dog_kennels",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Charges",
+        "column": "charge_amount",
+        "changed_rows": 2
+      },
+      {
+        "table": "Treatments",
+        "column": "cost_of_treatment",
+        "changed_rows": 15
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "39c587b30ee639cec637bc7b10b5674dd215927d2ca2f7f3e6d4487a10e96dfb"
+  },
+  {
+    "db_id": "dog_kennels",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Charges",
+        "column": "charge_amount",
+        "changed_rows": 3
+      },
+      {
+        "table": "Treatments",
+        "column": "cost_of_treatment",
+        "changed_rows": 14
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "5590987f1b25355110bc236e7e3f3371be29e709310708c25c03acab6734bf6c"
+  },
+  {
+    "db_id": "dog_kennels",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Charges",
+        "column": "charge_amount",
+        "changed_rows": 3
+      },
+      {
+        "table": "Treatments",
+        "column": "cost_of_treatment",
+        "changed_rows": 14
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "5590987f1b25355110bc236e7e3f3371be29e709310708c25c03acab6734bf6c"
+  },
+  {
+    "db_id": "employee_hire_evaluation",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "employee",
+        "column": "Age",
+        "changed_rows": 9
+      },
+      {
+        "table": "evaluation",
+        "column": "Bonus",
+        "changed_rows": 4
+      },
+      {
+        "table": "shop",
+        "column": "Number_products",
+        "changed_rows": 9
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "30ca329d211926119f2d7354e0fd0171fbbef63dc8b596002bd31b0ce8dda432"
+  },
+  {
+    "db_id": "employee_hire_evaluation",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "employee",
+        "column": "Age",
+        "changed_rows": 8
+      },
+      {
+        "table": "evaluation",
+        "column": "Bonus",
+        "changed_rows": 4
+      },
+      {
+        "table": "shop",
+        "column": "Number_products",
+        "changed_rows": 9
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "c3f6bddc1465ce186c8797651e116ab812a5cf23ec2cbb9c1cf151bb612d3e99"
+  },
+  {
+    "db_id": "employee_hire_evaluation",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "employee",
+        "column": "Age",
+        "changed_rows": 8
+      },
+      {
+        "table": "evaluation",
+        "column": "Bonus",
+        "changed_rows": 5
+      },
+      {
+        "table": "shop",
+        "column": "Number_products",
+        "changed_rows": 9
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "03f58f81bb115109bdfe1aa6b023e02f4737db5dc912ca5aa43d1cbedaaa3a5b"
+  },
+  {
+    "db_id": "museum_visit",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "museum",
+        "column": "Num_of_Staff",
+        "changed_rows": 7
+      },
+      {
+        "table": "visit",
+        "column": "Num_of_Ticket",
+        "changed_rows": 2
+      },
+      {
+        "table": "visit",
+        "column": "Total_spent",
+        "changed_rows": 6
+      },
+      {
+        "table": "visitor",
+        "column": "Level_of_membership",
+        "changed_rows": 3
+      },
+      {
+        "table": "visitor",
+        "column": "Age",
+        "changed_rows": 2
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "cdee57813b7f6b134a2c17539c36e60eb7d038cb596bd9e3a989acb289952f6b"
+  },
+  {
+    "db_id": "museum_visit",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "museum",
+        "column": "Num_of_Staff",
+        "changed_rows": 6
+      },
+      {
+        "table": "visit",
+        "column": "Num_of_Ticket",
+        "changed_rows": 5
+      },
+      {
+        "table": "visit",
+        "column": "Total_spent",
+        "changed_rows": 2
+      },
+      {
+        "table": "visitor",
+        "column": "Level_of_membership",
+        "changed_rows": 6
+      },
+      {
+        "table": "visitor",
+        "column": "Age",
+        "changed_rows": 6
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "229bef177430863598912f125178e896dfbc634b0a4eeb15d18c671e7993dd28"
+  },
+  {
+    "db_id": "museum_visit",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "museum",
+        "column": "Num_of_Staff",
+        "changed_rows": 7
+      },
+      {
+        "table": "visit",
+        "column": "Num_of_Ticket",
+        "changed_rows": 6
+      },
+      {
+        "table": "visit",
+        "column": "Total_spent",
+        "changed_rows": 6
+      },
+      {
+        "table": "visitor",
+        "column": "Level_of_membership",
+        "changed_rows": 2
+      },
+      {
+        "table": "visitor",
+        "column": "Age",
+        "changed_rows": 5
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "f1da7947f72e9ef0ba503414252a0ca909fc7d893f45078fc6ada5b7fb0259ac"
+  },
+  {
+    "db_id": "network_1",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Highschooler",
+        "column": "grade",
+        "changed_rows": 9
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "da899aecb87a87f128190001e4f9289f3e55ee9112daec75a2a9bb902430eb14"
+  },
+  {
+    "db_id": "network_1",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Highschooler",
+        "column": "grade",
+        "changed_rows": 10
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "0e96ac0f87e124283cb5f08233e7ea31fef75f8b2996a8abd173e146501e2b7b"
+  },
+  {
+    "db_id": "network_1",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Highschooler",
+        "column": "grade",
+        "changed_rows": 10
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "0e96ac0f87e124283cb5f08233e7ea31fef75f8b2996a8abd173e146501e2b7b"
+  },
+  {
+    "db_id": "orchestra",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "conductor",
+        "column": "Age",
+        "changed_rows": 9
+      },
+      {
+        "table": "conductor",
+        "column": "Year_of_Work",
+        "changed_rows": 10
+      },
+      {
+        "table": "orchestra",
+        "column": "Year_of_Founded",
+        "changed_rows": 7
+      },
+      {
+        "table": "performance",
+        "column": "Official_ratings_(millions)",
+        "changed_rows": 11
+      },
+      {
+        "table": "show",
+        "column": "Attendance",
+        "changed_rows": 5
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "5679d431294352e6b5b4be31b0a5ebea7fee1402835193b6bd08a79bcb76f783"
+  },
+  {
+    "db_id": "orchestra",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "conductor",
+        "column": "Age",
+        "changed_rows": 10
+      },
+      {
+        "table": "conductor",
+        "column": "Year_of_Work",
+        "changed_rows": 9
+      },
+      {
+        "table": "orchestra",
+        "column": "Year_of_Founded",
+        "changed_rows": 10
+      },
+      {
+        "table": "performance",
+        "column": "Official_ratings_(millions)",
+        "changed_rows": 11
+      },
+      {
+        "table": "show",
+        "column": "Attendance",
+        "changed_rows": 5
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "5b4b05d8cf544d30fc3d92689847d17cdd29c1882e0fa3c77726d817caf760a0"
+  },
+  {
+    "db_id": "orchestra",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "conductor",
+        "column": "Age",
+        "changed_rows": 10
+      },
+      {
+        "table": "conductor",
+        "column": "Year_of_Work",
+        "changed_rows": 8
+      },
+      {
+        "table": "orchestra",
+        "column": "Year_of_Founded",
+        "changed_rows": 11
+      },
+      {
+        "table": "performance",
+        "column": "Official_ratings_(millions)",
+        "changed_rows": 10
+      },
+      {
+        "table": "show",
+        "column": "Attendance",
+        "changed_rows": 3
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "f9152caab19f830162e1c3cb1f06d57f00a9935f71bbeaf8ae0128db926c22fc"
+  },
+  {
+    "db_id": "pets_1",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Pets",
+        "column": "pet_age",
+        "changed_rows": 3
+      },
+      {
+        "table": "Pets",
+        "column": "weight",
+        "changed_rows": 3
+      },
+      {
+        "table": "Student",
+        "column": "Age",
+        "changed_rows": 28
+      },
+      {
+        "table": "Student",
+        "column": "Major",
+        "changed_rows": 24
+      },
+      {
+        "table": "Student",
+        "column": "Advisor",
+        "changed_rows": 33
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "f5d71519b57e29aa7f378a1064d98825c780e87e192e2d51406e760c00e58c0c"
+  },
+  {
+    "db_id": "pets_1",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Pets",
+        "column": "pet_age",
+        "changed_rows": 3
+      },
+      {
+        "table": "Pets",
+        "column": "weight",
+        "changed_rows": 3
+      },
+      {
+        "table": "Student",
+        "column": "Age",
+        "changed_rows": 29
+      },
+      {
+        "table": "Student",
+        "column": "Major",
+        "changed_rows": 22
+      },
+      {
+        "table": "Student",
+        "column": "Advisor",
+        "changed_rows": 28
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "5ee4565d4e2249b41c1bf42ca5c20e5e783088923b96c18db63610cb0401f288"
+  },
+  {
+    "db_id": "pets_1",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Pets",
+        "column": "pet_age",
+        "changed_rows": 2
+      },
+      {
+        "table": "Pets",
+        "column": "weight",
+        "changed_rows": 2
+      },
+      {
+        "table": "Student",
+        "column": "Age",
+        "changed_rows": 29
+      },
+      {
+        "table": "Student",
+        "column": "Major",
+        "changed_rows": 21
+      },
+      {
+        "table": "Student",
+        "column": "Advisor",
+        "changed_rows": 31
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "052d855cbe805a281a30cf27ce06c5b7971701f51fc2b5bb4a846db529c807a3"
+  },
+  {
+    "db_id": "poker_player",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "people",
+        "column": "Height",
+        "changed_rows": 7
+      },
+      {
+        "table": "poker_player",
+        "column": "Final_Table_Made",
+        "changed_rows": 5
+      },
+      {
+        "table": "poker_player",
+        "column": "Best_Finish",
+        "changed_rows": 4
+      },
+      {
+        "table": "poker_player",
+        "column": "Money_Rank",
+        "changed_rows": 5
+      },
+      {
+        "table": "poker_player",
+        "column": "Earnings",
+        "changed_rows": 4
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "447ebe0ca8fdc5542e23c9ffda22bc90a3162872e029956b0e27153993596071"
+  },
+  {
+    "db_id": "poker_player",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "people",
+        "column": "Height",
+        "changed_rows": 7
+      },
+      {
+        "table": "poker_player",
+        "column": "Final_Table_Made",
+        "changed_rows": 4
+      },
+      {
+        "table": "poker_player",
+        "column": "Best_Finish",
+        "changed_rows": 3
+      },
+      {
+        "table": "poker_player",
+        "column": "Money_Rank",
+        "changed_rows": 3
+      },
+      {
+        "table": "poker_player",
+        "column": "Earnings",
+        "changed_rows": 3
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "3512ee39af4a1b23743e35ed96899d0f51438669be2cb4ba6b961e9feca9e0d3"
+  },
+  {
+    "db_id": "poker_player",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "people",
+        "column": "Height",
+        "changed_rows": 6
+      },
+      {
+        "table": "poker_player",
+        "column": "Final_Table_Made",
+        "changed_rows": 3
+      },
+      {
+        "table": "poker_player",
+        "column": "Best_Finish",
+        "changed_rows": 4
+      },
+      {
+        "table": "poker_player",
+        "column": "Money_Rank",
+        "changed_rows": 4
+      },
+      {
+        "table": "poker_player",
+        "column": "Earnings",
+        "changed_rows": 4
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "4235d754ed86a38d4007a0753a88b37e70ea7520934f2d568179f97abe06e12c"
+  },
+  {
+    "db_id": "real_estate_properties",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Properties",
+        "column": "room_count",
+        "changed_rows": 13
+      },
+      {
+        "table": "Properties",
+        "column": "vendor_requested_price",
+        "changed_rows": 14
+      },
+      {
+        "table": "Properties",
+        "column": "buyer_offered_price",
+        "changed_rows": 14
+      },
+      {
+        "table": "Properties",
+        "column": "agreed_selling_price",
+        "changed_rows": 14
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "8ba17eea7d6218061f84f11293358d6565e56100afe71feb200719bc26efb41e"
+  },
+  {
+    "db_id": "real_estate_properties",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Properties",
+        "column": "room_count",
+        "changed_rows": 12
+      },
+      {
+        "table": "Properties",
+        "column": "vendor_requested_price",
+        "changed_rows": 13
+      },
+      {
+        "table": "Properties",
+        "column": "buyer_offered_price",
+        "changed_rows": 14
+      },
+      {
+        "table": "Properties",
+        "column": "agreed_selling_price",
+        "changed_rows": 13
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "71945c9ec85436afe1230a735480ea38a8175eef8c5760943722fca8bdbca45b"
+  },
+  {
+    "db_id": "real_estate_properties",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Properties",
+        "column": "room_count",
+        "changed_rows": 13
+      },
+      {
+        "table": "Properties",
+        "column": "vendor_requested_price",
+        "changed_rows": 14
+      },
+      {
+        "table": "Properties",
+        "column": "buyer_offered_price",
+        "changed_rows": 12
+      },
+      {
+        "table": "Properties",
+        "column": "agreed_selling_price",
+        "changed_rows": 15
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "8ae404ea345ad5bd814a4e9add6c80c4727f76f6ff5045cc7ce4efe9f4a27030"
+  },
+  {
+    "db_id": "singer",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "singer",
+        "column": "Birth_Year",
+        "changed_rows": 8
+      },
+      {
+        "table": "singer",
+        "column": "Net_Worth_Millions",
+        "changed_rows": 6
+      },
+      {
+        "table": "song",
+        "column": "Sales",
+        "changed_rows": 7
+      },
+      {
+        "table": "song",
+        "column": "Highest_Position",
+        "changed_rows": 2
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "99b8549b4eed1cd833ce76b78efc58da661460c406550e52f96696592fa46aa3"
+  },
+  {
+    "db_id": "singer",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "singer",
+        "column": "Birth_Year",
+        "changed_rows": 7
+      },
+      {
+        "table": "singer",
+        "column": "Net_Worth_Millions",
+        "changed_rows": 7
+      },
+      {
+        "table": "song",
+        "column": "Sales",
+        "changed_rows": 8
+      },
+      {
+        "table": "song",
+        "column": "Highest_Position",
+        "changed_rows": 2
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "e39f021186b1160947eb19448f982316e81ed2241e29d2cfc47625241d538c5a"
+  },
+  {
+    "db_id": "singer",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "singer",
+        "column": "Birth_Year",
+        "changed_rows": 6
+      },
+      {
+        "table": "singer",
+        "column": "Net_Worth_Millions",
+        "changed_rows": 5
+      },
+      {
+        "table": "song",
+        "column": "Sales",
+        "changed_rows": 6
+      },
+      {
+        "table": "song",
+        "column": "Highest_Position",
+        "changed_rows": 2
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "d0cd7a3fe4641f33fbcb9f3477dec661a3ae70f239ee030dd46fd37bd1b76680"
+  },
+  {
+    "db_id": "student_transcripts_tracking",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [],
+    "skipped": [],
+    "logical_changes_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "db_id": "student_transcripts_tracking",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [],
+    "skipped": [],
+    "logical_changes_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "db_id": "student_transcripts_tracking",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [],
+    "skipped": [],
+    "logical_changes_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "db_id": "tvshow",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Cartoon",
+        "column": "Production_code",
+        "changed_rows": 11
+      },
+      {
+        "table": "TV_series",
+        "column": "Share",
+        "changed_rows": 7
+      },
+      {
+        "table": "TV_series",
+        "column": "Weekly_Rank",
+        "changed_rows": 11
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "fb570b78c33555bfd2977cb81365acba9bf1e1873fe7cf58524805bce975930a"
+  },
+  {
+    "db_id": "tvshow",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Cartoon",
+        "column": "Production_code",
+        "changed_rows": 12
+      },
+      {
+        "table": "TV_series",
+        "column": "Share",
+        "changed_rows": 8
+      },
+      {
+        "table": "TV_series",
+        "column": "Weekly_Rank",
+        "changed_rows": 9
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "1ad3b427629d4eec280c750ecf97ccb96494a02ceb1ad7fff2eedebcb0c4f8e1"
+  },
+  {
+    "db_id": "tvshow",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "Cartoon",
+        "column": "Production_code",
+        "changed_rows": 12
+      },
+      {
+        "table": "TV_series",
+        "column": "Share",
+        "changed_rows": 7
+      },
+      {
+        "table": "TV_series",
+        "column": "Weekly_Rank",
+        "changed_rows": 11
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "bb71b71fd639a0645e96ca8096a992f34e0d485191e891939b454bea6867e9da"
+  },
+  {
+    "db_id": "voter_1",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "VOTES",
+        "column": "phone_number",
+        "changed_rows": 4
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "c6d60b5f8a191d63f505dcc2cb9b6aafef05e7a70894a267b447f99a948db0a5"
+  },
+  {
+    "db_id": "voter_1",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "VOTES",
+        "column": "phone_number",
+        "changed_rows": 4
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "c6d60b5f8a191d63f505dcc2cb9b6aafef05e7a70894a267b447f99a948db0a5"
+  },
+  {
+    "db_id": "voter_1",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "VOTES",
+        "column": "phone_number",
+        "changed_rows": 2
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "68e8bc75587ad381480a27cb7b80934dc91a1db832b768925fd61694d02eed6a"
+  },
+  {
+    "db_id": "world_1",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "city",
+        "column": "Population",
+        "changed_rows": 498
+      },
+      {
+        "table": "country",
+        "column": "SurfaceArea",
+        "changed_rows": 238
+      },
+      {
+        "table": "country",
+        "column": "IndepYear",
+        "changed_rows": 182
+      },
+      {
+        "table": "country",
+        "column": "Population",
+        "changed_rows": 238
+      },
+      {
+        "table": "country",
+        "column": "LifeExpectancy",
+        "changed_rows": 222
+      },
+      {
+        "table": "country",
+        "column": "GNP",
+        "changed_rows": 238
+      },
+      {
+        "table": "country",
+        "column": "GNPOld",
+        "changed_rows": 178
+      },
+      {
+        "table": "country",
+        "column": "Capital",
+        "changed_rows": 230
+      },
+      {
+        "table": "countrylanguage",
+        "column": "Percentage",
+        "changed_rows": 494
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "c63aa122fbbcdbd4750c2d19a6b13f1c73007252ca15aded0d10a8d7e5b83863"
+  },
+  {
+    "db_id": "world_1",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "city",
+        "column": "Population",
+        "changed_rows": 500
+      },
+      {
+        "table": "country",
+        "column": "SurfaceArea",
+        "changed_rows": 239
+      },
+      {
+        "table": "country",
+        "column": "IndepYear",
+        "changed_rows": 187
+      },
+      {
+        "table": "country",
+        "column": "Population",
+        "changed_rows": 238
+      },
+      {
+        "table": "country",
+        "column": "LifeExpectancy",
+        "changed_rows": 220
+      },
+      {
+        "table": "country",
+        "column": "GNP",
+        "changed_rows": 237
+      },
+      {
+        "table": "country",
+        "column": "GNPOld",
+        "changed_rows": 178
+      },
+      {
+        "table": "country",
+        "column": "Capital",
+        "changed_rows": 232
+      },
+      {
+        "table": "countrylanguage",
+        "column": "Percentage",
+        "changed_rows": 488
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "54db1c18bd4e0718d829fff4e24432e1a1513b70cd6945161a4c32a709f4750e"
+  },
+  {
+    "db_id": "world_1",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "city",
+        "column": "Population",
+        "changed_rows": 500
+      },
+      {
+        "table": "country",
+        "column": "SurfaceArea",
+        "changed_rows": 239
+      },
+      {
+        "table": "country",
+        "column": "IndepYear",
+        "changed_rows": 184
+      },
+      {
+        "table": "country",
+        "column": "Population",
+        "changed_rows": 237
+      },
+      {
+        "table": "country",
+        "column": "LifeExpectancy",
+        "changed_rows": 220
+      },
+      {
+        "table": "country",
+        "column": "GNP",
+        "changed_rows": 239
+      },
+      {
+        "table": "country",
+        "column": "GNPOld",
+        "changed_rows": 178
+      },
+      {
+        "table": "country",
+        "column": "Capital",
+        "changed_rows": 232
+      },
+      {
+        "table": "countrylanguage",
+        "column": "Percentage",
+        "changed_rows": 494
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "127f197dd40c3518b595ffed3f22f33afe1dda1cdfaf92b64de6c4d76e5b7a9f"
+  },
+  {
+    "db_id": "wta_1",
+    "variant": 0,
+    "seed": 3407,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "matches",
+        "column": "draw_size",
+        "changed_rows": 205
+      },
+      {
+        "table": "matches",
+        "column": "loser_age",
+        "changed_rows": 275
+      },
+      {
+        "table": "matches",
+        "column": "loser_ht",
+        "changed_rows": 251
+      },
+      {
+        "table": "matches",
+        "column": "loser_rank",
+        "changed_rows": 265
+      },
+      {
+        "table": "matches",
+        "column": "loser_rank_points",
+        "changed_rows": 278
+      },
+      {
+        "table": "matches",
+        "column": "loser_seed",
+        "changed_rows": 262
+      },
+      {
+        "table": "matches",
+        "column": "match_num",
+        "changed_rows": 267
+      },
+      {
+        "table": "matches",
+        "column": "minutes",
+        "changed_rows": 274
+      },
+      {
+        "table": "matches",
+        "column": "tourney_date",
+        "changed_rows": 272
+      },
+      {
+        "table": "matches",
+        "column": "winner_age",
+        "changed_rows": 277
+      },
+      {
+        "table": "matches",
+        "column": "winner_ht",
+        "changed_rows": 257
+      },
+      {
+        "table": "matches",
+        "column": "winner_rank",
+        "changed_rows": 266
+      },
+      {
+        "table": "matches",
+        "column": "winner_rank_points",
+        "changed_rows": 275
+      },
+      {
+        "table": "matches",
+        "column": "winner_seed",
+        "changed_rows": 248
+      },
+      {
+        "table": "matches",
+        "column": "year",
+        "changed_rows": 149
+      },
+      {
+        "table": "rankings",
+        "column": "ranking_date",
+        "changed_rows": 423
+      },
+      {
+        "table": "rankings",
+        "column": "ranking",
+        "changed_rows": 497
+      },
+      {
+        "table": "rankings",
+        "column": "ranking_points",
+        "changed_rows": 489
+      },
+      {
+        "table": "rankings",
+        "column": "tours",
+        "changed_rows": 446
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "9af8914bbdb69897456f7825a81b6ae6ad42074cea56ceb06bda33c9b56efd05"
+  },
+  {
+    "db_id": "wta_1",
+    "variant": 1,
+    "seed": 3408,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "matches",
+        "column": "draw_size",
+        "changed_rows": 202
+      },
+      {
+        "table": "matches",
+        "column": "loser_age",
+        "changed_rows": 278
+      },
+      {
+        "table": "matches",
+        "column": "loser_ht",
+        "changed_rows": 261
+      },
+      {
+        "table": "matches",
+        "column": "loser_rank",
+        "changed_rows": 268
+      },
+      {
+        "table": "matches",
+        "column": "loser_rank_points",
+        "changed_rows": 277
+      },
+      {
+        "table": "matches",
+        "column": "loser_seed",
+        "changed_rows": 251
+      },
+      {
+        "table": "matches",
+        "column": "match_num",
+        "changed_rows": 266
+      },
+      {
+        "table": "matches",
+        "column": "minutes",
+        "changed_rows": 273
+      },
+      {
+        "table": "matches",
+        "column": "tourney_date",
+        "changed_rows": 273
+      },
+      {
+        "table": "matches",
+        "column": "winner_age",
+        "changed_rows": 275
+      },
+      {
+        "table": "matches",
+        "column": "winner_ht",
+        "changed_rows": 256
+      },
+      {
+        "table": "matches",
+        "column": "winner_rank",
+        "changed_rows": 266
+      },
+      {
+        "table": "matches",
+        "column": "winner_rank_points",
+        "changed_rows": 275
+      },
+      {
+        "table": "matches",
+        "column": "winner_seed",
+        "changed_rows": 255
+      },
+      {
+        "table": "matches",
+        "column": "year",
+        "changed_rows": 141
+      },
+      {
+        "table": "rankings",
+        "column": "ranking_date",
+        "changed_rows": 428
+      },
+      {
+        "table": "rankings",
+        "column": "ranking",
+        "changed_rows": 500
+      },
+      {
+        "table": "rankings",
+        "column": "ranking_points",
+        "changed_rows": 495
+      },
+      {
+        "table": "rankings",
+        "column": "tours",
+        "changed_rows": 445
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "b53d630296b70066899acf3354fd8a1be307f60fc72b6dc0c6ec4ca62642bbed"
+  },
+  {
+    "db_id": "wta_1",
+    "variant": 2,
+    "seed": 3409,
+    "row_cap": 500,
+    "changes": [
+      {
+        "table": "matches",
+        "column": "draw_size",
+        "changed_rows": 206
+      },
+      {
+        "table": "matches",
+        "column": "loser_age",
+        "changed_rows": 275
+      },
+      {
+        "table": "matches",
+        "column": "loser_ht",
+        "changed_rows": 264
+      },
+      {
+        "table": "matches",
+        "column": "loser_rank",
+        "changed_rows": 265
+      },
+      {
+        "table": "matches",
+        "column": "loser_rank_points",
+        "changed_rows": 278
+      },
+      {
+        "table": "matches",
+        "column": "loser_seed",
+        "changed_rows": 263
+      },
+      {
+        "table": "matches",
+        "column": "match_num",
+        "changed_rows": 266
+      },
+      {
+        "table": "matches",
+        "column": "minutes",
+        "changed_rows": 277
+      },
+      {
+        "table": "matches",
+        "column": "tourney_date",
+        "changed_rows": 270
+      },
+      {
+        "table": "matches",
+        "column": "winner_age",
+        "changed_rows": 274
+      },
+      {
+        "table": "matches",
+        "column": "winner_ht",
+        "changed_rows": 264
+      },
+      {
+        "table": "matches",
+        "column": "winner_rank",
+        "changed_rows": 269
+      },
+      {
+        "table": "matches",
+        "column": "winner_rank_points",
+        "changed_rows": 274
+      },
+      {
+        "table": "matches",
+        "column": "winner_seed",
+        "changed_rows": 261
+      },
+      {
+        "table": "matches",
+        "column": "year",
+        "changed_rows": 144
+      },
+      {
+        "table": "rankings",
+        "column": "ranking_date",
+        "changed_rows": 423
+      },
+      {
+        "table": "rankings",
+        "column": "ranking",
+        "changed_rows": 493
+      },
+      {
+        "table": "rankings",
+        "column": "ranking_points",
+        "changed_rows": 495
+      },
+      {
+        "table": "rankings",
+        "column": "tours",
+        "changed_rows": 454
+      }
+    ],
+    "skipped": [],
+    "logical_changes_sha256": "ef2d68cc48deec16d2b86da2c42b79798c6dc7c45641fed6ba22306554854fcf"
+  }
+]

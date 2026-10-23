@@ -1,7 +1,7 @@
 # Engineering changes and project ownership
 
 ## A defensible description
-"I implemented a text-to-SQL research pipeline with completion-only LoRA training, real saved-adapter inference, SQL/schema validation and evaluation of independent model predictions. I verified the CPU mechanics on a tiny model. The 8B CUDA QLoRA experiment and its accuracy are still pending."
+"I implemented a text-to-SQL research pipeline with completion-only LoRA training, real saved-adapter inference, SQL/schema validation and evaluation of independent model predictions. I verified the CPU mechanics on a tiny model. I completed a 100-step Qwen3-8B NF4 experiment on a T4 and replayed 70/100 base versus 71/100 adapter execution matches on the frozen cohort."
 
 This describes implemented work without claiming a full-model experiment that cannot currently be reproduced.
 
@@ -60,7 +60,7 @@ This describes implemented work without claiming a full-model experiment that ca
 - On CUDA, reproduce an actual 8B run, save artifacts, compare base and tuned outputs and publish failure cases.
 
 ## Verified versus pending
-17 lightweight tests and actual two-step tiny CPU LoRA training/save/reload/generation passed. Tiny-model adapter merge was also executed. The smoke run has no accuracy claim.
-Pending: actual 8B CUDA training, model-quality results, a matched PostgreSQL evaluation fixture, representative holdout data, live token streaming, Docker and external GGUF conversion. These are explicit boundaries, not hidden fallback behaviour.
+28 lightweight tests and actual two-step tiny CPU LoRA training/save/reload/generation passed. Tiny-model adapter merge was also executed. The smoke run has no accuracy claim.
+The completed 8B experiment, saved predictions, paired analysis and CPU replay are documented in docs/EXPERIMENT.md. Broader research and deployment extensions include a matched PostgreSQL evaluation fixture, larger independent holdouts, live token streaming, Docker and external GGUF conversion. These are explicit boundaries, not hidden fallback behaviour.
 
 Start with the LoRA paper https://arxiv.org/abs/2106.09685 and QLoRA paper https://arxiv.org/abs/2305.14314. Be able to explain the equations using your own model shapes and measured runs.

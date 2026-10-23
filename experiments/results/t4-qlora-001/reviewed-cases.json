@@ -1,0 +1,73 @@
+[
+  {
+    "id": "c99e2779d4169bacc5c6678fb72bdce410de437b9728baad38865b29d4d62cbe",
+    "model": "base",
+    "question": "Return the money rank of the poker player with the greatest height.",
+    "type": "accidental_original_match",
+    "disposition": "Original execution match retained for historical reproducibility; generated fixtures provide a counterexample to semantic equivalence.",
+    "reason": "Selects the tallest person before restricting to poker players."
+  },
+  {
+    "id": "bc1a60e6d7e652dbad11ea8ae3a1061aa9053d956c4116e447e494fc0ed1ea50",
+    "model": "base",
+    "question": "How many shops are there in each location?",
+    "type": "column_order_sensitivity",
+    "disposition": "Keep the strict score; display the alternative column mapping as a diagnostic. Natural-language column-order intent is not automatically inferred.",
+    "mapping": [
+      1,
+      0
+    ]
+  },
+  {
+    "id": "d2122cfdd0584661be2d50ee6bfb22a756909e900523a488b27f4efe2171d76a",
+    "model": "adapter",
+    "question": "How many people are there of each nationality?",
+    "type": "column_order_sensitivity",
+    "disposition": "Keep the strict score; display the alternative column mapping as a diagnostic. Natural-language column-order intent is not automatically inferred.",
+    "mapping": [
+      1,
+      0
+    ]
+  },
+  {
+    "id": "6a6f087400b3e5fb52eff1da9dbb139a762348324b94754af22b33bee92e384c",
+    "model": "base",
+    "question": "Which department offers the most number of degrees? List department name and id.",
+    "type": "column_order_sensitivity",
+    "disposition": "Keep the strict score; display the alternative column mapping as a diagnostic. Natural-language column-order intent is not automatically inferred.",
+    "mapping": [
+      1,
+      0
+    ]
+  },
+  {
+    "id": "7409c83702df001ac5bb58835bbbfb086dcca95b9e0d158a81cbde59d89b17e6",
+    "model": "adapter",
+    "question": "How many singers are from each country?",
+    "type": "column_order_sensitivity",
+    "disposition": "Keep the strict score; display the alternative column mapping as a diagnostic. Natural-language column-order intent is not automatically inferred.",
+    "mapping": [
+      1,
+      0
+    ]
+  },
+  {
+    "id": "54a23cb9eefac2abd8bf4a142b5c3c3938e91588a6bcf3b406730a85ca64a691",
+    "model": "base",
+    "question": "Find the first name and country code of the player who did the most number of tours.",
+    "type": "column_order_sensitivity",
+    "disposition": "Keep the strict score; display the alternative column mapping as a diagnostic. Natural-language column-order intent is not automatically inferred.",
+    "mapping": [
+      1,
+      0
+    ]
+  },
+  {
+    "id": "ca12e958ad4e68bd708009384bdb705e062346aecc93816932d9d0310a070e8f",
+    "model": "adapter",
+    "question": "Which owner has paid the largest amount of money in total for their dogs? Show the owner id and zip code.",
+    "type": "accidental_original_match",
+    "disposition": "Original execution match retained for historical reproducibility; generated fixtures provide a counterexample to semantic equivalence.",
+    "reason": "Ranks by dog weight rather than paid treatment cost."
+  }
+]

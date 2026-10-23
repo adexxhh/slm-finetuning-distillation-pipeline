@@ -9,6 +9,7 @@ from sqlglot import exp
 from data_engine.validator import SQLValidator
 from serving.backend import HFBackend,extract_sql
 from evals.benchmark import record_id
+from evals.diagnostics import QueryResult,compare_results,run_query
 
 ATTRIBUTION={
  "dataset":"Spider (Yu et al., EMNLP 2018), CC BY-SA 4.0",
@@ -50,20 +51,23 @@ def prepare(args):
     from transformers import AutoTokenizer
     from training.formatting import encode_completion
     root=Path(args.output);root.mkdir(parents=True,exist_ok=True)
-    api=HfApi();questions_sha=api.dataset_info("xlangai/spider").sha
-    db_sha=api.dataset_info("prem-research/spider").sha
+    api=HfApi()
+    questions_sha=getattr(args,"question_revision",None) or api.dataset_info("xlangai/spider").sha
+    db_sha=getattr(args,"database_revision",None) or api.dataset_info("prem-research/spider").sha
+    seed=getattr(args,"seed",3407)
+    if min(args.train_limit,args.val_limit,args.test_limit)<1:raise ValueError("Split limits must be positive")
     dataset=load_dataset("xlangai/spider",revision=questions_sha)
     tokenizer=AutoTokenizer.from_pretrained(args.model,local_files_only=True)
     train=list(dataset["train"]);test=list(dataset["validation"])
-    dbs=sorted({x["db_id"] for x in train});random.Random(3407).shuffle(dbs)
+    dbs=sorted({x["db_id"] for x in train});random.Random(seed).shuffle(dbs)
     val_dbs=set(dbs[:max(1,len(dbs)//10)])
     groups={"train":[x for x in train if x["db_id"] not in val_dbs],
             "validation":[x for x in train if x["db_id"] in val_dbs],"test":test}
     limits={"train":args.train_limit,"validation":args.val_limit,"test":args.test_limit}
     manifest={"attribution":ATTRIBUTION,"question_revision":questions_sha,"database_revision":db_sha,
-              "seed":3407,"max_sequence_length":args.max_length,"splits":{}}
+              "seed":seed,"max_sequence_length":args.max_length,"splits":{}}
     for split,items in groups.items():
-        random.Random(3407).shuffle(items);records=[];skipped=[]
+        random.Random(seed).shuffle(items);records=[];skipped=[]
         for item in items:
             if len(records)>=limits[split]:break
             db_id=item["db_id"]
@@ -110,18 +114,33 @@ def predict(args):
 def score(args):
     records=[json.loads(x) for x in Path(args.test_file).read_text(encoding="utf-8").splitlines() if x.strip()]
     predictions=[json.loads(x) for x in Path(args.predictions).read_text(encoding="utf-8").splitlines() if x.strip()]
+    if not records:raise ValueError("Evaluation records must not be empty")
+    ids=[record_id(x) for x in records]
+    if len(set(ids))!=len(ids):raise ValueError("Duplicate evaluation question IDs")
     by_id={x["id"]:x for x in predictions}
-    if len(by_id)!=len(predictions) or set(by_id)!={record_id(x) for x in records}:raise ValueError("Prediction ID mismatch")
+    if len(by_id)!=len(predictions) or set(by_id)!=set(ids):raise ValueError("Prediction ID mismatch")
     results=[]
     for record in records:
-        path=Path(record["database"]);schema,_=schema_from_db(path)
+        database_dir=getattr(args,"database_dir",None)
+        if database_dir:
+            db_id=record["db_id"]
+            if Path(db_id).name!=db_id or "/" in db_id or "\\" in db_id:raise ValueError("Unsafe database ID")
+            path=Path(database_dir)/(db_id+".sqlite")
+        else:path=Path(record["database"])
+        schema,_=schema_from_db(path)
         reference=next(x["value"] for x in record["conversations"] if x["from"]=="gpt")
-        gold_ok,gold_rows,ordered,gold_error=execute(path,reference)
         prediction=by_id[record_id(record)];valid,error=SQLValidator(schema).validate(prediction["sql"])
-        ok,rows,_,execution_error=execute(path,prediction["sql"]) if valid else (False,[],False,error)
-        match=bool(gold_ok and valid and ok and (rows==gold_rows if ordered else Counter(rows)==Counter(gold_rows)))
-        results.append({"id":record_id(record),"db_id":record["db_id"],"correct":match,"empty_reference":not gold_rows,
-                        "reference_executable":gold_ok,"valid":valid,"error":gold_error or execution_error,
+        connection=sqlite3.connect(path.resolve().as_uri()+"?mode=ro",uri=True)
+        try:
+            connection.execute("PRAGMA query_only=ON")
+            gold=run_query(connection,reference)
+            generated=run_query(connection,prediction["sql"]) if valid else QueryResult([],0,False,error)
+            compared=compare_results(gold,generated)
+        finally:connection.close()
+        results.append({"id":record_id(record),"db_id":record["db_id"],"correct":compared["strict"],
+                        "column_order_only":compared["column_permutation_only"],"column_mapping":compared["mapping"],
+                        "empty_reference":not gold.rows,"reference_executable":gold.error is None,
+                        "valid":valid,"error":gold.error or generated.error,
                         "prediction":prediction["sql"],"latency_ms":prediction.get("latency_ms")})
     n=len(results);correct=sum(x["correct"] for x in results)
     nonempty=[x for x in results if not x["empty_reference"]]
@@ -129,7 +148,10 @@ def score(args):
     center=(p+z*z/(2*n))/den if n else 0
     margin=z*((p*(1-p)/n+z*z/(4*n*n))**.5)/den if n else 0
     report={"scope":"Spider public development subset, single populated database execution matching",
-            "not_official_test_suite_accuracy":True,"num_samples":n,"correct":correct,
+            "not_official_test_suite_accuracy":True,"scoring_version":"strict-columns-v2",
+            "column_order_only_mismatches":sum(x["column_order_only"] for x in results),
+            "column_order_policy":"Strict columns remain primary; permutation matches are diagnostic only.",
+            "num_samples":n,"correct":correct,
             "accuracy_pct":100*p,"wilson_95_pct":[100*(center-margin),100*(center+margin)],
             "nonempty_reference_count":len(nonempty),
             "nonempty_accuracy_pct":100*sum(x["correct"] for x in nonempty)/len(nonempty) if nonempty else None,
@@ -142,8 +164,11 @@ def main():
     prep=sub.add_parser("prepare");prep.add_argument("--model",required=True);prep.add_argument("--output",default="artifacts/spider")
     prep.add_argument("--train-limit",type=int,default=1000);prep.add_argument("--val-limit",type=int,default=64)
     prep.add_argument("--test-limit",type=int,default=100);prep.add_argument("--max-length",type=int,default=2048)
+    prep.add_argument("--question-revision");prep.add_argument("--database-revision")
+    prep.add_argument("--seed",type=int,default=3407)
     pred=sub.add_parser("predict");pred.add_argument("--model",required=True);pred.add_argument("--adapter")
     pred.add_argument("--test-file",required=True);pred.add_argument("--output",required=True)
     scoring=sub.add_parser("score");scoring.add_argument("--test-file",required=True);scoring.add_argument("--predictions",required=True);scoring.add_argument("--output",required=True)
+    scoring.add_argument("--database-dir",help="Resolve database IDs from this portable fixture directory")
     args=p.parse_args();{"prepare":prepare,"predict":predict,"score":score}[args.action](args)
 if __name__=="__main__":main()
