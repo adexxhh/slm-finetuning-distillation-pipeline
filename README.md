@@ -1,84 +1,139 @@
-# Text-to-SQL LoRA Research Pipeline
+# Text-to-SQL Fine-Tuning Pipeline
 
-A research prototype connecting supervised fine-tuning, real local inference, AST/schema checks and independent SQL evaluation.
+Train, serve and evaluate language-model adapters for natural-language SQL generation.
 
-**Evidence:** tiny-model CPU LoRA training/inference works. **No validated 8B QLoRA accuracy result exists.** Previous accuracy, model comparisons, latency and cost tables were simulated and are withdrawn.
+The pipeline connects dataset validation, completion-only LoRA training, local model inference and execution-based evaluation. A Colab workflow configures Qwen3-8B with NF4 QLoRA and preserves training checkpoints in Google Drive.
+
+## Pipeline
 
 ~~~mermaid
 flowchart LR
-  Data[Seed data] --> Split[Train / validation / test]
-  Split --> Train[Completion-only LoRA]
-  Train --> Adapter[Saved adapter]
-  Adapter --> Model[Real local HF model]
-  Model --> Predictions[Independent predictions]
-  Predictions --> Evaluation[Read-only SQL evaluation]
+  Data[Questions, schemas and SQL] --> Split[Train, validation and evaluation splits]
+  Split --> Train[Completion-only LoRA or QLoRA]
+  Train --> Adapter[Adapter and checkpoints]
+  Adapter --> Inference[Local model inference]
+  Inference --> Predictions[Generated SQL]
+  Predictions --> Validation[AST and schema checks]
+  Validation --> Evaluation[Read-only execution matching]
 ~~~
 
-## CPU checks
+## Features
+
+- **Dataset preparation:** seeded splits, schema validation and provenance manifests.
+- **Training:** completion-only supervision with LoRA and CUDA NF4 QLoRA.
+- **Recovery:** periodic full checkpoints, progress logs and guarded resume.
+- **Inference:** local Hugging Face models with optional PEFT adapters.
+- **SQL validation:** read-only statement policies and schema-aware checks.
+- **Evaluation:** independent predictions, execution matching, error reports and confidence intervals.
+- **Export:** adapter merging and a configurable llama.cpp GGUF conversion path.
+
+## Start with the GPU notebook
+
+[Open the training notebook](experiments/colab_8b_qlora.ipynb)
+
+Each Markdown block explains the cell below it and its expected output. The notebook:
+
+1. Loads source and checks the CUDA runtime.
+2. Downloads a pinned Qwen3-8B snapshot.
+3. Prepares database-disjoint Spider splits.
+4. Evaluates the base model.
+5. Trains an adapter with visible progress and checkpoints.
+6. Evaluates the adapter on the same held-out questions.
+7. Packages the predictions, scores, model provenance and adapter.
+
+The training cell mounts Google Drive and saves full checkpoints every 10 optimizer steps under MyDrive/ai-project-experiments/sql-8b-run-001/adapter. Complete checkpoints can restore model, optimizer and scheduler state with matching data and configuration.
+
+See [experiment setup](experiments/README.md) for the source archive and run instructions. Model-quality scores are produced by the completed evaluation run.
+
+## Local setup and dataset checks
+
 ~~~sh
+python -m venv .venv
+# Activate the environment, then:
 pip install -r requirements.txt
-python -m pytest -q
 python main.py --generate
 python main.py --validate data/train.jsonl
 python main.py --validate data/validation.jsonl
 python main.py --validate data/test.jsonl
+python -m pytest -q
 ~~~
-The dataset is a small handwritten single-schema fixture. Splits are seeded and disjoint by prompt hash. This is not evidence of teacher-model distillation or cross-schema generalization. Parsing does not prove that SQL correctly answers an English question.
 
-## Actual training smoke run
+The included 50-example dataset supports local development with a single schema. The GPU experiment uses populated Spider databases and separates database IDs across training, validation and evaluation.
+
+## CPU training walkthrough
+
 ~~~sh
 pip install -r requirements-ml.txt
 python -m training.smoke_cpu
 ~~~
-Creates a tiny random Llama/tokenizer locally, performs two real CPU LoRA optimizer steps, saves/reloads the adapter and generates tokens. No pretrained model download. **Not 8B training, 4-bit QLoRA or a quality benchmark.**
-The run passed along with **17 lightweight tests**. [Recorded CPU evidence](docs/evidence/cpu-smoke.json).
 
-## CUDA QLoRA (unverified here)
-Install a compatible CUDA PyTorch/bitsandbytes stack and obtain an authorized model:
+This builds a tiny local Llama model and tokenizer, performs two LoRA optimization steps, saves and reloads the adapter, and generates output. It provides a quick check of the training and inference path without downloading pretrained weights.
+
+## Train from the CLI
+
+With CUDA, bitsandbytes and a downloaded model:
+
 ~~~sh
-python -m training.train --model_id /models/base --train_file data/train.jsonl --val_file data/validation.jsonl --output_dir artifacts/adapter
+python -m training.train --model_id /models/base --train_file data/train.jsonl --val_file data/validation.jsonl --output_dir artifacts/adapter --batch_size 1 --gradient_accumulation_steps 8 --max_steps 100 --save_steps 10 --resume_from_checkpoint auto
 ~~~
-No CUDA: the command fails unless --allow_cpu explicitly selects full-precision LoRA for a small model. Overlapping train/validation prompts and overlong examples fail. Training emits a manifest.
-An adequate dataset, hardware budget and independent full-model evaluation remain necessary.
 
-## Serve actual weights
-Set MODEL_PATH to a downloaded local model directory, optionally ADAPTER_PATH to an adapter, then run uvicorn serving.app:app --host 127.0.0.1 --port 8000.
-- /health reports whether a model was actually loaded.
-- /predict/sql generates and validates SQL but never executes it.
-- Missing model returns HTTP 503; rejected output returns HTTP 422.
-- /v1/chat/completions supports one user question. SSE is explicitly **buffered**, not live token streaming. TTFT is null instead of fabricated.
-- Schema is controlled by the server; arbitrary custom schemas are not supported.
-Docker uses tiny CPU weights as an example and was not executed here.
+Training records step/loss progress, configuration fingerprints and complete checkpoints. Changed training inputs require a new output directory. Use --allow_cpu with a suitably small model for full-precision CPU LoRA.
 
-## Independent evaluation
+## Serve an adapter
+
+Set MODEL_PATH to the local base-model directory and ADAPTER_PATH to the trained adapter, then:
+
+~~~sh
+uvicorn serving.app:app --host 127.0.0.1 --port 8000
+~~~
+
+| Endpoint | Purpose |
+|---|---|
+| /health | Report model readiness |
+| /predict/sql | Generate and validate SQL |
+| /v1/chat/completions | Chat-compatible SQL generation with optional buffered SSE |
+
+The server supplies the schema context. SQL generation and validation are separate from database execution.
+
+## Evaluate predictions
+
 ~~~sh
 python -m evals.predict --model /models/base --adapter artifacts/adapter --test_file data/test.jsonl --output artifacts/predictions.jsonl
 python -m evals.benchmark --test_file data/test.jsonl --predictions artifacts/predictions.jsonl --output_dir artifacts/evaluation
 ~~~
-Requires exact prompt IDs and independent predictions; reference answers never enter inference. The deadline-limited read-only SQLite fixture compares ordered results when ORDER BY exists, otherwise row multisets. Invalid references remain visible in the denominator.
-**PostgreSQL-specific queries can fail on SQLite.** Use a matched PostgreSQL fixture or a reviewed portable subset. One small DB can produce coincidental result matches; multiple data instances are needed for strong semantic evidence.
 
-## Export actual weights
+Prediction records are matched to evaluation questions by ID. Queries execute against read-only SQLite fixtures with deadlines. Ordered results use sequence comparison; other results use row-multiset comparison.
+
+The Spider experiment reports execution matching on a public development subset, including confidence intervals and nonempty-reference results. This metric differs from official Spider test-suite accuracy. Choose evaluation fixtures that support the SQL dialect in your dataset.
+
+## Export
+
 ~~~sh
 python -m export.quantize --base_model_id artifacts/cpu_smoke/base --lora_path artifacts/cpu_smoke/adapter --output_dir artifacts/exported --format merged
 ~~~
-Tiny-model merging was executed. CPU merge uses FP32. GGUF additionally requires --format gguf --llama_cpp_dir with a converter and built quantizer; it was not verified here. AWQ is no longer advertised as an automatic implementation.
 
+GGUF conversion additionally requires --format gguf and --llama_cpp_dir pointing to a converter and built quantizer.
 
-## Demonstration
-![Verified terminal demonstration](assets/demo.gif)
+## Validation
 
-[Static PNG](assets/demo.png) | [Raw commands and output](assets/demo-transcript.json)
+The CPU suite passes 17 tests. Local checks also cover training/save/reload, adapter merging and interrupted training recovery.
 
-These assets are condensed terminal replays rendered from actual subprocess output. They are not screenshots of a production deployment.
-Regenerate: install requirements-demo.txt, then run python scripts/render_demo.py.
+[CI results](https://github.com/adexxhh/slm-finetuning-distillation-pipeline/actions/runs/39961314334) ? [CPU training evidence](docs/evidence/cpu-smoke.json) ? [Resume evidence](docs/evidence/resume-verification.json)
 
-[Engineering changes and ownership exercises](OWNERSHIP.md)
+## Demo
 
-## Actual GPU experiment
+![Training pipeline terminal walkthrough](assets/demo.gif)
 
-[Executable Colab/Kaggle notebook](experiments/colab_8b_qlora.ipynb) prepares pinned Spider data, trains Qwen3-8B with NF4 QLoRA, and compares independent base/adapter predictions on held-out databases. It records confidence intervals, failures, revisions and artifacts. GPU execution remains pending; no 8B accuracy is claimed. See [experiment scope](experiments/README.md).
+[PNG](assets/demo.png) ? [Command transcript](assets/demo-transcript.json)
 
-[Continuation handoff](HANDOFF.md) records verified work, pending checks, the active Colab run and recovery steps.
+Regenerate the walkthrough with requirements-demo.txt and python scripts/render_demo.py.
 
-Verified [GitHub Actions run](https://github.com/adexxhh/slm-finetuning-distillation-pipeline/actions/runs/39961314334) passed. Job and step evidence is saved in [github-actions.json](docs/evidence/github-actions.json).
+## Development
+
+[Engineering guide](OWNERSHIP.md) ? [Continuation notes](HANDOFF.md)
+
+With the three project repositories cloned into sibling directories, rebuild the notebook source archives using:
+
+~~~sh
+python scripts/build_source_bundles.py --output-dir ../
+~~~

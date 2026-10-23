@@ -1,10 +1,30 @@
-# GPU experiment
-Open colab_8b_qlora.ipynb and upload the matching sql-8b-source.zip. Each Markdown block describes the cell below it and its expected output.
+# GPU training and evaluation
 
-The notebook streams subprocess output and records logs. Training saves full checkpoints every 10 optimizer steps to MyDrive/ai-project-experiments/sql-8b-run-001/adapter after you authorize the Google Drive mount. Keep that directory for recovery. Use a new directory if you change the dataset or training configuration. Resume validates input/configuration fingerprints and skips checkpoints without a completion marker.
+[Training notebook](colab_8b_qlora.ipynb) configures Qwen3-8B NF4 QLoRA with Spider data and compares base-model and adapter predictions.
 
-Local checks: 17 tests pass. An interrupted tiny CPU training run restored optimizer/scheduler state at step 2 and continued through step 4 with changed adapter weights. The CUDA/Drive workflow has not been verified end to end.
+Each Markdown block describes the next cell's process and expected output.
 
-Validation uses batch size one and loss-only output to avoid retaining full vocabulary logits. Baseline and adapter predictions are independently generated and scored on the same populated, held-out databases. Single-database execution matching is not official Spider test-suite accuracy.
+## Run
 
-Model-driven repair probes remain in the source bundle under repair-editor/benchmarks. Run them in a separate disposable session without personal Drive mounted.
+1. Upload the notebook to Colab and select a CUDA GPU runtime.
+2. Upload the matching sql-8b-source.zip when prompted.
+3. Run cells in order and complete Google Drive authorization at the training cell.
+4. Download sql-8b-results.zip after evaluation.
+
+Build source archives from clean sibling project checkouts with python scripts/build_source_bundles.py --output-dir ../ from the SQL repository.
+
+## Checkpoint recovery
+
+Training writes progress logs and full checkpoints every 10 optimizer steps to MyDrive/ai-project-experiments/sql-8b-run-001/adapter. Keep that directory for recovery. Auto-resume validates dataset/configuration fingerprints and selects a checkpoint marked complete.
+
+Use a new output directory when changing the dataset or training configuration. Model downloads and dataset preparation may need to run again after a runtime reset.
+
+## Outputs
+
+The result archive contains model revision and package versions, split manifests, prediction records, execution-match reports, SQLite fixtures and adapter state. Inspect validation loss, base/adapter scores and failure cases together.
+
+Evaluation uses a database-disjoint public Spider development subset and single-database execution matching. It is a different metric from official Spider test-suite accuracy.
+
+## Separate code-repair experiment
+
+The source bundle also contains the editor's repair probes. Run those in a separate disposable session without Google Drive mounted.
