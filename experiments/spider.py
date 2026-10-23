@@ -90,18 +90,22 @@ def prepare(args):
     print(json.dumps({k:v["count"] for k,v in manifest["splits"].items()},indent=2))
 
 def predict(args):
+    print("Loading model for prediction...",flush=True)
     backend=HFBackend(args.model,args.adapter)
+    print("Model loaded; starting independent predictions.",flush=True)
     records=[json.loads(line) for line in Path(args.test_file).read_text(encoding="utf-8").splitlines() if line.strip()]
     details=[]
     output=Path(args.output);output.parent.mkdir(parents=True,exist_ok=True)
-    for rec in records:
+    for index,rec in enumerate(records,1):
+        print(f"Generating prediction {index}/{len(records)}...",flush=True)
         schema=next(x["value"] for x in rec["conversations"] if x["from"]=="system")
         question=next(x["value"] for x in rec["conversations"] if x["from"]=="human")
         result=backend.generate(question,schema,max_tokens=256)
         details.append({"id":record_id(rec),"sql":result["sql"],"backend":result["backend"],
                         "latency_ms":result["generation_ms"],"total_tokens":result["total_tokens"]})
         output.write_text("\n".join(json.dumps(x) for x in details)+"\n",encoding="utf-8")
-    print("Independent predictions:",len(details))
+        print(f"Saved {len(details)}/{len(records)} predictions; last generation {result['generation_ms']/1000:.1f}s",flush=True)
+    print("Independent predictions:",len(details),flush=True)
 
 def score(args):
     records=[json.loads(x) for x in Path(args.test_file).read_text(encoding="utf-8").splitlines() if x.strip()]
