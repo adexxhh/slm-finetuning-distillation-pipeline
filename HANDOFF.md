@@ -34,7 +34,7 @@ Download sql-8b-results.zip before session expiry. The notebook also copies the 
 - Auditor: 58 tests passed; one opt-in PostgreSQL test skipped without a disposable server. Actual MCP stdio client and SQLite timing benchmark passed.
 - Editor: 12 tests passed; new Redis integration test skipped on Windows/no disposable service. Notebook code cells compile.
 - SQL: 17 tests passed. Actual tiny CPU training/save/reload/generation, adapter merge and interrupted-run recovery were exercised.
-- Linux PostgreSQL and Redis service runs are configured but not yet reported as passed remotely.
+- Linux PostgreSQL and Redis service jobs passed on GitHub Actions; see the verified runs below.
 The Windows TCP fake was inadequate for ARQ INFO commands and POSIX lifecycle behavior; that failed attempt is not real Redis evidence.
 
 ## Claims and evaluation boundaries
@@ -45,10 +45,17 @@ Local auditor SQLite schema timing: median about 14.80 ms / p95 15.80 ms, 30 run
 Editor token comparison is one toy output-only payload example (23 versus 9 tokens), not a broad performance result.
 Git worktrees isolate source changes, not the operating system. Keep generated-code probes in a disposable runtime without personal Drive mounted.
 
+## Verified GitHub Actions runs
+- Auditor PostgreSQL and SQLite/MCP jobs: https://github.com/adexxhh/mcp-database-auditor/actions/runs/39961281678 (source be6b4e9).
+- Editor CPU and real Redis/ARQ jobs: https://github.com/adexxhh/autonomous-code-editor/actions/runs/39961303101 (source 672c77f).
+- SQL CPU contracts: https://github.com/adexxhh/slm-finetuning-distillation-pipeline/actions/runs/39961314334 (source 00286c7).
+All listed jobs completed successfully. Each repo preserves its API job/step results in docs/evidence/github-actions.json. These results apply to those immutable source commits; later documentation commits do not establish a new runtime experiment.
+Real PostgreSQL pooled read-only and real Redis queued completion/cancellation/scoped-event checks are now verified on Linux. Colab service notebooks remain optional reproduction tools. Docker Compose as a complete deployment, actual editor LLM repair results, and final 8B SQL quality remain pending.
+
 ## Next actions
 1. Ask for the latest existing SQL run output and retain results/checkpoints. Do not infer completion from elapsed time.
 2. Inspect base versus tuned predictions, failure categories, confidence intervals, nonempty-reference results, split manifests and model revision before making quality claims.
-3. Run/check the real PostgreSQL and Redis CI service jobs. A supplied notebook is preparation, not execution evidence.
+3. Preserve the passing real PostgreSQL/Redis CI checks and inspect future failures; the CPU Colab notebook is now optional reproduction.
 4. Run the editor's actual-model probes in a separate Drive-free GPU session; retain every proposal, test failure and diff.
 5. Continue integrating the editor's code-repair loop with its asynchronous service; the original service still has a separate search workflow.
 6. Broaden representative repair evaluation, implement OS-level execution isolation for untrusted service use, and verify actual SSE/worker concurrency before claiming production readiness.
