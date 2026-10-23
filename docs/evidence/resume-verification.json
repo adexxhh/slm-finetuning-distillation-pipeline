@@ -1,0 +1,5 @@
+{
+  "status": "passed",
+  "scope": "tiny CPU model; stop at step 2 of 4, restore optimizer/scheduler, complete step 4; adapter weights changed",
+  "gpu_execution_verified": false
+}

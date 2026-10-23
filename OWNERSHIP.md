@@ -60,7 +60,7 @@ This describes implemented work without claiming a full-model experiment that ca
 - On CUDA, reproduce an actual 8B run, save artifacts, compare base and tuned outputs and publish failure cases.
 
 ## Verified versus pending
-15 lightweight tests and actual two-step tiny CPU LoRA training/save/reload/generation passed. Tiny-model adapter merge was also executed. The smoke run has no accuracy claim.
+17 lightweight tests and actual two-step tiny CPU LoRA training/save/reload/generation passed. Tiny-model adapter merge was also executed. The smoke run has no accuracy claim.
 Pending: actual 8B CUDA training, model-quality results, a matched PostgreSQL evaluation fixture, representative holdout data, live token streaming, Docker and external GGUF conversion. These are explicit boundaries, not hidden fallback behaviour.
 
 Start with the LoRA paper https://arxiv.org/abs/2106.09685 and QLoRA paper https://arxiv.org/abs/2305.14314. Be able to explain the equations using your own model shapes and measured runs.

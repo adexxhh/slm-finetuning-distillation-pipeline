@@ -1,16 +1,10 @@
-# Full-model experiment
-Use the GPU notebook in the top-level repair bundle. It prepares a seeded Spider split by database, records dataset revisions and file hashes, trains an actual 8B QLoRA adapter and evaluates base versus adapter on the same public development subset.
+# GPU experiment
+Open colab_8b_qlora.ipynb and upload the matching sql-8b-source.zip. Each Markdown block describes the cell below it and its expected output.
 
-The SQLite files contain actual rows. Independent prediction IDs and raw SQL are saved. Accuracy is single-instance execution matching, not official Spider test-suite accuracy; empty-reference matches and a Wilson interval are reported separately.
-No run has been claimed complete until the GPU notebook finishes and exports its artifacts.
+The notebook streams subprocess output and records logs. Training saves full checkpoints every 10 optimizer steps to MyDrive/ai-project-experiments/sql-8b-run-001/adapter after you authorize the Google Drive mount. Keep that directory for recovery. Use a new directory if you change the dataset or training configuration. Resume validates input/configuration fingerprints and skips checkpoints without a completion marker.
 
-Sources:
-- https://huggingface.co/datasets/xlangai/spider (original question/SQL release; CC BY-SA 4.0)
-- https://huggingface.co/datasets/prem-research/spider (database mirror; record exact revision)
-- https://github.com/taoyds/spider (original project)
-- https://huggingface.co/Qwen/Qwen3-8B (model card/license)
+Local checks: 17 tests pass. An interrupted tiny CPU training run restored optimizer/scheduler state at step 2 and continued through step 4 with changed adapter weights. The CUDA/Drive workflow has not been verified end to end.
 
+Validation uses batch size one and loss-only output to avoid retaining full vocabulary logits. Baseline and adapter predictions are independently generated and scored on the same populated, held-out databases. Single-database execution matching is not official Spider test-suite accuracy.
 
-Start with colab_8b_qlora.ipynb and the matching sql-8b-source.zip. Run cells in order on a CUDA GPU runtime. Neither GPU execution nor 8B accuracy has been verified locally. Download results before session expiry.
-
-The matching source archive also includes repair-editor with three actual-model repair probes. The notebook runs these using the same downloaded base model; results are integration evidence, not a representative success-rate estimate.
+Model-driven repair probes remain in the source bundle under repair-editor/benchmarks. Run them in a separate disposable session without personal Drive mounted.

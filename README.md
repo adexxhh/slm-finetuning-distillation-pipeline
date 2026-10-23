@@ -31,7 +31,7 @@ pip install -r requirements-ml.txt
 python -m training.smoke_cpu
 ~~~
 Creates a tiny random Llama/tokenizer locally, performs two real CPU LoRA optimizer steps, saves/reloads the adapter and generates tokens. No pretrained model download. **Not 8B training, 4-bit QLoRA or a quality benchmark.**
-The run passed along with **15 lightweight tests**. [Recorded CPU evidence](docs/evidence/cpu-smoke.json).
+The run passed along with **17 lightweight tests**. [Recorded CPU evidence](docs/evidence/cpu-smoke.json).
 
 ## CUDA QLoRA (unverified here)
 Install a compatible CUDA PyTorch/bitsandbytes stack and obtain an authorized model:
