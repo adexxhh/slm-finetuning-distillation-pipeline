@@ -37,3 +37,8 @@ Thumbs.db
 
 artifacts/
 *.egg-info/
+
+.env
+.env.local
+.ipynb_checkpoints/
+checkpoints/

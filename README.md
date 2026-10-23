@@ -78,3 +78,5 @@ Regenerate: install requirements-demo.txt, then run python scripts/render_demo.p
 ## Actual GPU experiment
 
 [Executable Colab/Kaggle notebook](experiments/colab_8b_qlora.ipynb) prepares pinned Spider data, trains Qwen3-8B with NF4 QLoRA, and compares independent base/adapter predictions on held-out databases. It records confidence intervals, failures, revisions and artifacts. GPU execution remains pending; no 8B accuracy is claimed. See [experiment scope](experiments/README.md).
+
+[Continuation handoff](HANDOFF.md) records verified work, pending checks, the active Colab run and recovery steps.
