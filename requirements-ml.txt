@@ -1,0 +1,7 @@
+-r requirements.txt
+torch>=2.5,<3
+transformers>=5,<6
+peft>=0.18,<1
+datasets>=3,<6
+accelerate>=1,<2
+# Install bitsandbytes separately on supported CUDA hosts for 4-bit training.

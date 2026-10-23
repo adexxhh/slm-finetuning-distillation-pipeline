@@ -139,13 +139,16 @@ class MockDatabaseEngine:
         ])
 
         self.conn.commit()
+        self.conn.execute("PRAGMA query_only = ON")
+        self.conn.set_progress_handler(lambda: int(time.monotonic() > getattr(self,"deadline",float("inf"))),1000)
 
     def execute_query(self, sql: str) -> Tuple[bool, List[Tuple], Optional[str]]:
         """Executes query and returns (success, rows, error_msg). Cleanly strips PostgreSQL JSONB syntax for SQLite compatibility."""
         sql_clean = sql.strip().rstrip(";")
         # Simple compatibility cleaning for SQLite execution test
-        sql_sqlite = sql_clean.replace("->>", "->").replace("::text", "")
+        sql_sqlite = sql_clean  # Never silently change the SQL being evaluated.
         try:
+            self.deadline=time.monotonic()+2
             cursor = self.conn.cursor()
             cursor.execute(sql_sqlite)
             rows = cursor.fetchall()
@@ -154,172 +157,65 @@ class MockDatabaseEngine:
             return False, [], str(e)
 
 
-# Benchmark Runner Engine
-class BenchmarkRunner:
-    def __init__(self, test_file: str, output_dir: str):
-        self.test_file = test_file
-        self.output_dir = output_dir
-        self.db = MockDatabaseEngine()
-        self.validator = SQLValidator()
 
-    def load_test_records(self) -> List[Dict[str, Any]]:
-        records = []
-        if not os.path.exists(self.test_file):
-            print(f"Warning: Test file '{self.test_file}' not found. Using internal evaluation set.")
-            return []
-        
-        with open(self.test_file, "r", encoding="utf-8") as f:
-            for line in f:
-                if line.strip():
-                    records.append(json.loads(line))
-        return records
+from collections import Counter
+import hashlib
+import math
+import sqlglot
 
-    def _extract_sql_from_gpt_turn(self, assistant_text: str) -> str:
-        if "```sql" in assistant_text:
-            return assistant_text.split("```sql")[1].split("```")[0].strip()
-        return assistant_text.strip()
+def record_id(record):
+    # Full prompt + schema identify the task; the reference answer is excluded.
+    prompt=[m for m in record["conversations"] if m["from"]!="gpt"]
+    return hashlib.sha256(json.dumps(prompt,sort_keys=True).encode()).hexdigest()
 
-    def run_benchmark(self, num_samples: int = 50) -> Dict[str, Any]:
-        print(f"=== Running Evaluation Benchmark Suite ({num_samples} queries) ===")
-        test_records = self.load_test_records()[:num_samples]
-        
-        # Model Competitor Profiles
-        competitors = {
-            "Frontier Baseline (GPT-4o)": {
-                "syntax_valid": 0,
-                "exec_accurate": 0,
-                "ttft_ms_list": [],
-                "latency_ms_list": [],
-                "cost_per_1M_queries": 4500.00,  # ~$4,500 / 1M queries on commercial frontier API
-            },
-            "Base SLM (Llama-3.1-8B-Instruct)": {
-                "syntax_valid": 0,
-                "exec_accurate": 0,
-                "ttft_ms_list": [],
-                "latency_ms_list": [],
-                "cost_per_1M_queries": 45.00,    # Self-hosted compute cost estimate
-            },
-            "Fine-Tuned Distilled SLM (Ours)": {
-                "syntax_valid": 0,
-                "exec_accurate": 0,
-                "ttft_ms_list": [],
-                "latency_ms_list": [],
-                "cost_per_1M_queries": 45.00,    # Self-hosted compute cost estimate
-            }
-        }
-
-        total_queries = len(test_records) if test_records else num_samples
-
-        # Simulate benchmark execution across records
-        for i in range(total_queries):
-            gold_sql = "SELECT u.full_name, u.email, o.name FROM users u JOIN organizations o ON u.org_id = o.org_id WHERE o.tier = 'enterprise';"
-            if test_records and i < len(test_records):
-                for msg in test_records[i].get("conversations", []):
-                    if msg.get("from") == "gpt":
-                        gold_sql = self._extract_sql_from_gpt_turn(msg.get("value", ""))
-                        break
-
-            # Execute Gold Query on database
-            gold_ok, gold_rows, _ = self.db.execute_query(gold_sql)
-
-            # 1. Frontier Baseline (GPT-4o) Metrics
-            competitors["Frontier Baseline (GPT-4o)"]["syntax_valid"] += 1
-            competitors["Frontier Baseline (GPT-4o)"]["exec_accurate"] += 1
-            competitors["Frontier Baseline (GPT-4o)"]["ttft_ms_list"].append(240.0 + (i % 5)*10)
-            competitors["Frontier Baseline (GPT-4o)"]["latency_ms_list"].append(850.0 + (i % 7)*20)
-
-            # 2. Base SLM (Llama-3.1-8B Untuned)
-            base_sql = "SELECT full_name FROM users;"  # Hallucinated incomplete query
-            b_valid, _ = self.validator.validate(base_sql)
-            b_ok, b_rows, _ = self.db.execute_query(base_sql)
-            if b_valid:
-                competitors["Base SLM (Llama-3.1-8B-Instruct)"]["syntax_valid"] += 1
-            if b_ok and b_rows == gold_rows:
-                competitors["Base SLM (Llama-3.1-8B-Instruct)"]["exec_accurate"] += 1
-            competitors["Base SLM (Llama-3.1-8B-Instruct)"]["ttft_ms_list"].append(35.0 + (i % 3)*2)
-            competitors["Base SLM (Llama-3.1-8B-Instruct)"]["latency_ms_list"].append(140.0 + (i % 4)*5)
-
-            # 3. Fine-Tuned Distilled SLM (Ours)
-            ft_valid, _ = self.validator.validate(gold_sql)
-            ft_ok, ft_rows, _ = self.db.execute_query(gold_sql)
-            if ft_valid:
-                competitors["Fine-Tuned Distilled SLM (Ours)"]["syntax_valid"] += 1
-            if ft_ok and ft_rows == gold_rows:
-                competitors["Fine-Tuned Distilled SLM (Ours)"]["exec_accurate"] += 1
-            competitors["Fine-Tuned Distilled SLM (Ours)"]["ttft_ms_list"].append(25.0 + (i % 3)*2)
-            competitors["Fine-Tuned Distilled SLM (Ours)"]["latency_ms_list"].append(110.0 + (i % 4)*5)
-
-        # Compile final summary statistics
-        report_data = {"num_samples": total_queries, "models": {}}
-
-        for model_name, metrics in competitors.items():
-            avg_ttft = sum(metrics["ttft_ms_list"]) / len(metrics["ttft_ms_list"]) if metrics["ttft_ms_list"] else 0.0
-            avg_latency = sum(metrics["latency_ms_list"]) / len(metrics["latency_ms_list"]) if metrics["latency_ms_list"] else 0.0
-            syntax_pct = (metrics["syntax_valid"] / total_queries) * 100.0
-            exec_pct = (metrics["exec_accurate"] / total_queries) * 100.0
-
-            report_data["models"][model_name] = {
-                "syntax_validity_rate_pct": round(syntax_pct, 2),
-                "execution_accuracy_pct": round(exec_pct, 2),
-                "avg_ttft_ms": round(avg_ttft, 2),
-                "avg_total_latency_ms": round(avg_latency, 2),
-                "estimated_cost_per_1M_queries": metrics["cost_per_1M_queries"]
-            }
-
-        self.export_reports(report_data)
-        return report_data
-
-    def export_reports(self, report_data: Dict[str, Any]):
-        os.makedirs(self.output_dir, exist_ok=True)
-        json_path = os.path.join(self.output_dir, "report.json")
-        md_path = os.path.join(self.output_dir, "report.md")
-
-        with open(json_path, "w", encoding="utf-8") as f:
-            json.dump(report_data, f, indent=2)
-
-        # Generate Markdown Table Report
-        md_lines = [
-            "# Benchmark Evaluation & Distillation Performance Report",
-            "",
-            f"**Total Benchmark Test Queries Evaluated**: `{report_data['num_samples']}`",
-            "",
-            "## Performance & Cost Comparison Matrix",
-            "",
-            "| Model Candidate | Syntax Validity (%) | Execution Accuracy (%) | TTFT Latency (ms) | Total Latency (ms) | Cost / 1M Queries ($USD) |",
-            "| :--- | :---: | :---: | :---: | :---: | :---: |"
-        ]
-
-        for model_name, stats in report_data["models"].items():
-            md_lines.append(
-                f"| **{model_name}** | {stats['syntax_validity_rate_pct']}% | {stats['execution_accuracy_pct']}% | {stats['avg_ttft_ms']} ms | {stats['avg_total_latency_ms']} ms | ${stats['estimated_cost_per_1M_queries']:,.2f} |"
-            )
-
-        md_lines.extend([
-            "",
-            "---",
-            "### Summary Insights",
-            "- **Domain Specialization**: The **Fine-Tuned Distilled SLM** matches or approaches Frontier (GPT-4o) execution accuracy on enterprise Text-to-SQL tasks while running **8x faster**.",
-            "- **Cost Reduction**: Self-hosting the distilled 7B/8B SLM reduces operational inference token expenditure by over **99%** compared to commercial frontier API calls ($45 vs $4,500 per 1M queries).",
-            "- **Deterministic Reliability**: 100% of generated queries pass `sqlglot` read-only AST safety validation."
-        ])
-
-        with open(md_path, "w", encoding="utf-8") as f:
-            f.write("\n".join(md_lines))
-
-        print(f"\nGenerated benchmark JSON report at: {json_path}")
-        print(f"Generated benchmark Markdown report at: {md_path}")
-
+def evaluate(records,predictions,db):
+    validator=SQLValidator()
+    by_id={}
+    for item in predictions:
+        if item["id"] in by_id: raise ValueError("Duplicate prediction ID")
+        by_id[item["id"]]=item
+    ids=[record_id(r) for r in records]
+    if len(set(ids))!=len(ids): raise ValueError("Duplicate evaluation task")
+    if set(by_id)!=set(ids): raise ValueError("Prediction IDs must exactly match evaluation prompts")
+    details=[]
+    for record in records:
+        item=by_id[record_id(record)]
+        gold=next(m["value"] for m in record["conversations"] if m["from"]=="gpt")
+        from serving.backend import extract_sql
+        gold=extract_sql(gold)
+        gold_valid,gold_error=validator.validate(gold)
+        gold_ok,gold_rows,gold_exec_error=db.execute_query(gold) if gold_valid else (False,[],gold_error)
+        prediction=item["sql"]
+        valid,error=validator.validate(prediction)
+        ok,rows,exec_error=db.execute_query(prediction) if valid and gold_ok else (False,[],error)
+        ordered=bool(sqlglot.parse_one(gold,read="postgres").args.get("order")) if gold_valid else False
+        correct=bool(gold_ok and valid and ok and (rows==gold_rows if ordered else Counter(rows)==Counter(gold_rows)))
+        details.append({"id":item["id"],"reference_executable":gold_ok,"prediction_valid":valid,
+                        "correct":correct,"error":gold_exec_error if not gold_ok else exec_error,
+                        "prediction_sql":prediction,"latency_ms":item.get("latency_ms"),
+                        "backend":item.get("backend","unspecified")})
+    n=len(details); executable=sum(x["reference_executable"] for x in details)
+    correct=sum(x["correct"] for x in details)
+    return {"mode":"independent-predictions","database":"sqlite-fixture","num_samples":n,
+            "reference_executable":executable,"reference_errors":n-executable,
+            "correct":correct,"execution_accuracy_pct":100*correct/n if n else None,
+            "caveat":"Small single-fixture research evaluation; PostgreSQL-only queries may be unexecutable. Not a production/generalization benchmark.",
+            "details":details}
 
 def main():
-    parser = argparse.ArgumentParser(description="Text-to-SQL Evaluation & Comparison Benchmark Harness")
-    parser.add_argument("--test_file", type=str, default="data/test.jsonl", help="Path to test dataset file.")
-    parser.add_argument("--output_dir", type=str, default="evals/results", help="Directory to save evaluation reports.")
-    parser.add_argument("--num_samples", type=int, default=50, help="Number of test queries to evaluate.")
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--test_file",default="data/test.jsonl")
+    parser.add_argument("--predictions",required=True,help="JSONL: id, sql, optional latency_ms and backend")
+    parser.add_argument("--output_dir",default="evals/results")
+    args=parser.parse_args()
+    def read(path):
+        with open(path,encoding="utf-8") as f:return [json.loads(line) for line in f if line.strip()]
+    records=read(args.test_file); predictions=read(args.predictions)
+    db=MockDatabaseEngine()
+    try: report=evaluate(records,predictions,db)
+    finally:db.conn.close()
+    os.makedirs(args.output_dir,exist_ok=True)
+    with open(os.path.join(args.output_dir,"report.json"),"w",encoding="utf-8") as f:json.dump(report,f,indent=2)
+    print(json.dumps({k:v for k,v in report.items() if k!="details"},indent=2))
 
-    args = parser.parse_args()
-    runner = BenchmarkRunner(args.test_file, args.output_dir)
-    runner.run_benchmark(args.num_samples)
-
-
-if __name__ == "__main__":
-    main()
+if __name__=="__main__":main()

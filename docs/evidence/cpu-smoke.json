@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "scope": "tiny random Llama, two CPU LoRA optimizer steps, adapter save/reload and real generation",
+  "is_8b_qlora": false,
+  "quality_evaluated": false,
+  "generated_tokens": 8,
+  "generation_ms": 10.558199996012263,
+  "torch": "2.14.1+cpu"
+}

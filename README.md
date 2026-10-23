@@ -1,178 +1,80 @@
-# Enterprise SLM Fine-Tuning & Distillation Pipeline
+# Text-to-SQL LoRA Research Pipeline
 
-Enterprise-grade repository for Small Language Model (SLM) fine-tuning focused on domain-specific **Text-to-SQL distillation**.
+A research prototype connecting supervised fine-tuning, real local inference, AST/schema checks and independent SQL evaluation.
 
-<p align="center">
-  <img src="assets/demo.svg" alt="Text-to-SQL Pipeline Benchmark & Serving Demo" width="850">
-</p>
+**Evidence:** tiny-model CPU LoRA training/inference works. **No validated 8B QLoRA accuracy result exists.** Previous accuracy, model comparisons, latency and cost tables were simulated and are withdrawn.
 
----
+~~~mermaid
+flowchart LR
+  Data[Seed data] --> Split[Train / validation / test]
+  Split --> Train[Completion-only LoRA]
+  Train --> Adapter[Saved adapter]
+  Adapter --> Model[Real local HF model]
+  Model --> Predictions[Independent predictions]
+  Predictions --> Evaluation[Read-only SQL evaluation]
+~~~
 
-## System Architecture
-
-```mermaid
-flowchart TD
-    subgraph P1["Phase 1: Data Engine"]
-        S[Enterprise Schemas] --> G[Generator & 50 Seed Records]
-        G --> V[sqlglot Read-Only AST Validator]
-        V --> D[train.jsonl & test.jsonl]
-    end
-
-    subgraph P2["Phase 2: Fine-Tuning"]
-        D --> Q[4-Bit QLoRA SFT Trainer]
-        Q --> DR[training/dry_run.py Hardware Check]
-        DR --> A[LoRA Adapters]
-    end
-
-    subgraph P3["Phase 3: Export & Quantization"]
-        A --> M[16-Bit Weight Merge]
-        M --> GGUF[GGUF Q4_K_M / Q8_0]
-        M --> AWQ[AWQ 4-Bit vLLM]
-        GGUF --> OLLAMA[Ollama Modelfile]
-    end
-
-    subgraph P4["Phase 4: Serving"]
-        OLLAMA --> API[FastAPI Serving Layer]
-        AWQ --> API
-        API --> C1[POST /v1/chat/completions]
-        API --> C2[POST /predict/sql]
-        API --> C3[GET /health]
-    end
-
-    subgraph P5["Phase 5: Evaluation"]
-        D --> B[Benchmark Harness]
-        C2 --> B
-        B --> R[report.md & report.json]
-    end
-```
-
----
-
-## Comparison Benchmark Results
-
-| Model Candidate | Syntax Validity (%) | Execution Accuracy (%) | TTFT Latency (ms) | Total Latency (ms) | Cost / 1M Queries ($USD) |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **Frontier Baseline (GPT-4o)** | 100.0% | 100.0% | 260.0 ms | 898.0 ms | $4,500.00 |
-| **Base SLM (Llama-3.1-8B-Instruct)** | 100.0% | 0.0% | 36.8 ms | 146.5 ms | $45.00 |
-| **Fine-Tuned Distilled SLM (Ours)** | **100.0%** | **60.0%** | **26.8 ms** | **116.5 ms** | **$45.00** |
-
----
-
-## Directory Structure
-
-```
-slm-finetuning-pipeline/
-├── data/
-│   ├── train.jsonl             # 40 pre-validated records (ShareGPT format)
-│   └── test.jsonl              # 10 pre-validated records (ShareGPT format)
-├── data_engine/
-│   ├── schemas.py              # PostgreSQL database schemas & context prompts
-│   ├── generator.py            # Synthetic dataset generator & 50 schema seed records
-│   └── validator.py            # AST & Schema SQL validator
-├── training/
-│   ├── train.py                # 4-bit QLoRA SFT fine-tuning pipeline
-│   └── dry_run.py              # Hardware VRAM verification & mock 2-step dry run
-├── export/
-│   ├── quantize.py             # Export & Quantization CLI (16bit, GGUF, AWQ)
-│   └── Modelfile               # Auto-generated template for local Ollama deployment
-├── serving/
-│   └── app.py                  # FastAPI inference server with SSE streaming & SQL validation
-├── evals/
-│   ├── benchmark.py            # Automated evaluation harness
-│   └── results/
-│       ├── report.md           # Markdown benchmark summary report
-│       └── report.json         # Raw benchmark evaluation metrics JSON
-├── Dockerfile                  # Multi-stage build for CUDA/vLLM & CPU/llama.cpp
-├── docker-compose.yml          # Container orchestration service configuration
-├── run_pipeline.sh             # Turnkey bash script for end-to-end execution
-├── main.py                     # CLI entrypoint for data generation & validation
-├── requirements.txt            # Project dependencies
-└── README.md                   # Project documentation
-```
-
----
-
-## Turnkey Quickstart
-
-### 1. One-Line Pipeline Execution
-
-Run the complete pipeline (data generation, validation, dry-run, quantization export, and benchmark evaluations):
-
-```bash
-bash run_pipeline.sh
-```
-
-### 2. Docker Container Deployment
-
-Build and launch the containerized inference server:
-
-```bash
-docker-compose up --build
-```
-
----
-
-## Detailed Step-by-Step Usage
-
-### 1. Installation
-
-```bash
+## CPU checks
+~~~sh
 pip install -r requirements.txt
-```
-
-### 2. Synthetic Dataset Generation & Validation
-
-```bash
+python -m pytest -q
 python main.py --generate
 python main.py --validate data/train.jsonl
-```
+python main.py --validate data/validation.jsonl
+python main.py --validate data/test.jsonl
+~~~
+The dataset is a small handwritten single-schema fixture. Splits are seeded and disjoint by prompt hash. This is not evidence of teacher-model distillation or cross-schema generalization. Parsing does not prove that SQL correctly answers an English question.
 
-### 3. Fine-Tuning & Hardware Verification
+## Actual training smoke run
+~~~sh
+pip install -r requirements-ml.txt
+python -m training.smoke_cpu
+~~~
+Creates a tiny random Llama/tokenizer locally, performs two real CPU LoRA optimizer steps, saves/reloads the adapter and generates tokens. No pretrained model download. **Not 8B training, 4-bit QLoRA or a quality benchmark.**
+The run passed along with **15 lightweight tests**. [Recorded CPU evidence](docs/evidence/cpu-smoke.json).
 
-```bash
-# GPU Hardware Verification Dry Run
-python -m training.dry_run
+## CUDA QLoRA (unverified here)
+Install a compatible CUDA PyTorch/bitsandbytes stack and obtain an authorized model:
+~~~sh
+python -m training.train --model_id /models/base --train_file data/train.jsonl --val_file data/validation.jsonl --output_dir artifacts/adapter
+~~~
+No CUDA: the command fails unless --allow_cpu explicitly selects full-precision LoRA for a small model. Overlapping train/validation prompts and overlong examples fail. Training emits a manifest.
+An adequate dataset, hardware budget and independent full-model evaluation remain necessary.
 
-# QLoRA Training Launch
-python -m training.train \
-  --model_id unsloth/Meta-Llama-3.1-8B-Instruct \
-  --train_file data/train.jsonl \
-  --val_file data/test.jsonl \
-  --output_dir checkpoints/llama3_sql_lora
-```
+## Serve actual weights
+Set MODEL_PATH to a downloaded local model directory, optionally ADAPTER_PATH to an adapter, then run uvicorn serving.app:app --host 127.0.0.1 --port 8000.
+- /health reports whether a model was actually loaded.
+- /predict/sql generates and validates SQL but never executes it.
+- Missing model returns HTTP 503; rejected output returns HTTP 422.
+- /v1/chat/completions supports one user question. SSE is explicitly **buffered**, not live token streaming. TTFT is null instead of fabricated.
+- Schema is controlled by the server; arbitrary custom schemas are not supported.
+Docker uses tiny CPU weights as an example and was not executed here.
 
-### 4. Export & Local Ollama Deployment
+## Independent evaluation
+~~~sh
+python -m evals.predict --model /models/base --adapter artifacts/adapter --test_file data/test.jsonl --output artifacts/predictions.jsonl
+python -m evals.benchmark --test_file data/test.jsonl --predictions artifacts/predictions.jsonl --output_dir artifacts/evaluation
+~~~
+Requires exact prompt IDs and independent predictions; reference answers never enter inference. The deadline-limited read-only SQLite fixture compares ordered results when ORDER BY exists, otherwise row multisets. Invalid references remain visible in the denominator.
+**PostgreSQL-specific queries can fail on SQLite.** Use a matched PostgreSQL fixture or a reviewed portable subset. One small DB can produce coincidental result matches; multiple data instances are needed for strong semantic evidence.
 
-```bash
-# Export all formats (Merged FP16, GGUF Q4_K_M/Q8_0, AWQ, Modelfile)
-python -m export.quantize --format all
+## Export actual weights
+~~~sh
+python -m export.quantize --base_model_id artifacts/cpu_smoke/base --lora_path artifacts/cpu_smoke/adapter --output_dir artifacts/exported --format merged
+~~~
+Tiny-model merging was executed. CPU merge uses FP32. GGUF additionally requires --format gguf --llama_cpp_dir with a converter and built quantizer; it was not verified here. AWQ is no longer advertised as an automatic implementation.
 
-# Deploy fine-tuned model into local Ollama
-ollama create sql-slm -f ./export/Modelfile
 
-# Query fine-tuned model in Ollama
-ollama run sql-slm "List all active enterprise users and their organization names."
-```
+## Demonstration
+![Verified terminal demonstration](assets/demo.gif)
 
-### 5. Launch Serving Server & Test APIs
+[Static PNG](assets/demo.png) | [Raw commands and output](assets/demo-transcript.json)
 
-```bash
-python -m uvicorn serving.app:app --host 0.0.0.0 --port 8000
-```
+These assets are condensed terminal replays rendered from actual subprocess output. They are not screenshots of a production deployment.
+Regenerate: install requirements-demo.txt, then run python scripts/render_demo.py.
 
-#### Health Check Endpoint
-```bash
-curl http://localhost:8000/health
-```
+[Engineering changes and ownership exercises](OWNERSHIP.md)
 
-#### Specialized SQL Endpoint (`POST /predict/sql`)
-```bash
-curl -X POST http://localhost:8000/predict/sql \
-  -H "Content-Type: application/json" \
-  -d '{"query": "List all active enterprise users and their organization names."}'
-```
+## Actual GPU experiment
 
----
-
-## License
-MIT License
+[Executable Colab/Kaggle notebook](experiments/colab_8b_qlora.ipynb) prepares pinned Spider data, trains Qwen3-8B with NF4 QLoRA, and compares independent base/adapter predictions on held-out databases. It records confidence intervals, failures, revisions and artifacts. GPU execution remains pending; no 8B accuracy is claimed. See [experiment scope](experiments/README.md).

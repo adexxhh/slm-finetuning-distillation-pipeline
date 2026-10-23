@@ -99,16 +99,14 @@ def run_dry_run():
             "--batch_size", "1",
             "--gradient_accumulation_steps", "1",
             "--max_steps", "2",
-            "--report_to", "none"
+            "--report_to", "none", "--allow_cpu"
         ])
 
         try:
             run_training(args)
             print("\nDry-Run Verification Succeeded! 2 steps executed cleanly.")
-        except Exception as e:
-            print(f"\nDry-Run Execution Note: {e}")
-            print("Note: In lightweight test environments without CUDA/quantization drivers, ensure PyTorch and Transformers are fully configured for your GPU.")
-
+        except Exception:
+            raise  # A failed training step must fail the process and CI.
 
 if __name__ == "__main__":
     run_dry_run()

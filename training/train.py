@@ -7,6 +7,7 @@ import os
 import sys
 import argparse
 import json
+from pathlib import Path
 from typing import Dict, Any, List
 
 # Lazy import ML libraries inside run_training to allow lightweight CLI --help execution
@@ -40,55 +41,15 @@ def load_jsonl_dataset(file_path: str) -> Any:
     return Dataset.from_list(records)
 
 
-def format_and_tokenize(example: Dict[str, Any], tokenizer, max_seq_length: int) -> Dict[str, Any]:
-    """Formats ShareGPT messages and tokenizes directly to input_ids and labels."""
-    conversations = example.get("conversations", [])
-    
-    system_msg = ""
-    user_msg = ""
-    assistant_msg = ""
-    
-    for msg in conversations:
-        role = msg.get("from", "")
-        content = msg.get("value", "")
-        if role == "system":
-            system_msg = content
-        elif role == "human":
-            user_msg = content
-        elif role == "gpt":
-            assistant_msg = content
-
-    if hasattr(tokenizer, "apply_chat_template") and tokenizer.chat_template:
-        messages = []
-        if system_msg:
-            messages.append({"role": "system", "content": system_msg})
-        if user_msg:
-            messages.append({"role": "user", "content": user_msg})
-        if assistant_msg:
-            messages.append({"role": "assistant", "content": assistant_msg})
-        formatted_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
-    else:
-        formatted_text = (
-            f"<|system|>\n{system_msg}</s>\n"
-            f"<|user|>\n{user_msg}</s>\n"
-            f"<|assistant|>\n{assistant_msg}</s>"
-        )
-        
-    encoded = tokenizer(
-        formatted_text,
-        truncation=True,
-        max_length=max_seq_length,
-        padding=False,
-    )
-    
-    encoded["labels"] = [token for token in encoded["input_ids"]]
-    return encoded
+def format_and_tokenize(example, tokenizer, max_seq_length):
+    from training.formatting import encode_completion
+    return encode_completion(example, tokenizer, max_seq_length)
 
 
 def run_training(args: argparse.Namespace):
     """Main training execution logic."""
     if not IMPORTS_OK:
-        raise ImportError("Fine-tuning dependencies (torch, transformers, peft) are not installed. Install requirements.txt first.")
+        raise ImportError("Fine-tuning dependencies are not installed. Install requirements-ml.txt first.")
     
     try:
         from unsloth import FastLanguageModel
@@ -104,14 +65,24 @@ def run_training(args: argparse.Namespace):
     print(f"Unsloth Engine Requested: {args.use_unsloth}")
     print(f"Unsloth Engine Available: {HAS_UNSLOTH}")
     
+    if args.val_file and Path(args.train_file).resolve() == Path(args.val_file).resolve():
+        raise ValueError("Training and validation paths must differ")
     train_dataset = load_jsonl_dataset(args.train_file)
     val_dataset = load_jsonl_dataset(args.val_file) if args.val_file and os.path.exists(args.val_file) else None
+    if val_dataset is not None:
+        from evals.benchmark import record_id
+        if {record_id(x) for x in train_dataset} & {record_id(x) for x in val_dataset}:
+            raise ValueError("Training/validation prompt overlap detected")
     
     has_cuda = torch.cuda.is_available()
+    if not has_cuda and not args.allow_cpu:
+        raise RuntimeError("4-bit QLoRA requires CUDA. Use --allow_cpu only for a small full-precision LoRA smoke model.")
+    from transformers import set_seed
+    set_seed(args.seed)
     device_map = "auto" if has_cuda else "cpu"
     is_bf16_supported = has_cuda and torch.cuda.is_bf16_supported()
 
-    if args.use_unsloth and HAS_UNSLOTH:
+    if args.use_unsloth and HAS_UNSLOTH and has_cuda:
         print("\nLoading model with Unsloth FastLanguageModel (4-bit)...")
         model, tokenizer = FastLanguageModel.from_pretrained(
             model_name=args.model_id,
@@ -130,7 +101,7 @@ def run_training(args: argparse.Namespace):
             random_state=3407,
         )
     else:
-        print("\nLoading model with PEFT + Transformers + BitsAndBytes (4-bit QLoRA)...")
+        print("\nLoading model for " + ("4-bit QLoRA" if has_cuda else "full-precision CPU LoRA") + "...")
         if args.use_unsloth and not HAS_UNSLOTH:
             print("Notice: Unsloth not detected in environment; using standard PEFT fallback.")
 
@@ -188,13 +159,14 @@ def run_training(args: argparse.Namespace):
         per_device_train_batch_size=args.batch_size,
         gradient_accumulation_steps=args.gradient_accumulation_steps,
         learning_rate=args.learning_rate,
-        eval_strategy="no",
-        save_strategy="no",
+        eval_strategy="epoch" if tokenized_val is not None else "no",
+        save_strategy="epoch",
         max_steps=args.max_steps if hasattr(args, "max_steps") and args.max_steps else -1,
         logging_steps=1,
-        fp16=False,
-        bf16=False,
-        report_to="none",
+        fp16=has_cuda and not is_bf16_supported,
+        bf16=is_bf16_supported,
+        report_to=args.report_to,
+        seed=args.seed,
         use_cpu=not has_cuda,
     )
 
@@ -213,19 +185,33 @@ def run_training(args: argparse.Namespace):
     )
 
     print("\nStarting SFT Training...")
-    trainer.train()
+    train_result = trainer.train()
+    trainer.save_state()
+    trainer.save_metrics("train", train_result.metrics)
+    if tokenized_val is not None:
+        trainer.save_metrics("eval", trainer.evaluate())
 
     print(f"\nTraining completed! Saving LoRA adapter to {args.output_dir}...")
     trainer.model.save_pretrained(args.output_dir)
     tokenizer.save_pretrained(args.output_dir)
+    manifest = {
+        "base_model": args.model_id, "adapter_dir": args.output_dir,
+        "quantized_4bit": has_cuda, "mode": "QLoRA" if has_cuda else "full-precision CPU LoRA",
+        "train_examples":len(train_dataset), "validation_examples":len(val_dataset) if val_dataset else 0,
+        "seed":args.seed, "epochs":args.epochs, "max_steps":args.max_steps,
+        "torch":torch.__version__
+    }
+    Path(args.output_dir, "run_manifest.json").write_text(json.dumps(manifest,indent=2),encoding="utf-8")
     print("Done!")
 
 
 def get_args_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="4-Bit QLoRA SFT Fine-Tuning Pipeline for Text-to-SQL SLM Distillation")
+    parser.add_argument("--allow_cpu", action="store_true")
+    parser.add_argument("--seed", type=int, default=3407)
     parser.add_argument("--model_id", type=str, default="unsloth/Meta-Llama-3.1-8B-Instruct", help="Base model identifier from HuggingFace / Unsloth.")
     parser.add_argument("--train_file", type=str, default="data/train.jsonl", help="Path to train JSONL dataset.")
-    parser.add_argument("--val_file", type=str, default="data/test.jsonl", help="Path to test/val JSONL dataset.")
+    parser.add_argument("--val_file", type=str, default="data/validation.jsonl", help="Path to test/val JSONL dataset.")
     parser.add_argument("--output_dir", type=str, default="checkpoints/lora_model", help="Directory to save fine-tuned LoRA adapters.")
     parser.add_argument("--batch_size", type=int, default=2, help="Per device training batch size.")
     parser.add_argument("--gradient_accumulation_steps", type=int, default=4, help="Number of gradient accumulation steps.")
@@ -233,8 +219,8 @@ def get_args_parser() -> argparse.ArgumentParser:
     parser.add_argument("--max_steps", type=int, default=-1, help="Max training steps (overrides epochs if > 0).")
     parser.add_argument("--learning_rate", type=float, default=2e-4, help="Peak learning rate.")
     parser.add_argument("--max_seq_length", type=int, default=2048, help="Maximum sequence length.")
-    parser.add_argument("--use_unsloth", action="store_true", default=True, help="Use Unsloth FastLanguageModel engine if available.")
-    parser.add_argument("--report_to", type=str, default="tensorboard", help="Comma-separated logging backends: 'tensorboard', 'wandb', 'none'.")
+    parser.add_argument("--use_unsloth", action="store_true", default=False, help="Use Unsloth FastLanguageModel engine if available.")
+    parser.add_argument("--report_to", type=str, default="none", help="Comma-separated logging backends: 'tensorboard', 'wandb', 'none'.")
     return parser
 
 

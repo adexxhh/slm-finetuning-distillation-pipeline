@@ -1,31 +1,9 @@
-# Multi-Stage Production Dockerfile for SLM Fine-Tuning & Distillation Pipeline
-FROM nvidia/cuda:12.1.1-runtime-ubuntu22.04 AS base
-
-# Prevent interactive prompts
-ENV DEBIAN_FRONTEND=noninteractive
-ENV PYTHONUNBUFFERED=1
-
-# Install System Dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3.10 \
-    python3-pip \
-    python3-dev \
-    git \
-    curl \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
+FROM python:3.13-slim
 WORKDIR /app
-
-# Copy Requirements & Install Python Dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy Project Source Code
+COPY requirements.txt requirements-ml.txt ./
+RUN pip install --no-cache-dir -r requirements-ml.txt
 COPY . .
-
-# Expose FastAPI Serving Port
+RUN useradd -m -u 10001 appuser && chown -R appuser /app
+USER appuser
 EXPOSE 8000
-
-# Default Entrypoint for Inference Serving Layer
-CMD ["python3", "-m", "uvicorn", "serving.app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python","-m","uvicorn","serving.app:app","--host","0.0.0.0","--port","8000"]

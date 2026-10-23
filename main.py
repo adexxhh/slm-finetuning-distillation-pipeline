@@ -52,6 +52,8 @@ def validate_existing_file(filepath: str) -> None:
     print(f"Total Records: {total}")
     print(f"Passed: {passed}")
     print(f"Failed: {total - passed}")
+    if total == 0 or passed != total:
+        raise SystemExit(1)
 
 
 def main():

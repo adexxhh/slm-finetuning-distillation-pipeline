@@ -1,0 +1,17 @@
+{
+  "kind": "condensed terminal replay from real runs",
+  "commands": [
+    {
+      "command": "python -m training.smoke_cpu",
+      "exit_code": 0,
+      "stdout": "=== Starting QLoRA Fine-Tuning Pipeline ===\nBase Model ID: artifacts\\cpu_smoke\\base\nTrain File:    artifacts\\cpu_smoke\\train.jsonl\nVal File:      artifacts\\cpu_smoke\\validation.jsonl\nOutput Dir:    artifacts\\cpu_smoke\\adapter\nUnsloth Engine Requested: False\nUnsloth Engine Available: False\n\nLoading model for full-precision CPU LoRA...\n\nStarting SFT Training...\n{'loss': '3.037', 'grad_norm': '0.2749', 'learning_rate': '0.0002', 'epoch': '0.5'}\n{'loss': '3.019', 'grad_norm': '0.1913', 'learning_rate': '0.0001', 'epoch': '1'}\n{'eval_loss': '3.045', 'eval_runtime': '0.0033', 'eval_samples_per_second': '304.4', 'eval_steps_per_second': '304.4', 'epoch': '1'}\n{'train_runtime': '0.0372', 'train_samples_per_second': '53.79', 'train_steps_per_second': '53.79', 'train_loss': '3.028', 'epoch': '1'}\n\nTraining completed! Saving LoRA adapter to artifacts\\cpu_smoke\\adapter...\nDone!\n{\n  \"status\": \"passed\",\n  \"scope\": \"tiny random Llama, two CPU LoRA optimizer steps, adapter save/reload and real generation\",\n  \"is_8b_qlora\": false,\n  \"quality_evaluated\": false,\n  \"generated_tokens\": 8,\n  \"generation_ms\": 10.356300001149066,\n  \"torch\": \"2.14.1+cpu\"\n}\n",
+      "stderr": "\nWriting model shards:   0%|          | 0/1 [00:00<?, ?it/s]\nWriting model shards: 100%|##########| 1/1 [00:00<00:00, 248.71it/s]\n\nLoading weights:   0%|          | 0/12 [00:00<?, ?it/s]\nLoading weights: 100%|##########| 12/12 [00:00<00:00, 21183.35it/s]\n\nMap:   0%|          | 0/2 [00:00<?, ? examples/s]\nMap: 100%|##########| 2/2 [00:00<00:00, 521.97 examples/s]\n\nMap:   0%|          | 0/1 [00:00<?, ? examples/s]\nMap: 100%|##########| 1/1 [00:00<00:00, 458.49 examples/s]\n\n  0%|          | 0/2 [00:00<?, ?it/s]\n                                     \n\n 50%|#####     | 1/2 [00:00<00:00, 98.67it/s]\n                                             \n\n100%|##########| 2/2 [00:00<00:00, 126.67it/s]\n\n  0%|          | 0/1 [00:00<?, ?it/s]\u001b[A\n                                              \n\n\n                                     \n\u001b[A\n100%|##########| 2/2 [00:00<00:00, 97.61it/s]\n\n100%|##########| 1/1 [00:00<00:00, 3637.73it/s]\u001b[A\n\n                                               \u001b[A\n                                             \n\n100%|##########| 2/2 [00:00<00:00, 54.08it/s]\n100%|##########| 2/2 [00:00<00:00, 53.38it/s]\n\n  0%|          | 0/1 [00:00<?, ?it/s]\n100%|##########| 1/1 [00:00<00:00, 6775.94it/s]\n\nLoading weights:   0%|          | 0/12 [00:00<?, ?it/s]\nLoading weights: 100%|##########| 12/12 [00:00<00:00, 24174.66it/s]\n"
+    },
+    {
+      "command": "python -m pytest -q --disable-warnings",
+      "exit_code": 0,
+      "stdout": "...............                                                          [100%]\n15 passed in 0.67s\n",
+      "stderr": ""
+    }
+  ]
+}

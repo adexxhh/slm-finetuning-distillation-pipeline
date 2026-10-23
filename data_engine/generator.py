@@ -1,6 +1,6 @@
 """
 Synthetic Data Generator Pipeline for Enterprise Text-to-SQL Distillation.
-Supports instructor / OpenAI / local Ollama structured generation as well as an offline seed generator for immediate testing.
+Creates handwritten SQL seed fixtures for pipeline development. Teacher-model generation is not implemented.
 """
 
 from typing import List, Dict, Any, Optional, Tuple
@@ -24,7 +24,7 @@ class SyntheticSQLRecord(BaseModel):
 SEED_DATASET_50: List[Dict[str, str]] = [
     # 1 - Simple Join & Filtering
     {
-        "question": "List all active users belonging to enterprise tier organizations along with their organization names.",
+        "question": "List users belonging to active enterprise tier organizations along with their organization names.",
         "reasoning_trace": "To find active users in enterprise tier organizations:\n1. Join `users` and `organizations` on `org_id`.\n2. Filter for `organizations.tier = 'enterprise'` and `organizations.is_active = TRUE`.\n3. Select `users.full_name`, `users.email`, and `organizations.name`.",
         "sql": "SELECT u.full_name, u.email, o.name AS organization_name FROM users u JOIN organizations o ON u.org_id = o.org_id WHERE o.tier = 'enterprise' AND o.is_active = TRUE;",
         "complexity": "simple"
@@ -206,7 +206,7 @@ def _generate_50_seed_records() -> List[Dict[str, str]]:
         # 36 - 50: Advanced Multi-Table CTEs and Complex Analytics
         ("Find top 3 users by total transaction amount spent in their organization.",
          "Use CTE with `ROW_NUMBER() OVER (PARTITION BY org_id ORDER BY total_amt DESC)`.",
-         "WITH ranked_users AS (SELECT user_id, org_id, amount AS total_amt, ROW_NUMBER() OVER (PARTITION BY org_id ORDER BY amount DESC) AS rnk FROM transactions WHERE status = 'succeeded') SELECT u.full_name, r.org_id, r.total_amt FROM ranked_users r JOIN users u ON r.user_id = u.user_id WHERE r.rnk <= 3;", "complex"),
+         "WITH totals AS (SELECT user_id, org_id, SUM(amount) AS total_amt FROM transactions WHERE status = 'succeeded' GROUP BY user_id, org_id), ranked_users AS (SELECT user_id, org_id, total_amt, ROW_NUMBER() OVER (PARTITION BY org_id ORDER BY total_amt DESC, user_id) AS rnk FROM totals) SELECT u.full_name, r.org_id, r.total_amt FROM ranked_users r JOIN users u ON r.user_id = u.user_id WHERE r.rnk <= 3;", "complex"),
 
         ("Calculate month-over-month growth in succeeded transactions revenue.",
          "Use CTE and `LAG()` window function over monthly aggregated transaction amounts.",
@@ -314,9 +314,23 @@ def generate_seed_dataset(output_dir: str = "data", train_split: float = 0.8) ->
         )
         validated_records.append(record)
 
+    import random, hashlib
+    if not 0.1 <= train_split <= 0.8:
+        raise ValueError("train_split must leave validation and test examples")
+    random.Random(3407).shuffle(validated_records)
     split_idx = int(len(validated_records) * train_split)
+    val_end = split_idx + max(1, (len(validated_records)-split_idx)//2)
     train_data = validated_records[:split_idx]
-    test_data = validated_records[split_idx:]
+    val_data = validated_records[split_idx:val_end]
+    test_data = validated_records[val_end:]
+    if not test_data:
+        raise ValueError("Not enough validated records for three splits")
+    with open(os.path.join(output_dir,"validation.jsonl"),"w",encoding="utf-8") as stream:
+        for rec in val_data: stream.write(json.dumps(rec)+"\n")
+    manifest={"seed":3407,"scope":"handwritten synthetic seed examples, one schema; not a distillation dataset",
+              "train":len(train_data),"validation":len(val_data),"test":len(test_data)}
+    with open(os.path.join(output_dir,"manifest.json"),"w",encoding="utf-8") as stream:
+        json.dump(manifest,stream,indent=2)
 
     train_path = os.path.join(output_dir, "train.jsonl")
     test_path = os.path.join(output_dir, "test.jsonl")

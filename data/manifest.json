@@ -1,0 +1,7 @@
+{
+  "seed": 3407,
+  "scope": "handwritten synthetic seed examples, one schema; not a distillation dataset",
+  "train": 40,
+  "validation": 5,
+  "test": 5
+}
