@@ -138,9 +138,9 @@ GGUF conversion additionally requires --format gguf and --llama_cpp_dir pointing
 
 ## Validation
 
-The CPU suite passes 28 tests. Local checks cover training/save/reload, adapter merging, interrupted training recovery and evaluation edge cases. A fresh CPU environment with only SQLGlot installed reproduced the saved experiment and repeated diagnostics.
+The CPU suite passes 28 tests. Local checks cover training/save/reload, adapter merging, interrupted training recovery and evaluation edge cases. A fresh CPU environment with only SQLGlot installed reproduced the saved experiment and repeated diagnostics. Linux CI also passes the regression suite and a fresh-fixture experiment replay.
 
-[CI results](https://github.com/adexxhh/slm-finetuning-distillation-pipeline/actions/runs/39961314334) ? [CPU training evidence](docs/evidence/cpu-smoke.json) ? [Resume evidence](docs/evidence/resume-verification.json)
+[CI results](https://github.com/adexxhh/slm-finetuning-distillation-pipeline/actions/runs/39993392305) ? [CPU training evidence](docs/evidence/cpu-smoke.json) ? [Resume evidence](docs/evidence/resume-verification.json)
 
 ## Demo
 

@@ -150,3 +150,5 @@ The official semantic evaluation project is https://github.com/taoyds/test-suite
 ## Reproduction verification
 
 A fresh source directory and new Python 3.13.5 environment containing only sqlglot 30.24.0 replayed the original archive, replayed an independently resolved fixture directory and ran the standard scorer. Both scores matched. The three diagnostic JSON outputs were byte-identical across repeated local runs. [Verification record](evidence/cpu-replay-verification.json) preserves the environment and output hashes. Frozen evidence uses explicit LF line endings so byte checksums survive cross-platform checkouts.
+
+The [Linux CI run](https://github.com/adexxhh/slm-finetuning-distillation-pipeline/actions/runs/39993392305) passed both the CPU regression suite and experiment-replay job on source commit 98f6ece. The replay job installs only requirements-reproduce.txt, downloads fresh pinned database fixtures, verifies their hashes and reproduces the frozen scores/diagnostic summaries. [Job/step evidence](evidence/experiment-replay-ci.json) is preserved with the report.

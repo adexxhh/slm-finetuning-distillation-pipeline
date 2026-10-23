@@ -52,6 +52,8 @@ Git worktrees isolate source changes, not the operating system. Keep generated-c
 All listed jobs completed successfully. Each repo preserves its API job/step results in docs/evidence/github-actions.json. These results apply to those immutable source commits; later documentation commits do not establish a new runtime experiment.
 Real PostgreSQL pooled read-only and real Redis queued completion/cancellation/scoped-event checks are now verified on Linux. Colab service notebooks remain optional reproduction tools. Docker Compose as a complete deployment, actual editor LLM repair results, and broader independent SQL model-quality experiments remain future work.
 
+Completed-experiment Linux CI also passed both CPU regressions and fresh-fixture replay on source 98f6ece: https://github.com/adexxhh/slm-finetuning-distillation-pipeline/actions/runs/39993392305. Evidence is in docs/evidence/experiment-replay-ci.json.
+
 ## Next actions
 1. Read the completed SQL experiment report and frozen evidence. Preserve the original results ZIP and Drive checkpoints.
 2. Use the published CPU replay to verify scores and diagnostics. Keep any later training experiment separate from the inspected final cohort.

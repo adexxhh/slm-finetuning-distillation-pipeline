@@ -1,0 +1,165 @@
+{
+  "id": 39993392305,
+  "head_sha": "98f6eceabe1810613c416a0510e17eb0f8e31917",
+  "status": "completed",
+  "conclusion": "success",
+  "html_url": "https://github.com/adexxhh/slm-finetuning-distillation-pipeline/actions/runs/39993392305",
+  "run_started_at": "2026-10-23T17:14:07Z",
+  "updated_at": "2026-10-23T17:14:29Z",
+  "jobs": [
+    {
+      "id": 120550597609,
+      "name": "experiment-replay",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/adexxhh/slm-finetuning-distillation-pipeline/actions/runs/39993392305/job/120550597609",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T17:14:12Z",
+          "completed_at": "2026-10-23T17:14:13Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T17:14:13Z",
+          "completed_at": "2026-10-23T17:14:14Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T17:14:14Z",
+          "completed_at": "2026-10-23T17:14:14Z"
+        },
+        {
+          "name": "Run pip install -r requirements-reproduce.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T17:14:14Z",
+          "completed_at": "2026-10-23T17:14:17Z"
+        },
+        {
+          "name": "Run python -m experiments.reproduce --download-fixtures --output-dir artifacts/ci-replay",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T17:14:17Z",
+          "completed_at": "2026-10-23T17:14:24Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T17:14:24Z",
+          "completed_at": "2026-10-23T17:14:26Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-23T17:14:26Z",
+          "completed_at": "2026-10-23T17:14:26Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-23T17:14:26Z",
+          "completed_at": "2026-10-23T17:14:26Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-23T17:14:26Z",
+          "completed_at": "2026-10-23T17:14:26Z"
+        }
+      ]
+    },
+    {
+      "id": 120550598002,
+      "name": "cpu",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/adexxhh/slm-finetuning-distillation-pipeline/actions/runs/39993392305/job/120550598002",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T17:14:12Z",
+          "completed_at": "2026-10-23T17:14:12Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T17:14:12Z",
+          "completed_at": "2026-10-23T17:14:13Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T17:14:13Z",
+          "completed_at": "2026-10-23T17:14:13Z"
+        },
+        {
+          "name": "Run pip install -r requirements.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T17:14:13Z",
+          "completed_at": "2026-10-23T17:14:21Z"
+        },
+        {
+          "name": "Run python -m pytest -q",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T17:14:21Z",
+          "completed_at": "2026-10-23T17:14:24Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-23T17:14:24Z",
+          "completed_at": "2026-10-23T17:14:24Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-23T17:14:24Z",
+          "completed_at": "2026-10-23T17:14:24Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-23T17:14:24Z",
+          "completed_at": "2026-10-23T17:14:24Z"
+        }
+      ]
+    }
+  ]
+}
